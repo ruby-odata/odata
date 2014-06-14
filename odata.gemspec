@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'odata/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'OData'
+  spec.name          = 'odata'
   spec.version       = OData::VERSION
   spec.authors       = ['James Thompson']
   spec.email         = %w{james@plainprograms.com}
