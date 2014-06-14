@@ -1,3 +1,7 @@
+require 'odata'
+
+require 'webmock/rspec'
+
 RSpec.configure do |config|
   if config.files_to_run.one?
     config.default_formatter = 'doc'
