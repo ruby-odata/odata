@@ -19,6 +19,10 @@ module OData
       @complex_types ||= metadata.xpath('//ComplexType').collect {|entity| entity.attributes['Name'].value}
     end
 
+    def namespace
+      @namespace ||= metadata.xpath('//Schema').first.attributes['Namespace'].value
+    end
+
     private
 
     def metadata

@@ -13,6 +13,7 @@ describe OData::Service do
     it { expect(subject).to respond_to(:service_url) }
     it { expect(subject).to respond_to(:entities) }
     it { expect(subject).to respond_to(:complex_types) }
+    it { expect(subject).to respond_to(:namespace) }
   end
 
   describe '#service_url' do
@@ -27,5 +28,9 @@ describe OData::Service do
   describe '#complex_types' do
     it { expect(subject.complex_types.size).to eq(1) }
     it { expect(subject.complex_types).to eq(complex_types) }
+  end
+
+  describe '#namespace' do
+    it { expect(subject.namespace).to eq('ODataDemo') }
   end
 end
