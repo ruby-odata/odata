@@ -5,6 +5,41 @@ rvm:
   - 2.1.0
   - 2.1.1
   - 2.1.2
+  - rbx
+  - jruby
+jdk:
+  - openjdk6
+  - openjdk7
+  - oraclejdk7
 branches:
   only:
     - master
+matrix:
+  exclude:
+    - rvm: 1.9.3
+      jdk: openjdk6
+    - rvm: 1.9.3
+      jdk: oraclejdk7
+    - rvm: 2.0.0
+      jdk: openjdk6
+    - rvm: 2.0.0
+      jdk: oraclejdk7
+    - rvm: 2.1.0
+      jdk: openjdk6
+    - rvm: 2.1.0
+      jdk: oraclejdk7
+    - rvm: 2.1.1
+      jdk: openjdk6
+    - rvm: 2.1.1
+      jdk: oraclejdk7
+    - rvm: 2.1.2
+      jdk: openjdk6
+    - rvm: 2.1.2
+      jdk: oraclejdk7
+    - rvm: rbx
+      jdk: openjdk6
+    - rvm: rbx
+      jdk: oraclejdk7
+addons:
+  code_climate:
+    repo_token: 323644d852f6ba54213f25446d6f4276dbec0adb74fefce770b083cd3e83ea1e
