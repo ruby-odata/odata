@@ -1,6 +1,7 @@
 require 'odata'
 
 require 'webmock/rspec'
+WebMock.disable_net_connect!(allow_localhost: true)
 
 RSpec.configure do |config|
   if config.files_to_run.one?
@@ -45,5 +46,10 @@ RSpec.configure do |config|
     # Prevents you from mocking or stubbing a method that does not exist on
     # a real object. This is generally recommended.
     mocks.verify_partial_doubles = true
+  end
+
+  config.before(:example) do
+    WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/$metadata').
+        to_return(status: 200, body: File.open('spec/fixtures/sample_service/metadata.xml'))
   end
 end
