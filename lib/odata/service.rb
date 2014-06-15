@@ -23,6 +23,10 @@ module OData
       @namespace ||= metadata.xpath('//Schema').first.attributes['Namespace'].value
     end
 
+    def inspect
+      "#<#{self.class.name}:#{self.object_id} namespace='#{self.namespace}' service_url='#{self.service_url}'>"
+    end
+
     private
 
     def metadata
