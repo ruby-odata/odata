@@ -1,5 +1,8 @@
 # OData
 
+[![Code Climate](https://codeclimate.com/github/plainprogrammer/odata.png)](https://codeclimate.com/github/plainprogrammer/odata)
+[![Coverage](https://codeclimate.com/github/plainprogrammer/odata/coverage.png)](https://codeclimate.com/github/plainprogrammer/odata)
+
 The OData gem provides a simple wrapper around the OData API protocol. It has
 the ability to automatically inspect compliant APIs and expose the relevant
 Ruby objects dynamically. It also provides a set of code generation tools for
