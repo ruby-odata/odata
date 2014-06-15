@@ -14,7 +14,7 @@ module OData
     def [](lookup_key)
       initialize_instance_variables
       index = @services_by_namespace[lookup_key] || @services_by_url[lookup_key]
-      @services[index] || nil
+      index.nil? ? nil : @services[index]
     end
 
     def self.add(service)
@@ -31,6 +31,12 @@ module OData
       @services ||= []
       @services_by_namespace ||= {}
       @services_by_url ||= {}
+    end
+
+    def flush
+      @services = []
+      @services_by_namespace = {}
+      @services_by_url = {}
     end
   end
 end

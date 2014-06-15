@@ -4,6 +4,7 @@ module OData
 
     def initialize(service_url)
       @service_url = service_url
+      OData::ServiceRegistry.add(self)
       self
     end
 

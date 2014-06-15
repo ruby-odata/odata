@@ -5,6 +5,12 @@ describe OData::Service do
   let(:entity_types) { %w{Product FeaturedProduct ProductDetail Category Supplier Person Customer Employee PersonDetail Advertisement} }
   let(:complex_types) { %w{Address} }
 
+  # We're calling this as a private method because there should not be any
+  # reasons to have to flush the service registry except in testing.
+  after :each do
+    OData::ServiceRegistry.instance.send(:flush)
+  end
+
   describe 'class methods' do
     it { expect(OData::Service).to respond_to(:open) }
   end
@@ -32,5 +38,15 @@ describe OData::Service do
 
   describe '#namespace' do
     it { expect(subject.namespace).to eq('ODataDemo') }
+  end
+
+  it 'adds itself to OData::ServiceRegistry on creation' do
+    expect(OData::ServiceRegistry['ODataDemo']).to be_nil
+    expect(OData::ServiceRegistry['http://services.odata.org/OData/OData.svc']).to be_nil
+
+    service = OData::Service.open('http://services.odata.org/OData/OData.svc')
+
+    expect(OData::ServiceRegistry['ODataDemo']).to eq(service)
+    expect(OData::ServiceRegistry['http://services.odata.org/OData/OData.svc']).to eq(service)
   end
 end
