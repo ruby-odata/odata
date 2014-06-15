@@ -1,5 +1,6 @@
 # OData
 
+[![Build Status](https://travis-ci.org/plainprogrammer/odata.svg?branch=master)](https://travis-ci.org/plainprogrammer/odata)
 [![Code Climate](https://codeclimate.com/github/plainprogrammer/odata.png)](https://codeclimate.com/github/plainprogrammer/odata)
 [![Coverage](https://codeclimate.com/github/plainprogrammer/odata/coverage.png)](https://codeclimate.com/github/plainprogrammer/odata)
 
