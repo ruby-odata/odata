@@ -26,4 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'webmock', '~> 1.18.0'
 
   spec.add_dependency 'nokogiri', '~> 1.6.2'
+  spec.add_dependency 'activesupport', '>= 3.0.0'
 end

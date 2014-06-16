@@ -1,9 +1,13 @@
 require 'nokogiri'
 require 'open-uri'
 
+require 'active_support/core_ext'
+require 'active_support/concern'
+
 require 'odata/version'
 require 'odata/service'
 require 'odata/service_registry'
+require 'odata/model'
 
 require 'odata/railtie' if defined?(Rails)
 
