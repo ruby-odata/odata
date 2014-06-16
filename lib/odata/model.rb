@@ -12,13 +12,9 @@ module OData
       EOS
     end
 
-    def primary_key
-      self.class.primary_key
-    end
-
     module ClassMethods
       def property(name, options = {})
-        register_property(name.to_s.underscore, options)
+        register_property(name.to_s.underscore, options.merge(literal_name: name))
         create_accessors(name.to_s.underscore, options)
         register_primary_key(name.to_s.underscore) if options[:primary_key]
       end

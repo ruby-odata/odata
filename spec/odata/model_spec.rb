@@ -14,9 +14,6 @@ describe OData::Model do
     it { expect(subject).to respond_to(:price) }
 
     it { expect(Product).to respond_to(:primary_key) }
-    it { expect(subject).to respond_to(:primary_key) }
-
     it { expect(Product.primary_key).to eq(:id)}
-    it { expect(subject.primary_key).to eq(:id)}
   end
 end
