@@ -5,14 +5,20 @@ module OData
     # The OData Service's URL
     attr_reader :service_url
 
-    # (see #open)
+    # Opens the service based on the requested URL and adds the service to
+    # {OData::Registry}
+    #
+    # @param service_url [String] the URL to the desired OData service
+    # @return [OData::Service] an instance of the service
     def initialize(service_url)
       @service_url = service_url
       OData::ServiceRegistry.add(self)
       self
     end
 
-    # Opens the service based on the requested URL
+    # Opens the service based on the requested URL and adds the service to
+    # {OData::Registry}
+    #
     # @param service_url [String] the URL to the desired OData service
     # @return [OData::Service] an instance of the service
     def self.open(service_url)
@@ -40,6 +46,7 @@ module OData
     end
 
     # Handles getting OData resources from the service.
+    #
     # @param model [OData::Model] the type of resource being requested
     # @param criteria [Hash] any criteria to narrow the request
     # @return [Array] instances of the requested model
