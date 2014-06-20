@@ -2,9 +2,11 @@ module OData
   # Encapsulates the basic details and functionality needed to interact with an
   # OData service.
   class Service
-    attr_reader :service_url # :nodoc:
+    # The OData Service's URL
+    attr_reader :service_url
 
-    def initialize(service_url) # :nodoc:
+    # (see #open)
+    def initialize(service_url)
       @service_url = service_url
       OData::ServiceRegistry.add(self)
       self
@@ -17,19 +19,23 @@ module OData
       Service.new(service_url)
     end
 
-    def entities # :nodoc:
+    # Returns a list of entities exposed by the service
+    def entities
       @entities ||= metadata.xpath('//EntityType').collect {|entity| entity.attributes['Name'].value}
     end
 
-    def complex_types # :nodoc:
+    # Returns a list of ComplexTypes used by the service
+    def complex_types
       @complex_types ||= metadata.xpath('//ComplexType').collect {|entity| entity.attributes['Name'].value}
     end
 
-    def namespace # :nodoc:
+    # Returns the namespace defined on the service's schema
+    def namespace
       @namespace ||= metadata.xpath('//Schema').first.attributes['Namespace'].value
     end
 
-    def inspect # :nodoc:
+    # Returns a more compact inspection of the service object
+    def inspect
       "#<#{self.class.name}:#{self.object_id} namespace='#{self.namespace}' service_url='#{self.service_url}'>"
     end
 
