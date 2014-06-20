@@ -28,6 +28,8 @@ module OData
         (value == 'true' || value == '1')
       elsif type =~ /(Decimal|Double|Single)$/
         value.to_f
+      elsif type =~ /DateTime$/
+        DateTime.parse(value)
       else
         value.to_s
       end

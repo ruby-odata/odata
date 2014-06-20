@@ -64,7 +64,7 @@ describe OData::Service do
       it { expect(subject.get(::Examples::Product, {key: 0}).first.id).to eq(0) }
       it { expect(subject.get(::Examples::Product, {key: 0}).first.name).to eq('Bread') }
       it { expect(subject.get(::Examples::Product, {key: 0}).first.description).to eq('Whole grain bread') }
-      it { expect(subject.get(::Examples::Product, {key: 0}).first.release_date).to eq(0) }
+      it { expect(subject.get(::Examples::Product, {key: 0}).first.release_date).to eq(DateTime.parse('1992-01-01T00:00:00')) }
       it { expect(subject.get(::Examples::Product, {key: 0}).first.discontinued_date).to eq(nil) }
       it { expect(subject.get(::Examples::Product, {key: 0}).first.rating).to eq(4) }
       it { expect(subject.get(::Examples::Product, {key: 0}).first.price).to eq(2.5) }
