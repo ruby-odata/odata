@@ -15,6 +15,16 @@ describe OData::Service do
     it { expect(OData::Service).to respond_to(:open) }
   end
 
+  it 'adds itself to OData::ServiceRegistry on creation' do
+    expect(OData::ServiceRegistry['ODataDemo']).to be_nil
+    expect(OData::ServiceRegistry['http://services.odata.org/OData/OData.svc']).to be_nil
+
+    service = OData::Service.open('http://services.odata.org/OData/OData.svc')
+
+    expect(OData::ServiceRegistry['ODataDemo']).to eq(service)
+    expect(OData::ServiceRegistry['http://services.odata.org/OData/OData.svc']).to eq(service)
+  end
+
   describe 'instance methods' do
     it { expect(subject).to respond_to(:service_url) }
     it { expect(subject).to respond_to(:entities) }
@@ -40,13 +50,7 @@ describe OData::Service do
     it { expect(subject.namespace).to eq('ODataDemo') }
   end
 
-  it 'adds itself to OData::ServiceRegistry on creation' do
-    expect(OData::ServiceRegistry['ODataDemo']).to be_nil
-    expect(OData::ServiceRegistry['http://services.odata.org/OData/OData.svc']).to be_nil
-
-    service = OData::Service.open('http://services.odata.org/OData/OData.svc')
-
-    expect(OData::ServiceRegistry['ODataDemo']).to eq(service)
-    expect(OData::ServiceRegistry['http://services.odata.org/OData/OData.svc']).to eq(service)
+  describe '#get' do
+    it { expect(subject.get(::Examples::Product).size).to eq(11) }
   end
 end

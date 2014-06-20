@@ -34,5 +34,8 @@ RSpec.configure do |config|
   config.before(:example) do
     WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/$metadata').
         to_return(status: 200, body: File.open('spec/fixtures/sample_service/metadata.xml'))
+
+    WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/Products').
+        to_return(status: 200, body: File.open('spec/fixtures/sample_service/products.xml'))
   end
 end

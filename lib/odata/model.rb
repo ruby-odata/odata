@@ -13,6 +13,14 @@ module OData
     end
 
     module ClassMethods
+      def model_name
+        self.to_s.demodulize
+      end
+
+      def odata_name
+        model_name.pluralize
+      end
+
       def property(name, options = {})
         register_property(name.to_s.underscore, options.merge(literal_name: name))
         create_accessors(name.to_s.underscore, options)

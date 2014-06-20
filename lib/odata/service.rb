@@ -28,6 +28,17 @@ module OData
       "#<#{self.class.name}:#{self.object_id} namespace='#{self.namespace}' service_url='#{self.service_url}'>"
     end
 
+    def get(model)
+      request = ::Typhoeus::Request.new(
+          "#{service_url}/#{model.odata_name}",
+          method: :get
+      )
+      request.run
+      response = request.response
+      feed = ::Nokogiri::XML(response.body).remove_namespaces!
+      feed.xpath('//entry')
+    end
+
     private
 
     def metadata
