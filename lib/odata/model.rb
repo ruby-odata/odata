@@ -1,4 +1,12 @@
 module OData
+  # Provides a convenient way to represent OData entities as Ruby objects.
+  # Instances that include this module gain the ability to define how to map
+  # OData properties to attributes as well as the ability to query and persist
+  # data to the underlying OData service.
+  #
+  # If the module detects the presence of Rails, along with ActiveModel::Model
+  # it will automatically mixin support ActiveModel::Model to provide better
+  # integration with Rails apps.
   module Model
     extend ::ActiveSupport::Concern
     include ::ActiveModel::Model if defined?(::Rails) && defined?(::ActiveModel::Model)
@@ -14,16 +22,22 @@ module OData
     end
 
     module ClassMethods
+      # Returns the class' name
       def model_name
         self.to_s.demodulize
       end
 
+      # Pluralizes #model_name for OData requests
       def odata_name
         model_name.pluralize
       end
 
+      # Define a property and it's options
+      #
+      # @param name [to_s] the literal property name expected by the OData service
+      # @param options [Hash] options for setting up the property
       def property(name, options = {})
-        register_property(name.to_s.underscore, options.merge(literal_name: name))
+        register_property(name.to_s.underscore, {literal_name: name}.merge(options))
         create_accessors(name.to_s.underscore, options)
         register_primary_key(name.to_s.underscore) if options[:primary_key]
       end
