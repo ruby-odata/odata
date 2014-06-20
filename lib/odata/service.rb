@@ -102,7 +102,7 @@ module OData
             property_type = property.attributes['type'].value
           end
         else
-          property.attributes['type'].value
+          property_type = property.attributes['type'].value
         end
 
         attributes[property.name.underscore.to_sym] = {

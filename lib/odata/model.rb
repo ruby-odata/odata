@@ -21,6 +21,18 @@ module OData
       EOS
     end
 
+    def convert_value_for_type(value, type)
+      if type =~ /Int(16|32|64)$/
+        value.to_i
+      elsif type =~ /Boolean$/
+        (value == 'true' || value == '1')
+      elsif type =~ /(Decimal|Double|Single)$/
+        value.to_f
+      else
+        value.to_s
+      end
+    end
+
     module ClassMethods
       # Returns the class' name
       def model_name
@@ -37,7 +49,7 @@ module OData
         feed_hash.each do |attribute_name, details|
           loaded_instance.instance_eval do
             @properties ||= {}
-            @properties[attribute_name] = details[:value]
+            @properties[attribute_name] = convert_value_for_type(details[:value], details[:type])
           end
         end
         loaded_instance
