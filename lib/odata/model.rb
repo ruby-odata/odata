@@ -22,6 +22,7 @@ module OData
     end
 
     def convert_value_for_type(value, type)
+      return nil if value.nil? || type.nil?
       if type =~ /Int(16|32|64)$/
         value.to_i
       elsif type =~ /Boolean$/
