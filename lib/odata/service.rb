@@ -1,33 +1,40 @@
 module OData
   class Service
-    attr_reader :service_url
+    attr_reader :service_url # :nodoc:
 
-    def initialize(service_url)
+    def initialize(service_url) # :nodoc:
       @service_url = service_url
       OData::ServiceRegistry.add(self)
       self
     end
 
+    # Opens the service based on the requested URL
+    # @param service_url [String] the URL to the desired OData service
+    # @return [OData::Service] an instance of the service
     def self.open(service_url)
       Service.new(service_url)
     end
 
-    def entities
+    def entities # :nodoc:
       @entities ||= metadata.xpath('//EntityType').collect {|entity| entity.attributes['Name'].value}
     end
 
-    def complex_types
+    def complex_types # :nodoc:
       @complex_types ||= metadata.xpath('//ComplexType').collect {|entity| entity.attributes['Name'].value}
     end
 
-    def namespace
+    def namespace # :nodoc:
       @namespace ||= metadata.xpath('//Schema').first.attributes['Namespace'].value
     end
 
-    def inspect
+    def inspect # :nodoc:
       "#<#{self.class.name}:#{self.object_id} namespace='#{self.namespace}' service_url='#{self.service_url}'>"
     end
 
+    # Handles getting OData resources from the service.
+    # @param model [OData::Model] the type of resource being requested
+    # @param criteria [Hash] any criteria to narrow the request
+    # @return [Array] instances of the requested model
     def get(model, criteria = {})
       request = ::Typhoeus::Request.new(
           build_request_url(model, criteria),
