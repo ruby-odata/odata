@@ -32,6 +32,17 @@ module OData
         model_name.pluralize
       end
 
+      def load_from_feed(feed_hash)
+        loaded_instance = self.new
+        feed_hash.each do |attribute_name, details|
+          loaded_instance.instance_eval do
+            @properties ||= {}
+            @properties[attribute_name] = details[:value]
+          end
+        end
+        loaded_instance
+      end
+
       # Define a property and it's options
       #
       # @param name [to_s] the literal property name expected by the OData service

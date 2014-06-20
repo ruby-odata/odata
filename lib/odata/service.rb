@@ -58,7 +58,7 @@ module OData
       request.run
       response = request.response
       feed = ::Nokogiri::XML(response.body).remove_namespaces!
-      feed.xpath('//entry')
+      feed.xpath('//entry').collect {|entry| parse_model_from_feed(model, entry)}
     end
 
     private
@@ -79,6 +79,39 @@ module OData
       request_url = "#{service_url}/#{model.odata_name}"
       request_url += "(#{criteria[:key]})" if criteria[:key]
       request_url
+    end
+
+    def parse_model_from_feed(model, entry)
+      attributes = {}
+
+      attributes[:title] = {
+          value: entry.xpath('//title').first.content,
+          type: entry.xpath('//title').first.attributes['type'].value
+      }
+
+      attributes[:summary] = {
+          value: entry.xpath('//summary').first.content,
+          type: entry.xpath('//summary').first.attributes['type'].value
+      }
+
+      entry.xpath('//content/properties/*').each do |property|
+        if property.attributes['null']
+          if property.attributes['null'].value == 'true'
+            property_type = nil
+          else
+            property_type = property.attributes['type'].value
+          end
+        else
+          property.attributes['type'].value
+        end
+
+        attributes[property.name.underscore.to_sym] = {
+            value: property.content,
+            type: property_type
+        }
+      end
+
+      model.load_from_feed(attributes)
     end
   end
 end
