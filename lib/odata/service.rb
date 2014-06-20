@@ -1,4 +1,6 @@
 module OData
+  # Encapsulates the basic details and functionality needed to interact with an
+  # OData service.
   class Service
     attr_reader :service_url # :nodoc:
 
