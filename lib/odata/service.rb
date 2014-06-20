@@ -28,9 +28,9 @@ module OData
       "#<#{self.class.name}:#{self.object_id} namespace='#{self.namespace}' service_url='#{self.service_url}'>"
     end
 
-    def get(model)
+    def get(model, criteria = {})
       request = ::Typhoeus::Request.new(
-          "#{service_url}/#{model.odata_name}",
+          build_request_url(model, criteria),
           method: :get
       )
       request.run
@@ -51,6 +51,12 @@ module OData
         response = request.response
         ::Nokogiri::XML(response.body).remove_namespaces!
       }.call
+    end
+
+    def build_request_url(model, criteria)
+      request_url = "#{service_url}/#{model.odata_name}"
+      request_url += "(#{criteria[:key]})" if criteria[:key]
+      request_url
     end
   end
 end

@@ -52,5 +52,6 @@ describe OData::Service do
 
   describe '#get' do
     it { expect(subject.get(::Examples::Product).size).to eq(11) }
+    it { expect(subject.get(::Examples::Product, {key: 0}).size).to eq(1) }
   end
 end
