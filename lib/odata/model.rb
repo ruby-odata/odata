@@ -1,6 +1,7 @@
 module OData
   module Model
     extend ::ActiveSupport::Concern
+    include ::ActiveModel::Model if defined?(::Rails) && defined?(::ActiveModel::Model)
 
     included do
       cattr_accessor :registered_properties
