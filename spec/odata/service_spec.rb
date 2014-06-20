@@ -11,7 +11,7 @@ describe OData::Service do
     OData::ServiceRegistry.instance.send(:flush)
   end
 
-  describe 'class methods' do
+  describe '.open' do
     it { expect(OData::Service).to respond_to(:open) }
   end
 

@@ -1,5 +1,5 @@
 require 'nokogiri'
-require 'open-uri'
+require 'typhoeus'
 
 require 'active_support/core_ext'
 require 'active_support/concern'

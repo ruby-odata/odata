@@ -31,7 +31,15 @@ module OData
     private
 
     def metadata
-      @metadata ||= ::Nokogiri::XML(open("#{service_url}/$metadata")).remove_namespaces!
+      @metadata ||= lambda {
+        request = ::Typhoeus::Request.new(
+            "#{service_url}/$metadata",
+            method: :get
+        )
+        request.run
+        response = request.response
+        ::Nokogiri::XML(response.body).remove_namespaces!
+      }.call
     end
   end
 end
