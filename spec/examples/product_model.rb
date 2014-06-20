@@ -3,8 +3,8 @@ module Examples
     include OData::Model
 
     property 'ID', primary_key: true
-    property 'Name'
-    property 'Description'
+    property 'Name', entity_title: true
+    property 'Description', entity_summary: true
     property 'ReleaseDate'
     property 'DiscontinuedDate'
     property 'Rating'

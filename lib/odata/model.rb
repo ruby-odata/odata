@@ -75,8 +75,16 @@ module OData
 
       def create_accessors(name, options)
         self.class_eval do
-          define_method(name) { @properties[name.to_sym] || nil }
-          define_method("#{name}=") {|value| @properties[name.to_sym] = value}
+          if options[:entity_title]
+            define_method(name) { @properties[:title] || nil }
+            define_method("#{name}=") {|value| @properties[:title] = value}
+          elsif options[:entity_summary]
+            define_method(name) { @properties[:summary] || nil }
+            define_method("#{name}=") {|value| @properties[:summary] = value}
+          else
+            define_method(name) { @properties[name.to_sym] || nil }
+            define_method("#{name}=") {|value| @properties[name.to_sym] = value}
+          end
         end
       end
 
