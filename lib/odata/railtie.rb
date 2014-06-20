@@ -1,4 +1,4 @@
-module OData
+module OData # :nodoc:
   class Railtie < Rails::Railtie
     config.before_initialize do
       ::OData::Railtie.load_configuration!
