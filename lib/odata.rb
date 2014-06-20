@@ -12,6 +12,6 @@ require 'odata/model'
 
 require 'odata/railtie' if defined?(::Rails)
 
-module OData
+module OData # :nodoc:
   # Your code goes here...
 end
