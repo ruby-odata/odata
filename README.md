@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/plainprogrammer/odata.svg?branch=master)](https://travis-ci.org/plainprogrammer/odata)
 [![Code Climate](https://codeclimate.com/github/plainprogrammer/odata.png)](https://codeclimate.com/github/plainprogrammer/odata)
 [![Coverage](https://codeclimate.com/github/plainprogrammer/odata/coverage.png)](https://codeclimate.com/github/plainprogrammer/odata)
+[![Gem Version](https://badge.fury.io/rb/odata.svg)](http://badge.fury.io/rb/odata)
 
 The OData gem provides a simple wrapper around the OData API protocol. It has
 the ability to automatically inspect compliant APIs and expose the relevant
