@@ -1,4 +1,5 @@
 require 'odata/property'
+require 'odata/properties'
 
 module OData
   # Provides a convenient way to represent OData entities as Ruby objects.

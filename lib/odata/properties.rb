@@ -1,0 +1,1 @@
+require 'odata/properties/boolean'
