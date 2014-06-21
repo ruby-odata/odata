@@ -8,6 +8,10 @@ module OData
           (@value == 'true' || @value == '1')
         end
       end
+
+      def type
+        'Edm.Boolean'
+      end
     end
   end
 end

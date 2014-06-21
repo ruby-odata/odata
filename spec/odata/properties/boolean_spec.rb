@@ -7,6 +7,7 @@ describe OData::Properties::Boolean do
   let(:falsey2) { OData::Properties::Boolean.new('Falsey', '0') }
   let(:nily) { OData::Properties::Boolean.new('Nily', nil) }
 
+  it { expect(truthy1.type).to eq('Edm.Boolean') }
   it { expect(truthy1.value).to eq(true) }
   it { expect(truthy2.value).to eq(true) }
 
