@@ -9,6 +9,7 @@ module OData
     # {OData::Registry}
     #
     # @param service_url [String] the URL to the desired OData service
+    # @param options [Hash] options to pass to the service
     # @return [OData::Service] an instance of the service
     def initialize(service_url, options = {})
       @service_url = service_url
@@ -21,6 +22,7 @@ module OData
     # {OData::Registry}
     #
     # @param service_url [String] the URL to the desired OData service
+    # @param options [Hash] options to pass to the service
     # @return [OData::Service] an instance of the service
     def self.open(service_url, options = {})
       Service.new(service_url, options)
