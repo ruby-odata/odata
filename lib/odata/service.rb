@@ -5,6 +5,9 @@ module OData
     # The OData Service's URL
     attr_reader :service_url
 
+    # Options to pass around
+    attr_reader :options
+
     # Opens the service based on the requested URL and adds the service to
     # {OData::Registry}
     #
@@ -56,7 +59,9 @@ module OData
     def get(model, criteria = {})
       request = ::Typhoeus::Request.new(
           build_request_url(model, criteria),
-          method: :get
+          options[:typhoeus].merge({
+            method: :get
+          })
       )
       request.run
       response = request.response
@@ -67,7 +72,9 @@ module OData
     private
 
     def default_options
-      {}
+      {
+          typhoeus: {}
+      }
     end
 
     def metadata
