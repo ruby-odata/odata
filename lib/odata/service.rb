@@ -10,8 +10,9 @@ module OData
     #
     # @param service_url [String] the URL to the desired OData service
     # @return [OData::Service] an instance of the service
-    def initialize(service_url)
+    def initialize(service_url, options = {})
       @service_url = service_url
+      @options = default_options.merge(options)
       OData::ServiceRegistry.add(self)
       self
     end
@@ -21,8 +22,8 @@ module OData
     #
     # @param service_url [String] the URL to the desired OData service
     # @return [OData::Service] an instance of the service
-    def self.open(service_url)
-      Service.new(service_url)
+    def self.open(service_url, options = {})
+      Service.new(service_url, options)
     end
 
     # Returns a list of entities exposed by the service
@@ -62,6 +63,10 @@ module OData
     end
 
     private
+
+    def default_options
+      {}
+    end
 
     def metadata
       @metadata ||= lambda {
