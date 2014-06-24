@@ -100,15 +100,12 @@ module OData
     def parse_model_from_feed(model, entry)
       attributes = {}
 
-      attributes[:title] = {
-          value: entry.xpath('//title').first.content,
-          type: entry.xpath('//title').first.attributes['type'].value
-      }
-
-      attributes[:summary] = {
-          value: entry.xpath('//summary').first.content,
-          type: entry.xpath('//summary').first.attributes['type'].value
-      }
+      %w{title summary}.each do |attribute_name|
+        attributes[attribute_name.to_sym] = {
+            value: entry.xpath("//#{attribute_name}").first.content,
+            type: entry.xpath("//#{attribute_name}").first.attributes['type'].value
+        }
+      end
 
       entry.xpath('//content/properties/*').each do |property|
         if property.attributes['null']
