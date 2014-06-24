@@ -81,7 +81,9 @@ module OData
       @metadata ||= lambda {
         request = ::Typhoeus::Request.new(
             "#{service_url}/$metadata",
-            method: :get
+            options[:typhoeus].merge({
+              method: :get
+            })
         )
         request.run
         response = request.response
