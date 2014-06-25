@@ -43,11 +43,11 @@ module OData
       private
 
       def min_value
-        @min ||= -(2**31)
+        @min ||= -(2**15)
       end
 
       def max_value
-        @max ||= (2**31)-1
+        @max ||= (2**15)-1
       end
     end
 
