@@ -4,8 +4,8 @@ module OData
     attr_accessor :value
 
     def initialize(name, value, options = {})
-      @name = name
-      @value = value
+      @name = name.to_s
+      @value = value.nil? ? nil : value.to_s
       @options = default_options.merge(options)
     end
 
