@@ -1,5 +1,6 @@
 require 'odata/properties/binary'
 require 'odata/properties/boolean'
+require 'odata/properties/date_time'
 require 'odata/properties/decimal'
 require 'odata/properties/float'
 require 'odata/properties/guid'
