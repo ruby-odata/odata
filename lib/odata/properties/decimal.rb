@@ -27,11 +27,11 @@ module OData
       end
 
       def min_value
-        @min ||= -(7.9 * (10**28))
+        @min ||= BigDecimal(-7.9 * (10**28), 2)
       end
 
       def max_value
-        @max ||= (7.9 * (10**28))
+        @max ||= BigDecimal(7.9 * (10**28), 2)
       end
     end
   end
