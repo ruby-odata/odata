@@ -1,3 +1,5 @@
+require 'backports/2.1.0/enumerable/to_h'
+
 require 'date'
 require 'nokogiri'
 require 'typhoeus'
