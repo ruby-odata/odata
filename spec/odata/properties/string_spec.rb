@@ -3,6 +3,10 @@ require 'spec_helper'
 describe OData::Properties::String do
   let(:subject) { OData::Properties::String.new('Stringy', 'This is an example') }
 
+  it { expect(subject).to respond_to(:is_unicode?) }
+  it { expect(subject).to respond_to(:has_default_value?) }
+  it { expect(subject).to respond_to(:default_value) }
+
   it { expect(subject.type).to eq('Edm.String') }
   it { expect(subject.value).to eq('This is an example')}
 
@@ -31,5 +35,12 @@ describe OData::Properties::String do
 
     it { expect {subject.value = nil}.to raise_error(ArgumentError) }
     it { expect {subject.value = 'Test'}.not_to raise_error }
+  end
+
+  describe 'with default_value' do
+    let(:subject) { OData::Properties::String.new('Stringy', nil, default_value: 'Sample Text') }
+
+    it { expect(subject.has_default_value?).to eq(true) }
+    it { expect(subject.default_value).to eq('Sample Text') }
   end
 end

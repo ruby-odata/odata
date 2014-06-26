@@ -22,11 +22,20 @@ module OData
         options[:unicode]
       end
 
+      def has_default_value?
+        not(options[:default_value].nil?)
+      end
+
+      def default_value
+        options[:default_value]
+      end
+
       private
 
       def default_options
         super.merge({
-            unicode: true
+          unicode: true,
+          default_value: nil
         })
       end
 

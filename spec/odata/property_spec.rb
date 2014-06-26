@@ -17,37 +17,6 @@ describe OData::Property do
   it { expect(subject).to respond_to(:allows_nil?) }
   it { expect(subject.allows_nil?).to eq(true) }
 
-  it { expect(subject).to respond_to(:max_length) }
-  it { expect(lambda {subject.max_length}).to raise_error(NotImplementedError) }
-  #it { expect(subject.max_length).to eq(nil) }
-
-  it { expect(subject).to respond_to(:fixed_length) }
-  it { expect(lambda {subject.fixed_length}).to raise_error(NotImplementedError) }
-  #it { expect(subject.fixed_length).to eq(nil) }
-
-  it { expect(subject).to respond_to(:precision) }
-  it { expect(lambda {subject.precision}).to raise_error(NotImplementedError) }
-  #it { expect(subject.precision).to eq(nil) }
-
-  it { expect(subject).to respond_to(:scale) }
-  it { expect(lambda {subject.scale}).to raise_error(NotImplementedError) }
-  #it { expect(subject.scale).to eq(nil) }
-
-  it { expect(subject).to respond_to(:is_unicode?) }
-  it { expect(lambda {subject.is_unicode?}).to raise_error(NotImplementedError) }
-
-  it { expect(subject).to respond_to(:collation) }
-  it { expect(lambda {subject.collation}).to raise_error(NotImplementedError) }
-  #it { expect(subject.collation).to eq(nil) }
-
-  it { expect(subject).to respond_to(:srid) }
-  it { expect(lambda {subject.srid}).to raise_error(NotImplementedError) }
-  #it { expect(subject.srid).to eq(0) }
-
-  it { expect(subject).to respond_to(:default_value) }
-  it { expect(lambda {subject.default_value}).to raise_error(NotImplementedError) }
-  #it { expect(subject.default_value).to eq(nil) }
-
   it { expect(subject).to respond_to(:concurrency_mode) }
   it { expect(subject.concurrency_mode).to eq(:none) }
 
