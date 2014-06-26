@@ -35,7 +35,6 @@ describe OData::Property do
 
   it { expect(subject).to respond_to(:is_unicode?) }
   it { expect(lambda {subject.is_unicode?}).to raise_error(NotImplementedError) }
-  #it { expect(subject.is_unicode?).to eq(true) }
 
   it { expect(subject).to respond_to(:collation) }
   it { expect(lambda {subject.collation}).to raise_error(NotImplementedError) }
