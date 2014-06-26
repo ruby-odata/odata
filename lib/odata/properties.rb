@@ -1,3 +1,7 @@
+# Modules
+require 'odata/properties/number'
+
+# Implementations
 require 'odata/properties/binary'
 require 'odata/properties/boolean'
 require 'odata/properties/date_time'

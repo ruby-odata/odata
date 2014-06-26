@@ -1,6 +1,8 @@
 module OData
   module Properties
     class Integer < OData::Property
+      include OData::Properties::Number
+
       def value
         if @value.nil? && allows_nil?
           nil
@@ -19,12 +21,6 @@ module OData
       end
 
       private
-
-      def validate(value)
-        if value > max_value || value < min_value
-          raise ::ArgumentError, "Value is outside accepted range: #{min_value} to #{max_value}"
-        end
-      end
 
       def min_value
         @min ||= -(2**63)
