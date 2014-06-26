@@ -6,8 +6,9 @@ describe OData::Properties::Decimal do
   it { expect(subject.type).to eq('Edm.Decimal') }
   it { expect(subject.value).to eq(BigDecimal('678.90325')) }
 
-  it { expect { subject.value = BigDecimal((7.9 * (10**28)) + 1) }.to raise_error(ArgumentError) }
-  it { expect { subject.value = BigDecimal((-7.9 * (10**28)) - 1) }.to raise_error(ArgumentError) }
+  it { expect { subject.value = BigDecimal((7.9 * (10**28)), 2) + 1 }.to raise_error(ArgumentError) }
+  it { expect { subject.value = BigDecimal((-7.9 * (10**28)), 2) - 1 }.to raise_error(ArgumentError) }
+  it { expect { subject.value = BigDecimal((3.4 * (10**-28)), 2) * 3.14151 + 5 }.to raise_error(ArgumentError) }
 
   it { expect(lambda {
     subject.value = '19.89043256'

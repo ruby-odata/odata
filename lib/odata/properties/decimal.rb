@@ -21,9 +21,8 @@ module OData
       private
 
       def validate(value)
-        if (value > max_value || value < min_value) &&
-           (value.exponent > 29 || value.exponent < -29)
-          raise ::ArgumentError, "Value is outside accepted range: #{min_value} to #{max_value}, or has more than 29 significant digits"
+        if value > max_value || value < min_value || value.precs.first > 29
+          raise ArgumentError, "Value is outside accepted range: #{min_value} to #{max_value}, or has more than 29 significant digits"
         end
       end
 
