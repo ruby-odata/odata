@@ -4,6 +4,18 @@ module OData
       def type
         'Edm.String'
       end
+
+      def is_unicode?
+        options[:unicode]
+      end
+
+      private
+
+      def default_options
+        super.merge({
+            unicode: true
+        })
+      end
     end
   end
 end

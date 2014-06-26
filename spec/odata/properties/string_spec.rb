@@ -10,4 +10,8 @@ describe OData::Properties::String do
     subject.value = 'Another example'
     subject.value
   }.call).to eq('Another example') }
+
+  describe '#is_unicode?' do
+    it { expect(subject.is_unicode?).to eq(true) }
+  end
 end
