@@ -32,8 +32,18 @@ module OData
     end
 
     # Returns a list of entities exposed by the service
-    def entities
-      @entities ||= metadata.xpath('//EntityType').collect {|entity| entity.attributes['Name'].value}
+    def entity_types
+      @entity_types ||= metadata.xpath('//EntityType').collect {|entity| entity.attributes['Name'].value}
+    end
+
+    # Returns a hash of EntitySet names keyed to their respective EntityType name
+    def entity_sets
+      @entity_sets ||= metadata.xpath('//EntityContainer/EntitySet').collect {|entity|
+        [
+          entity.attributes['EntityType'].value.gsub("#{namespace}.", ''),
+          entity.attributes['Name'].value
+        ]
+      }.to_h
     end
 
     # Returns a list of ComplexTypes used by the service
