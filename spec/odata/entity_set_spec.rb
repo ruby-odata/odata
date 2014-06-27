@@ -13,4 +13,8 @@ describe OData::EntitySet do
   it { expect(subject.container).to eq('DemoService') }
   it { expect(subject.namespace).to eq('ODataDemo') }
   it { expect(subject.type).to eq('Product') }
+
+  describe 'enumerable behavior' do
+    it { expect(subject).to respond_to(:each) }
+  end
 end
