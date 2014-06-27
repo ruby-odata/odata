@@ -79,6 +79,15 @@ module OData
       feed.xpath('//entry').collect {|entry| parse_model_from_feed(model, entry)}
     end
 
+    # Retrieves the EntitySet associated with a specific EntityType by name
+    def [](entity_type_name)
+      xpath_query = "//EntityContainer/EntitySet[@EntityType='#{namespace}.#{entity_type_name}']"
+      entity_set_node = metadata.xpath(xpath_query).first
+      set_name = entity_set_node.attributes['Name'].value
+      container_name = entity_set_node.parent.attributes['Name'].value
+      OData::EntitySet.new(name: set_name, namespace: namespace, type: entity_type_name.to_s, container: container_name)
+    end
+
     private
 
     def default_options

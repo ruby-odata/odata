@@ -79,4 +79,8 @@ describe OData::Service do
       it { expect(subject.get(::Examples::Product, {key: 0}).first.price).to eq(2.5) }
     end
   end
+
+  describe '#[]' do
+    it { expect(subject['Product']).to be_a(OData::EntitySet) }
+  end
 end
