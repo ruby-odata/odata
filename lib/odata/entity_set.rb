@@ -25,6 +25,9 @@ module OData
     end
 
     # Provided for Enumerable functionality
+    #
+    # @param block [block] a block to evaluate
+    # @return [OData::Entity] each entity in turn from this set
     def each(&block)
       per_page = 5; page = 0; position = 0; counter = 1
       total, entities = get_paginated_entities(per_page, page)
