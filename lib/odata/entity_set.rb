@@ -1,4 +1,12 @@
 module OData
+  # This class represents a set of entities within an OData service. It is
+  # instantiated whenever an OData::Service is asked for an EntitySet via the
+  # OData::Service#[] method call. It also provides Enumerable behavior so that
+  # you can interact with the entities within a set in a very comfortable way.
+  #
+  # This class also implements a query interface for finding certain entities
+  # based on query criteria or limiting the result set returned by the set. This
+  # functionality is implemented through transparent proxy objects.
   class EntitySet
     include Enumerable
 

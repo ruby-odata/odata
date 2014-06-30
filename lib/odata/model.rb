@@ -24,6 +24,11 @@ module OData
       EOS
     end
 
+    # Converts supplied value based on its type
+    #
+    # @param value [*] usually a string representation of the value
+    # @param type [String] OData type name as string
+    # @return [*]
     def convert_value_for_type(value, type)
       return nil if value.nil? || type.nil?
       if type =~ /Int(16|32|64)$/
@@ -50,6 +55,11 @@ module OData
         model_name.pluralize
       end
 
+      # Instantiates an OData::Model instance from a hash of attributes and
+      # their details.
+      #
+      # @param feed_hash [Hash] attribute names as keys, and details as values
+      # @return [OData::Model]
       def load_from_feed(feed_hash)
         loaded_instance = self.new
         feed_hash.each do |attribute_name, details|

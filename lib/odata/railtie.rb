@@ -5,12 +5,15 @@ module OData
       ::OData::Railtie.setup_service_registry!
     end
 
+    # Looks for config/odata.yml and loads the configuration.
     def self.load_configuration!
-      # load environment config from config/odata.yml
+      # TODO Implement Rails configuration loading
     end
 
+    # Examines the loaded configuration and populates the
+    # OData::ServiceRegistry accordingly.
     def self.setup_service_registry!
-      # use configuration to setup registry of OData::Services
+      # TODO Populate OData::ServiceRegistry based on configuration
     end
   end
 end
