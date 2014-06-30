@@ -50,4 +50,10 @@ RSpec.configure do |config|
           to_return(status: 200, body: File.open('spec/fixtures/sample_service/product_0.xml'))
     end
   end
+
+  config.after(:example) do
+    # We're calling this as a private method because there should not be any
+    # reasons to have to flush the service registry except in testing.
+    OData::ServiceRegistry.instance.send(:flush)
+  end
 end

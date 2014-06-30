@@ -7,7 +7,7 @@ describe OData::EntitySet do
       type: 'Product'
   } }
 
-  before :example do
+  before(:example) do
     OData::Service.open('http://services.odata.org/OData/OData.svc')
   end
 
