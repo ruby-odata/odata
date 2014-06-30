@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xml:base="http://services.odata.org/OData/OData.svc/" xmlns="http://www.w3.org/2005/Atom"
+      xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+      xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+      xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml">
+  <m:count>11</m:count>
+  <id>http://services.odata.org/OData/OData.svc/Products</id>
+  <title type="text">Products</title>
+  <updated>2014-06-30T17:31:37Z</updated>
+  <link rel="self" title="Products" href="Products"/>
+  <entry>
+    <id>http://services.odata.org/OData/OData.svc/Products(10)</id>
+    <category term="ODataDemo.FeaturedProduct" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+    <link rel="edit" title="Product" href="Products(10)/ODataDemo.FeaturedProduct"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories"
+          type="application/atom+xml;type=feed" title="Categories"
+          href="Products(10)/ODataDemo.FeaturedProduct/Categories"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Supplier"
+          type="application/atom+xml;type=entry" title="Supplier"
+          href="Products(10)/ODataDemo.FeaturedProduct/Supplier"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
+          type="application/atom+xml;type=entry" title="ProductDetail"
+          href="Products(10)/ODataDemo.FeaturedProduct/ProductDetail"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Advertisement"
+          type="application/atom+xml;type=entry" title="Advertisement"
+          href="Products(10)/ODataDemo.FeaturedProduct/Advertisement"/>
+    <title type="text">Coffee</title>
+    <summary type="text">Bulk size can of instant coffee</summary>
+    <updated>2014-06-30T17:31:37Z</updated>
+    <author>
+      <name/>
+    </author>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories" type="application/xml"
+          title="Categories" href="Products(10)/ODataDemo.FeaturedProduct/$links/Categories"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier" type="application/xml"
+          title="Supplier" href="Products(10)/ODataDemo.FeaturedProduct/$links/Supplier"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/ProductDetail" type="application/xml"
+          title="ProductDetail" href="Products(10)/ODataDemo.FeaturedProduct/$links/ProductDetail"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Advertisement" type="application/xml"
+          title="Advertisement" href="Products(10)/ODataDemo.FeaturedProduct/$links/Advertisement"/>
+    <content type="application/xml">
+      <m:properties>
+        <d:ID m:type="Edm.Int32">10</d:ID>
+        <d:ReleaseDate m:type="Edm.DateTime">1982-12-31T00:00:00</d:ReleaseDate>
+        <d:DiscontinuedDate m:null="true"/>
+        <d:Rating m:type="Edm.Int16">1</d:Rating>
+        <d:Price m:type="Edm.Double">6.99</d:Price>
+      </m:properties>
+    </content>
+  </entry>
+</feed>

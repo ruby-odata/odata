@@ -21,7 +21,11 @@ describe OData::EntitySet do
 
   describe '#each' do
     it { expect(subject).to respond_to(:each) }
-    # TODO Implement iteration behavior with default pagination (5 records per page)
+    it { expect(lambda {
+      @counter = 0
+      subject.each {|entity| @counter += 1}
+      @counter
+    }.call).to eq(11) }
   end
 
   describe '#count' do

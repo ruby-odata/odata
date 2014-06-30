@@ -102,6 +102,16 @@ module OData
       request.response
     end
 
+    def find_node(results, node_name)
+      document = ::Nokogiri::XML(results.body).remove_namespaces!
+      document.xpath("//#{node_name}").first
+    end
+
+    def find_entities(results)
+      document = ::Nokogiri::XML(results.body).remove_namespaces!
+      document.xpath("//entry")
+    end
+
     private
 
     def default_options
