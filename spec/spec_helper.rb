@@ -11,7 +11,7 @@ end
 require 'odata'
 
 require 'webmock/rspec'
-if ENV['REAL_HTTP']
+if ENV['REAL_HTTP'] == 'true'
   WebMock.allow_net_connect!
 else
   WebMock.disable_net_connect!(allow_localhost: true, allow: 'codeclimate.com')
@@ -36,7 +36,7 @@ RSpec.configure do |config|
   end
 
   config.before(:example) do
-    unless ENV['REAL_HTTP']
+    unless ENV['REAL_HTTP'] == 'true'
       WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/$metadata').
           to_return(status: 200, body: File.open('spec/fixtures/sample_service/metadata.xml'))
 

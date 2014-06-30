@@ -11,6 +11,9 @@ jdk:
   - openjdk7
   - oraclejdk7
   - oraclejdk8
+env:
+  - REAL_HTTP=true
+  - REAL_HTTP=false
 branches:
   only:
     - master
@@ -22,30 +25,40 @@ matrix:
       jdk: oraclejdk7
     - rvm: 1.9.3
       jdk: oraclejdk8
+    - rvm: 1.9.3
+      env: REAL_HTTP=true
     - rvm: 2.0.0
       jdk: openjdk6
     - rvm: 2.0.0
       jdk: oraclejdk7
     - rvm: 2.0.0
       jdk: oraclejdk8
+    - rvm: 2.0.0
+      env: REAL_HTTP=true
     - rvm: 2.1.0
       jdk: openjdk6
     - rvm: 2.1.0
       jdk: oraclejdk7
     - rvm: 2.1.0
       jdk: oraclejdk8
+    - rvm: 2.1.0
+      env: REAL_HTTP=true
     - rvm: 2.1.1
       jdk: openjdk6
     - rvm: 2.1.1
       jdk: oraclejdk7
     - rvm: 2.1.1
       jdk: oraclejdk8
+    - rvm: 2.1.1
+      env: REAL_HTTP=true
     - rvm: 2.1.2
       jdk: openjdk6
     - rvm: 2.1.2
       jdk: oraclejdk7
     - rvm: 2.1.2
       jdk: oraclejdk8
+    - rvm: jruby
+      env: REAL_HTTP=true
 addons:
   code_climate:
     repo_token: 323644d852f6ba54213f25446d6f4276dbec0adb74fefce770b083cd3e83ea1e
