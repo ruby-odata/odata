@@ -29,18 +29,21 @@ module OData
     # @param block [block] a block to evaluate
     # @return [OData::Entity] each entity in turn from this set
     def each(&block)
-      per_page = 5; page = 0; position = 0; counter = 1
+      per_page = 5; page = 0; page_position = 0; counter = 0
       total, entities = get_paginated_entities(per_page, page)
 
-      while counter <= total
-        if counter % per_page == 0
-          _, entities = get_paginated_entities(per_page, page += 1)
+      until counter == total
+        if page_position >= per_page
+          page += 1
+          _, entities = get_paginated_entities(per_page, page)
+          page_position = 0
         end
 
-        block_given? ? block.call(entities[position]) : yield(entities[position])
-        counter += 1
+        entity = OData::Entity.from_xml(entities[page_position], namespace: namespace, type: type)
+        block_given? ? block.call(entity) : yield(entity)
 
-        (entities[position] == entities.last) ? position = 0 : position += 1
+        counter += 1
+        page_position += 1
       end
     end
 

@@ -9,6 +9,7 @@ require 'active_support/core_ext'
 require 'active_support/concern'
 
 require 'odata/version'
+require 'odata/entity'
 require 'odata/entity_set'
 require 'odata/service'
 require 'odata/service_registry'

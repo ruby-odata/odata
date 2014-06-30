@@ -103,13 +103,27 @@ module OData
     end
 
     def find_node(results, node_name)
-      document = ::Nokogiri::XML(results.body).remove_namespaces!
+      document = ::Nokogiri::XML(results.body)
+      document.remove_namespaces!
       document.xpath("//#{node_name}").first
     end
 
     def find_entities(results)
-      document = ::Nokogiri::XML(results.body).remove_namespaces!
-      document.xpath("//entry")
+      document = ::Nokogiri::XML(results.body)
+      document.remove_namespaces!
+      document.xpath('//entry')
+    end
+
+    def get_property_type(entity_name, property_name)
+      metadata.xpath("//EntityType[@Name='#{entity_name}']/Property[@Name='#{property_name}']").first.attributes['Type'].value
+    end
+
+    def get_title_property_name(entity_name)
+      metadata.xpath("//EntityType[@Name='#{entity_name}']/Property[@FC_TargetPath='SyndicationTitle']").first.attributes['Name'].value
+    end
+
+    def get_summary_property_name(entity_name)
+      metadata.xpath("//EntityType[@Name='#{entity_name}']/Property[@FC_TargetPath='SyndicationSummary']").first.attributes['Name'].value
     end
 
     private

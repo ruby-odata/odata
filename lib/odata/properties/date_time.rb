@@ -2,10 +2,14 @@ module OData
   module Properties
     class DateTime < OData::Property
       def value
-        if @value.nil? && allow_nil?
+        if @value.nil? && allows_nil?
           nil
         else
-          ::DateTime.strptime(@value, '%Y-%m-%dT%H:%M:%S.%L')
+          begin
+            ::DateTime.strptime(@value, '%Y-%m-%dT%H:%M:%S.%L')
+          rescue ArgumentError
+            ::DateTime.parse(@value)
+          end
         end
       end
 

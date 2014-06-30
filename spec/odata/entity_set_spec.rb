@@ -26,6 +26,11 @@ describe OData::EntitySet do
       subject.each {|entity| @counter += 1}
       @counter
     }.call).to eq(11) }
+    it { expect(lambda {
+      @entities = []
+      subject.each {|entity| @entities << entity}
+      @entities
+    }.call.shuffle.first).to be_a(OData::Entity) }
   end
 
   describe '#count' do
