@@ -27,10 +27,14 @@ module OData
       # end
     end
 
+    def count
+      service.execute("#{name}/$count").body.to_i
+    end
+
     private
 
-    # def service
-    #   @service ||= OData::ServiceRegistry[namespace]
-    # end
+    def service
+      @service ||= OData::ServiceRegistry[namespace]
+    end
   end
 end

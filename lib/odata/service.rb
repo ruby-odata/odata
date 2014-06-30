@@ -91,6 +91,17 @@ module OData
       OData::EntitySet.new(name: set_name, namespace: namespace, type: entity_type_name.to_s, container: container_name)
     end
 
+    def execute(url_chunk, additional_options = {})
+      request = ::Typhoeus::Request.new(
+          "#{service_url}/#{url_chunk}",
+          options[:typhoeus].merge({
+            method: :get
+          }).merge(additional_options)
+      )
+      request.run
+      request.response
+    end
+
     private
 
     def default_options
