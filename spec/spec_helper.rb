@@ -46,10 +46,10 @@ RSpec.configure do |config|
       WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/Products?$inlinecount=allpages&$skip=0&$top=5').
           to_return(status: 200, body: File.open('spec/fixtures/sample_service/products_skip0_top5.xml'))
 
-      WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/Products?$skip=5&$top=5').
+      WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/Products?$inlinecount=allpages&$skip=5&$top=5').
           to_return(status: 200, body: File.open('spec/fixtures/sample_service/products_skip5_top5.xml'))
 
-      WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/Products?$skip=10&$top=5').
+      WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/Products?$inlinecount=allpages&$skip=10&$top=5').
           to_return(status: 200, body: File.open('spec/fixtures/sample_service/products_skip10_top5.xml'))
 
       WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/Products/$count').

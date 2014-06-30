@@ -19,32 +19,21 @@ module OData
     # Provided for Enumerable functionality
     def each(&block)
       per_page = 5; page = 0; position = 0; counter = 1
-      result = service.execute("#{name}?$inlinecount=allpages&$skip=0&$top=5")
-      total = service.find_node(result, 'count').content.to_i
+      total, entities = get_paginated_entities(per_page, page)
 
       while counter <= total
         if counter % per_page == 0
-          page += 1
-          result = service.execute("#{name}?$skip=#{per_page * page}&$top=#{per_page}")
+          _, entities = get_paginated_entities(per_page, page += 1)
         end
 
-        entities = service.find_entities(result)
-
-        if block_given?
-          block.call entities[position]
-        else
-          yield entities[position]
-        end
+        block_given? ? block.call(entities[position]) : yield(entities[position])
         counter += 1
 
-        if entities[position] == entities.last
-          position = 0
-        else
-          position += 1
-        end
+        (entities[position] == entities.last) ? position = 0 : position += 1
       end
     end
 
+    # Returns the number of entities within the set
     def count
       service.execute("#{name}/$count").body.to_i
     end
@@ -53,6 +42,13 @@ module OData
 
     def service
       @service ||= OData::ServiceRegistry[namespace]
+    end
+
+    def get_paginated_entities(per_page, page)
+      result = service.execute("#{name}?$inlinecount=allpages&$skip=#{per_page * page}&$top=#{per_page}")
+      entities = service.find_entities(result)
+      total = service.find_node(result, 'count').content.to_i
+      return total, entities
     end
   end
 end
