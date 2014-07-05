@@ -83,12 +83,16 @@ module OData
     #
     # @param entity_type_name [to_s] the name of the EntityType you want the EntitySet of
     # @return [OData::EntitySet] an OData::EntitySet to query
-    def [](entity_type_name)
-      xpath_query = "//EntityContainer/EntitySet[@EntityType='#{namespace}.#{entity_type_name}']"
+    def [](entity_set_name)
+      xpath_query = "//EntityContainer/EntitySet[@Name='#{entity_set_name}']"
       entity_set_node = metadata.xpath(xpath_query).first
-      set_name = entity_set_node.attributes['Name'].value
+      raise ArgumentError, "Unknown Entity Set: #{entity_set_name}" if entity_set_node.nil?
       container_name = entity_set_node.parent.attributes['Name'].value
-      OData::EntitySet.new(name: set_name, namespace: namespace, type: entity_type_name.to_s, container: container_name)
+      entity_type_name = entity_set_node.attributes['EntityType'].value.gsub(/#{namespace}\./, '')
+      OData::EntitySet.new(name: entity_set_name,
+                           namespace: namespace,
+                           type: entity_type_name.to_s,
+                           container: container_name)
     end
 
     def execute(url_chunk, additional_options = {})

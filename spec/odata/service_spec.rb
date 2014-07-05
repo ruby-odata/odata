@@ -81,6 +81,7 @@ describe OData::Service do
   end
 
   describe '#[]' do
-    it { expect(subject['Product']).to be_a(OData::EntitySet) }
+    it { expect(subject['Products']).to be_a(OData::EntitySet) }
+    it { expect {subject['Nonexistant']}.to raise_error(ArgumentError) }
   end
 end
