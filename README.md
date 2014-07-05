@@ -1,11 +1,11 @@
 # OData
 
-[![Build Status](https://travis-ci.org/plainprogrammer/odata.svg?branch=master)](https://travis-ci.org/plainprogrammer/odata)
-[![Code Climate](https://codeclimate.com/github/plainprogrammer/odata.png)](https://codeclimate.com/github/plainprogrammer/odata)
-[![Coverage](https://codeclimate.com/github/plainprogrammer/odata/coverage.png)](https://codeclimate.com/github/plainprogrammer/odata)
+[![Build Status](https://travis-ci.org/ruby-odata/odata.svg?branch=master)](https://travis-ci.org/plainprogrammer/odata)
+[![Code Climate](https://codeclimate.com/github/ruby-odata/odata.png)](https://codeclimate.com/github/plainprogrammer/odata)
+[![Coverage](https://codeclimate.com/github/ruby-odata/odata/coverage.png)](https://codeclimate.com/github/plainprogrammer/odata)
 [![Gem Version](https://badge.fury.io/rb/odata.svg)](http://badge.fury.io/rb/odata)
-[![Dependency Status](https://gemnasium.com/plainprogrammer/odata.svg)](https://gemnasium.com/plainprogrammer/odata)
-[![Documentation](http://inch-ci.org/github/plainprogrammer/odata.png?branch=master)](http://rubydoc.info/github/plainprogrammer/odata/master/frames)
+[![Dependency Status](https://gemnasium.com/ruby-odata/odata.svg)](https://gemnasium.com/plainprogrammer/odata)
+[![Documentation](http://inch-ci.org/github/ruby-odata/odata.png?branch=master)](http://rubydoc.info/github/plainprogrammer/odata/master/frames)
 
 The OData gem provides a simple wrapper around the OData API protocol. It has
 the ability to automatically inspect compliant APIs and expose the relevant

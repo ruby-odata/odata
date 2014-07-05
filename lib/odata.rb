@@ -18,6 +18,9 @@ require 'odata/service_registry'
 
 require 'odata/railtie' if defined?(::Rails)
 
+# The OData gem provides a convenient way to interact with OData services from
+# Ruby. Please look to the {file:README.md README} for how to get started using
+# the OData gem.
 module OData
   # Your code goes here...
 end
