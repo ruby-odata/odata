@@ -9,11 +9,12 @@ require 'active_support/core_ext'
 require 'active_support/concern'
 
 require 'odata/version'
+require 'odata/property'
+require 'odata/properties'
 require 'odata/entity'
 require 'odata/entity_set'
 require 'odata/service'
 require 'odata/service_registry'
-require 'odata/model'
 
 require 'odata/railtie' if defined?(::Rails)
 

@@ -61,24 +61,6 @@ module OData
       "#<#{self.class.name}:#{self.object_id} namespace='#{self.namespace}' service_url='#{self.service_url}'>"
     end
 
-    # Handles getting OData resources from the service.
-    #
-    # @param model [OData::Model] the type of resource being requested
-    # @param criteria [Hash] any criteria to narrow the request
-    # @return [Array] instances of the requested model
-    def get(model, criteria = {})
-      request = ::Typhoeus::Request.new(
-          build_request_url(model, criteria),
-          options[:typhoeus].merge({
-            method: :get
-          })
-      )
-      request.run
-      response = request.response
-      feed = ::Nokogiri::XML(response.body).remove_namespaces!
-      feed.xpath('//entry').collect {|entry| parse_model_from_feed(model, entry)}
-    end
-
     # Retrieves the EntitySet associated with a specific EntityType by name
     #
     # @param entity_type_name [to_s] the name of the EntityType you want the EntitySet of
@@ -150,42 +132,6 @@ module OData
         response = request.response
         ::Nokogiri::XML(response.body).remove_namespaces!
       }.call
-    end
-
-    def build_request_url(model, criteria)
-      request_url = "#{service_url}/#{model.odata_name}"
-      request_url += "(#{criteria[:key]})" if criteria[:key]
-      request_url
-    end
-
-    def parse_model_from_feed(model, entry)
-      attributes = {}
-
-      %w{title summary}.each do |attribute_name|
-        attributes[attribute_name.to_sym] = {
-            value: entry.xpath("//#{attribute_name}").first.content,
-            type: entry.xpath("//#{attribute_name}").first.attributes['type'].value
-        }
-      end
-
-      entry.xpath('//content/properties/*').each do |property|
-        if property.attributes['null']
-          if property.attributes['null'].value == 'true'
-            property_type = nil
-          else
-            property_type = property.attributes['type'].value
-          end
-        else
-          property_type = property.attributes['type'].value
-        end
-
-        attributes[property.name.underscore.to_sym] = {
-            value: property.content,
-            type: property_type
-        }
-      end
-
-      model.load_from_feed(attributes)
     end
   end
 end

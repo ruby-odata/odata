@@ -59,27 +59,6 @@ describe OData::Service do
     it { expect(subject.namespace).to eq('ODataDemo') }
   end
 
-  describe '#get' do
-    describe 'a set of entities' do
-      it { expect(subject.get(::Examples::Product).size).to eq(11) }
-      it { expect(subject.get(::Examples::Product).first).to be_instance_of(::Examples::Product) }
-      it { expect(subject.get(::Examples::Product).shuffle.first).to be_instance_of(::Examples::Product) }
-      it { expect(subject.get(::Examples::Product).last).to be_instance_of(::Examples::Product) }
-    end
-
-    describe 'a specific entity by key' do
-      it { expect(subject.get(::Examples::Product, {key: 0}).size).to eq(1) }
-      it { expect(subject.get(::Examples::Product, {key: 0}).first).to be_instance_of(::Examples::Product) }
-      it { expect(subject.get(::Examples::Product, {key: 0}).first.id).to eq(0) }
-      it { expect(subject.get(::Examples::Product, {key: 0}).first.name).to eq('Bread') }
-      it { expect(subject.get(::Examples::Product, {key: 0}).first.description).to eq('Whole grain bread') }
-      it { expect(subject.get(::Examples::Product, {key: 0}).first.release_date).to eq(DateTime.parse('1992-01-01T00:00:00')) }
-      it { expect(subject.get(::Examples::Product, {key: 0}).first.discontinued_date).to eq(nil) }
-      it { expect(subject.get(::Examples::Product, {key: 0}).first.rating).to eq(4) }
-      it { expect(subject.get(::Examples::Product, {key: 0}).first.price).to eq(2.5) }
-    end
-  end
-
   describe '#[]' do
     it { expect(subject['Products']).to be_a(OData::EntitySet) }
     it { expect {subject['Nonexistant']}.to raise_error(ArgumentError) }
