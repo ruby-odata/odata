@@ -4,6 +4,7 @@
 [![Code Climate](https://codeclimate.com/github/plainprogrammer/odata.png)](https://codeclimate.com/github/plainprogrammer/odata)
 [![Coverage](https://codeclimate.com/github/plainprogrammer/odata/coverage.png)](https://codeclimate.com/github/plainprogrammer/odata)
 [![Gem Version](https://badge.fury.io/rb/odata.svg)](http://badge.fury.io/rb/odata)
+[![Dependency Status](https://gemnasium.com/plainprogrammer/odata.svg)](https://gemnasium.com/plainprogrammer/odata)
 [![Documentation](http://inch-ci.org/github/plainprogrammer/odata.png?branch=master)](http://rubydoc.info/github/plainprogrammer/odata/master/frames)
 
 The OData gem provides a simple wrapper around the OData API protocol. It has
