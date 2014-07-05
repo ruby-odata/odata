@@ -77,6 +77,11 @@ module OData
                            container: container_name)
     end
 
+    # Execute a request against the service
+    #
+    # @param url_chunk [to_s] string to append to service url
+    # @param additional_options [Hash] options to pass to Typhoeus
+    # @return [Typhoeus::Response]
     def execute(url_chunk, additional_options = {})
       request = ::Typhoeus::Request.new(
           "#{service_url}/#{url_chunk}",
@@ -88,26 +93,47 @@ module OData
       request.response
     end
 
+    # Find a specific node in the given result set
+    #
+    # @param results [Typhoeus::Response]
+    # @return [Nokogiri::XML::Element]
     def find_node(results, node_name)
       document = ::Nokogiri::XML(results.body)
       document.remove_namespaces!
       document.xpath("//#{node_name}").first
     end
 
+    # Find entity entries in a result set
+    #
+    # @param results [Typhoeus::Response]
+    # @return [Nokogiri::XML::NodeSet]
     def find_entities(results)
       document = ::Nokogiri::XML(results.body)
       document.remove_namespaces!
       document.xpath('//entry')
     end
 
+    # Get the property type for an entity from metadata.
+    #
+    # @param entity_name [to_s] the name of the relevant entity
+    # @param property_name [to_s] the property name needed
+    # @return [String] the name of the property's type
     def get_property_type(entity_name, property_name)
       metadata.xpath("//EntityType[@Name='#{entity_name}']/Property[@Name='#{property_name}']").first.attributes['Type'].value
     end
 
+    # Get the property used as the title for an entity from metadata.
+    #
+    # @param entity_name [to_s] the name of the relevant entity
+    # @return [String] the name of the property used as the entity title
     def get_title_property_name(entity_name)
       metadata.xpath("//EntityType[@Name='#{entity_name}']/Property[@FC_TargetPath='SyndicationTitle']").first.attributes['Name'].value
     end
 
+    # Get the property used as the summary for an entity from metadata.
+    #
+    # @param entity_name [to_s] the name of the relevant entity
+    # @return [String] the name of the property used as the entity summary
     def get_summary_property_name(entity_name)
       metadata.xpath("//EntityType[@Name='#{entity_name}']/Property[@FC_TargetPath='SyndicationSummary']").first.attributes['Name'].value
     end
