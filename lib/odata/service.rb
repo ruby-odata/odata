@@ -63,7 +63,7 @@ module OData
 
     # Retrieves the EntitySet associated with a specific EntityType by name
     #
-    # @param entity_type_name [to_s] the name of the EntityType you want the EntitySet of
+    # @param entity_set_name [to_s] the name of the EntitySet desired
     # @return [OData::EntitySet] an OData::EntitySet to query
     def [](entity_set_name)
       xpath_query = "//EntityContainer/EntitySet[@Name='#{entity_set_name}']"
