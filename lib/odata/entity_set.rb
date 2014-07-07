@@ -39,7 +39,7 @@ module OData
           page_position = 0
         end
 
-        entity = OData::Entity.from_xml(entities[page_position], namespace: namespace, type: type)
+        entity = OData::Entity.from_xml(entities[page_position], entity_options)
         block_given? ? block.call(entity) : yield(entity)
 
         counter += 1
@@ -47,15 +47,59 @@ module OData
       end
     end
 
+    def first
+      result = service.execute("#{name}?$skip=0&$top=1")
+      entities = service.find_entities(result)
+      OData::Entity.from_xml(entities[0], entity_options)
+    end
+
     # Returns the number of entities within the set
     def count
       service.execute("#{name}/$count").body.to_i
+    end
+
+    def new_entity(properties = {})
+      OData::Entity.with_properties(properties, entity_options)
+    end
+
+    def <<(entity)
+      new_entity = entity[entity.primary_key].nil?
+
+      url_chunk = name
+      url_chunk += "(#{entity[entity.primary_key]})" unless new_entity
+
+      options = {
+          method: :post,
+          body:   entity.to_xml.gsub(/\n\s+/, ''),
+          headers: {
+              Accept: 'application/atom+xml',
+              'Content-Type' => 'application/atom+xml'
+          }
+      }
+
+      result = service.execute(url_chunk, options)
+      if result.code.to_s =~ /^2[0-9][0-9]$/
+        if new_entity
+          doc = ::Nokogiri::XML(result.body).remove_namespaces!
+          entity[entity.primary_key] = doc.xpath("//content/properties/#{entity.primary_key}").first.content
+        end
+      else
+        raise StandardError, 'Something went wrong committing your entity'
+      end
+      entity
     end
 
     private
 
     def service
       @service ||= OData::ServiceRegistry[namespace]
+    end
+
+    def entity_options
+      {
+          namespace:  namespace,
+          type:       type
+      }
     end
 
     def get_paginated_entities(per_page, page)

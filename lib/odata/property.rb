@@ -25,6 +25,10 @@ module OData
       @concurrecy_mode ||= options[:concurrency_mode]
     end
 
+    def xml_value
+      @value
+    end
+
     private
 
     def default_options

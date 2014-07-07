@@ -39,5 +39,8 @@ describe OData::Entity do
     it { expect(subject['DiscontinuedDate']).to be_nil }
     it { expect(subject['Rating']).to eq(4) }
     it { expect(subject['Price']).to eq(2.5) }
+
+    it { expect {subject['NonExistant']}.to raise_error(ArgumentError) }
+    it { expect {subject['NonExistant'] = 5}.to raise_error(ArgumentError) }
   end
 end

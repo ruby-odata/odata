@@ -138,6 +138,25 @@ module OData
       metadata.xpath("//EntityType[@Name='#{entity_name}']/Property[@FC_TargetPath='SyndicationSummary']").first.attributes['Name'].value
     end
 
+    def primary_key_for(entity_name)
+      metadata.xpath("//EntityType[@Name='#{entity_name}']/Key/PropertyRef").first.attributes['Name'].value
+    end
+
+    def properties_for(entity_name)
+      type_definition = metadata.xpath("//EntityType[@Name='#{entity_name}']").first
+      raise ArgumentError, "Unknown EntityType: #{entity_name}" if type_definition.nil?
+      properties_to_return = {}
+      type_definition.xpath('./Property').each do |property_xml|
+        property_name = property_xml.attributes['Name'].value
+        value_type = property_xml.attributes['Type'].value
+        property_options = {}
+        property_options[:allows_nil] = false if property_xml.attributes['Nullable'] == 'false'
+        klass_name = value_type.gsub(/^Edm\./, '')
+        properties_to_return[property_name] = "OData::Properties::#{klass_name}".constantize.new(property_name, nil, property_options)
+      end
+      properties_to_return
+    end
+
     private
 
     def default_options

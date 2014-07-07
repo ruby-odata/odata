@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entry xml:base="http://services.odata.org/OData/OData.svc/"
+       xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+       xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+       xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml">
+  <id>http://services.odata.org/OData/OData.svc/Products(9999)</id>
+  <category term="ODataDemo.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+  <link rel="edit" title="Product" href="Products(9999)"/>
+  <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories" type="application/atom+xml;type=feed" title="Categories" href="Products(9999)/Categories"/>
+  <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Supplier" type="application/atom+xml;type=entry" title="Supplier" href="Products(9999)/Supplier"/>
+  <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail" type="application/atom+xml;type=entry" title="ProductDetail" href="Products(9999)/ProductDetail"/>
+  <title type="text">Widget</title>
+  <summary type="text">A simple widget</summary>
+  <updated>2014-07-07T18:47:05Z</updated>
+  <author>
+    <name/>
+  </author>
+  <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories" type="application/xml" title="Categories" href="Products(9999)/$links/Categories"/>
+  <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier" type="application/xml" title="Supplier" href="Products(9999)/$links/Supplier"/>
+  <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/ProductDetail" type="application/xml" title="ProductDetail" href="Products(9999)/$links/ProductDetail"/>
+  <m:action
+          metadata="http://services.odata.org/OData/OData.svc/$metadata#DemoService.Discount"
+          title="Discount"
+          target="http://services.odata.org/OData/OData.svc/Products(9999)/Discount"/>
+  <content type="application/xml">
+    <m:properties>
+      <d:ID m:type="Edm.Int32">9999</d:ID>
+      <d:ReleaseDate m:type="Edm.DateTime">2014-07-07T12:44:13</d:ReleaseDate>
+      <d:DiscontinuedDate m:null="true"/>
+      <d:Rating m:type="Edm.Int16">4</d:Rating>
+      <d:Price m:type="Edm.Double">3.5</d:Price>
+    </m:properties>
+  </content>
+</entry>
