@@ -30,7 +30,6 @@ module OData
     def self.with_properties(new_properties = {}, options = {})
       entity = OData::Entity.new(options)
       entity.instance_eval do
-        # TODO Define the properties
         service.properties_for(name).each do |name, instance|
           set_property(name, instance)
         end
