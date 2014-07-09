@@ -62,6 +62,12 @@ module OData
       OData::Entity.with_properties(properties, entity_options)
     end
 
+    def [](key)
+      result = service.execute("#{name}(#{key})")
+      entities = service.find_entities(result)
+      OData::Entity.from_xml(entities[0], entity_options)
+    end
+
     def <<(entity)
       new_entity = entity[entity.primary_key].nil?
 

@@ -58,6 +58,18 @@ describe OData::EntitySet do
     it { expect(new_entity['Price']).to eq(3.5) }
   end
 
+  describe '#[]' do
+    let(:existing_entity) { subject[0] }
+    let(:nonexistant_entity) { subject[99] }
+
+    it { expect(subject).to respond_to(:[]) }
+
+    it { expect(existing_entity).to be_a(OData::Entity) }
+    it { expect(existing_entity['ID']).to eq(0) }
+
+    it { expect(nonexistant_entity).to be_nil }
+  end
+
   describe '#<<' do
     let(:new_entity) { subject.new_entity(properties) }
     let(:bad_entity) { subject.new_entity }

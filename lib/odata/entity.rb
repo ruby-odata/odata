@@ -42,6 +42,7 @@ module OData
     end
 
     def self.from_xml(xml_doc, options = {})
+      return nil if xml_doc.nil?
       entity = OData::Entity.new(options)
       entity.instance_eval do
         xml_doc.xpath('//content/properties/*').each do |property_xml|

@@ -62,6 +62,9 @@ RSpec.configure do |config|
 
       WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/Products(0)').
           to_return(status: 200, body: File.open('spec/fixtures/sample_service/product_0.xml'))
+
+      WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/Products(99)').
+          to_return(status: 404, body: File.open('spec/fixtures/sample_service/product_not_found.xml'))
     end
   end
 
