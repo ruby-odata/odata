@@ -1,5 +1,6 @@
 module OData
   module Properties
+    # Defines the Boolean OData type.
     class Boolean < OData::Property
       def value
         if @value.nil? && allows_nil?

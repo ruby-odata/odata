@@ -1,6 +1,9 @@
 module OData
   module Properties
+    # Defines the String OData type.
     class String < OData::Property
+      # Returns the property value, properly typecast
+      # @return [String,nil]
       def value
         if @value.nil? && allows_nil?
           nil
@@ -14,6 +17,7 @@ module OData
         @value = new_value.nil? ? nil : encode_value(new_value.to_s)
       end
 
+      # The OData type name
       def type
         'Edm.String'
       end

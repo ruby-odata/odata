@@ -1,6 +1,9 @@
 module OData
   module Properties
+    # Defines the Time OData type.
     class Time < OData::Property
+      # Returns the property value, properly typecast
+      # @return [Time,nil]
       def value
         if @value.nil? && allow_nil?
           nil
@@ -14,6 +17,7 @@ module OData
         @value = parse_value(new_value)
       end
 
+      # The OData type name
       def type
         'Edm.Time'
       end

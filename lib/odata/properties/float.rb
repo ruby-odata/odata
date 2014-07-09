@@ -1,8 +1,11 @@
 module OData
   module Properties
+    # Defines the Float OData type.
     class Float < OData::Property
       include OData::Properties::Number
 
+      # Returns the property value, properly typecast
+      # @return [Float,nil]
       def value
         if @value.nil? && allows_nil?
           nil
@@ -16,6 +19,7 @@ module OData
         @value = new_value.to_f.to_s
       end
 
+      # The OData type name
       def type
         'Edm.Double'
       end
@@ -31,9 +35,12 @@ module OData
       end
     end
 
+    # Defines the Double (Float) OData type.
     class Double < OData::Properties::Float; end
 
+    # Defines the Single (Float) OData type.
     class Single < OData::Properties::Float
+      # The OData type name
       def type
         'Edm.Single'
       end

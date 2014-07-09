@@ -1,6 +1,9 @@
 module OData
   module Properties
+    # Defines the Decimal OData type.
     class Decimal < OData::Property
+      # Returns the property value, properly typecast
+      # @return [BigDecimal,nil]
       def value
         if @value.nil? && allows_nil?
           nil
@@ -14,6 +17,7 @@ module OData
         @value = new_value.to_s
       end
 
+      # The OData type name
       def type
         'Edm.Decimal'
       end

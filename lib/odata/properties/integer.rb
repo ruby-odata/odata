@@ -1,8 +1,11 @@
 module OData
   module Properties
+    # Defines the Integer OData type.
     class Integer < OData::Property
       include OData::Properties::Number
 
+      # Returns the property value, properly typecast
+      # @return [Integer,nil]
       def value
         if @value.nil? && allows_nil?
           nil
@@ -16,6 +19,7 @@ module OData
         @value = new_value.to_i.to_s
       end
 
+      # The OData type name
       def type
         'Edm.Int64'
       end
@@ -31,6 +35,7 @@ module OData
       end
     end
 
+    # Defines the Integer (16 bit) OData type.
     class Int16 < Integer
       def type
         'Edm.Int16'
@@ -47,6 +52,7 @@ module OData
       end
     end
 
+    # Defines the Integer (32 bit) OData type.
     class Int32 < Integer
       def type
         'Edm.Int32'
@@ -63,8 +69,10 @@ module OData
       end
     end
 
+    # Defines the Integer (64 bit) OData type.
     class Int64 < Integer; end
 
+    # Defines the Byte OData type.
     class Byte < Integer
       def type
         'Edm.Byte'
@@ -81,6 +89,7 @@ module OData
       end
     end
 
+    # Defines the Signed Byte OData type.
     class SByte < Integer
       def type
         'Edm.SByte'

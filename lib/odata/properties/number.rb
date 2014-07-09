@@ -1,5 +1,6 @@
 module OData
   module Properties
+    # Defines common behavior for OData numeric types.
     module Number
       private
 
