@@ -12,6 +12,8 @@ module OData
         end
       end
 
+      # Sets the property value
+      # @params new_value [to_s,nil]
       def value=(new_value)
         validate(new_value)
         @value = new_value.nil? ? nil : encode_value(new_value.to_s)
@@ -22,14 +24,17 @@ module OData
         'Edm.String'
       end
 
+      # Is the property value Unicode encoded
       def is_unicode?
         options[:unicode]
       end
 
+      # Does the property have a default value
       def has_default_value?
         not(options[:default_value].nil?)
       end
 
+      # The default value for the property
       def default_value
         options[:default_value]
       end

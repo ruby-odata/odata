@@ -14,6 +14,8 @@ module OData
         end
       end
 
+      # Sets the property value
+      # @params new_value [to_f]
       def value=(new_value)
         validate(new_value.to_f)
         @value = new_value.to_f.to_s

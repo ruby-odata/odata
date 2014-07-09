@@ -12,6 +12,8 @@ module OData
         end
       end
 
+      # Sets the property value
+      # @params new_value [DateTime]
       def value=(new_value)
         validate(new_value)
         @value = parse_value(new_value)

@@ -14,6 +14,8 @@ module OData
         end
       end
 
+      # Sets the property value
+      # @params new_value [to_i]
       def value=(new_value)
         validate(new_value.to_i)
         @value = new_value.to_i.to_s
@@ -37,6 +39,7 @@ module OData
 
     # Defines the Integer (16 bit) OData type.
     class Int16 < Integer
+      # The OData type name
       def type
         'Edm.Int16'
       end
@@ -54,6 +57,7 @@ module OData
 
     # Defines the Integer (32 bit) OData type.
     class Int32 < Integer
+      # The OData type name
       def type
         'Edm.Int32'
       end
@@ -74,6 +78,7 @@ module OData
 
     # Defines the Byte OData type.
     class Byte < Integer
+      # The OData type name
       def type
         'Edm.Byte'
       end
@@ -91,6 +96,7 @@ module OData
 
     # Defines the Signed Byte OData type.
     class SByte < Integer
+      # The OData type name
       def type
         'Edm.SByte'
       end
