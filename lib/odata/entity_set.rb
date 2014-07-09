@@ -47,27 +47,39 @@ module OData
       end
     end
 
+    # Return the first Entity for the set.
+    # @return [OData::EntitySet]
     def first
       result = service.execute("#{name}?$skip=0&$top=1")
       entities = service.find_entities(result)
       OData::Entity.from_xml(entities[0], entity_options)
     end
 
-    # Returns the number of entities within the set
+    # Returns the number of entities within the set.
+    # @return [Integer]
     def count
       service.execute("#{name}/$count").body.to_i
     end
 
+    # Create a new Entity for this set with the given properties.
+    # @param properties [Hash] property name as key and it's initial value
+    # @return [OData::Entity]
     def new_entity(properties = {})
       OData::Entity.with_properties(properties, entity_options)
     end
 
+    # Find the Entity with the supplied key value.
+    # @param key [to_s] primary key to lookup
+    # @return [OData::Entity,nil]
     def [](key)
       result = service.execute("#{name}(#{key})")
       entities = service.find_entities(result)
       OData::Entity.from_xml(entities[0], entity_options)
     end
 
+    # Write supplied entity back to the service.
+    # @param entity [OData::Entity] entity to save or update in the service
+    # @return [OData::Entity]
     def <<(entity)
       new_entity = entity[entity.primary_key].nil?
 
