@@ -61,4 +61,4 @@ matrix:
       env: REAL_HTTP=true
 addons:
   code_climate:
-    repo_token: 323644d852f6ba54213f25446d6f4276dbec0adb74fefce770b083cd3e83ea1e
+    repo_token: 56e2763b5bfe138f566c5f2bf23c14deee4f8990324436dbde07ee2a34bb87f8
