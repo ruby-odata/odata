@@ -11,7 +11,14 @@ describe OData::EntitySet do
     OData::Service.open('http://services.odata.org/OData/OData.svc')
   end
 
-  it { expect(subject).to respond_to(:name, :type, :container, :namespace, :new_entity) }
+  it { expect(subject).to respond_to(:name) }
+  it { expect(subject).to respond_to(:type) }
+  it { expect(subject).to respond_to(:container) }
+  it { expect(subject).to respond_to(:namespace) }
+  it { expect(subject).to respond_to(:new_entity) }
+  it { expect(subject).to respond_to(:filter) }
+  it { expect(subject).to respond_to(:[]) }
+  it { expect(subject).to respond_to(:<<) }
 
   it { expect(subject.name).to eq('Products') }
   it { expect(subject.container).to eq('DemoService') }
@@ -58,11 +65,24 @@ describe OData::EntitySet do
     it { expect(new_entity['Price']).to eq(3.5) }
   end
 
+  describe '#filter' do
+    let(:one_entity) { 'Name eq \'Bread\''}
+    let(:many_entities) { 'Rating eq 3' }
+
+    it { expect(subject.filter(one_entity)).to be_a(Array) }
+    it { expect(subject.filter(one_entity).first).to be_a(OData::Entity) }
+
+    it { expect(subject.filter(many_entities)).to be_a(Array) }
+    it do
+      subject.filter(one_entity).each do |entity|
+        expect(entity).to be_a(OData::Entity)
+      end
+    end
+  end
+
   describe '#[]' do
     let(:existing_entity) { subject[0] }
     let(:nonexistant_entity) { subject[99] }
-
-    it { expect(subject).to respond_to(:[]) }
 
     it { expect(existing_entity).to be_a(OData::Entity) }
     it { expect(existing_entity['ID']).to eq(0) }
@@ -82,8 +102,6 @@ describe OData::EntitySet do
         Rating:           4,
         Price:            3.5
     } }
-
-    it { expect(subject).to respond_to(:<<) }
 
     it 'with an existing entity' do
       WebMock.stub_request(:post, 'http://services.odata.org/OData/OData.svc/Products(0)').
