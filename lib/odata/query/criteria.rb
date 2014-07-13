@@ -1,21 +1,32 @@
 module OData
   class Query
+    # Represents a discreet detail about an OData query. It also validates
+    # the criteria based on what the gem knows how to support.
     class Criteria
+      # Defines the options required to create a new OData::Query::Criteria.
       REQUIRED_OPTIONS = [:operation, :argument]
+
+      # Defines the operations the OData gem knows how to support.
       SUPPORTED_OPERATIONS = [
         :filter, :order_by, :skip, :top, :select, :expand, :inlinecount
       ]
 
+      # Creates a new OData::Query::Criteria with the supplied options.
+      # @param options [Hash]
       def initialize(options = {})
         @options = process_options(options)
         validate_required_options
         validate_supported_operation
       end
 
+      # The query operation of a particular criteria.
+      # @return [Symbol]
       def operation
         options[:operation]
       end
 
+      # The query argument of a particular criteria.
+      # @return [String]
       def argument
         options[:argument]
       end
