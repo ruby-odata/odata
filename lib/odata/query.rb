@@ -17,18 +17,14 @@ module OData
     end
 
     def to_s
-      [
-        filter_criteria,
-        order_by_criteria,
-        expand_criteria,
-        select_criteria,
-        inline_count_criteria,
-        skip_criteria,
-        top_criteria
-      ].compact.join('&')
+      [collection,assemble_criteria].compact.join('?')
     end
 
     private
+
+    def collection
+      @collection
+    end
 
     def criteria_set
       @criteria_set
@@ -39,6 +35,20 @@ module OData
         [operation, []]
       end
       @criteria_set = Hash[criteria_set]
+    end
+
+    def assemble_criteria
+      criteria = [
+        filter_criteria,
+        order_by_criteria,
+        expand_criteria,
+        select_criteria,
+        inline_count_criteria,
+        skip_criteria,
+        top_criteria
+      ].compact!
+
+      criteria.empty? ? nil : criteria.join('&')
     end
 
     def filter_criteria

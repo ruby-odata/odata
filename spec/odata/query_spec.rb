@@ -6,18 +6,20 @@ describe OData::Query do
   it { expect(subject).to respond_to(:<<) }
   it { expect(subject).to respond_to(:to_s) }
 
+  it { expect(subject.to_s).to eq('Products')}
+
   it 'handles pagination operations' do
     skip_criteria = OData::Query::Criteria.new(operation: 'skip', argument: 5)
     top_criteria = OData::Query::Criteria.new(operation: 'top', argument: 5)
     subject << top_criteria
     subject << skip_criteria
-    expect(subject.to_s).to eq('$skip=5&$top=5')
+    expect(subject.to_s).to eq('Products?$skip=5&$top=5')
   end
 
   it 'handles inline_count operations' do
     criteria = OData::Query::Criteria.new(operation: 'inline_count', argument: 'allpages')
     subject << criteria
-    expect(subject.to_s).to eq('$inlinecount=allpages')
+    expect(subject.to_s).to eq('Products?$inlinecount=allpages')
   end
 
   it 'handles select operations' do
@@ -27,7 +29,7 @@ describe OData::Query do
     subject << criteria1
     subject << criteria2
     subject << criteria3
-    expect(subject.to_s).to eq('$select=Name,Rating,Price')
+    expect(subject.to_s).to eq('Products?$select=Name,Rating,Price')
   end
 
   it 'handles expand operations' do
@@ -35,7 +37,7 @@ describe OData::Query do
     criteria2 = OData::Query::Criteria.new(operation: 'expand', argument: 'ProductDetail')
     subject << criteria1
     subject << criteria2
-    expect(subject.to_s).to eq('$expand=Supplier,ProductDetail')
+    expect(subject.to_s).to eq('Products?$expand=Supplier,ProductDetail')
   end
 
   it 'handles order_by operations' do
@@ -43,7 +45,7 @@ describe OData::Query do
     criteria2 = OData::Query::Criteria.new(operation: 'order_by', argument: 'Rating desc')
     subject << criteria1
     subject << criteria2
-    expect(subject.to_s).to eq('$orderby=Price,Rating desc')
+    expect(subject.to_s).to eq('Products?$orderby=Price,Rating desc')
   end
 
   it 'handles filter operations' do
@@ -51,6 +53,6 @@ describe OData::Query do
     criteria2 = OData::Query::Criteria.new(operation: 'filter', argument: 'Price lt 15')
     subject << criteria1
     subject << criteria2
-    expect(subject.to_s).to eq('$filter=Rating gt 2 and Price lt 15')
+    expect(subject.to_s).to eq('Products?$filter=Rating gt 2 and Price lt 15')
   end
 end
