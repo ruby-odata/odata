@@ -84,7 +84,7 @@ module OData
     # @return [Typhoeus::Response]
     def execute(url_chunk, additional_options = {})
       request = ::Typhoeus::Request.new(
-          "#{service_url}/#{url_chunk}",
+          URI.escape("#{service_url}/#{url_chunk}"),
           options[:typhoeus].merge({
             method: :get
           }).merge(additional_options)
@@ -168,7 +168,7 @@ module OData
     def metadata
       @metadata ||= lambda {
         request = ::Typhoeus::Request.new(
-            "#{service_url}/$metadata",
+            URI.escape("#{service_url}/$metadata"),
             options[:typhoeus].merge({
               method: :get
             })

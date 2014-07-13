@@ -66,7 +66,7 @@ describe OData::EntitySet do
   end
 
   describe '#filter' do
-    let(:one_entity) { 'Name eq \'Bread\''}
+    let(:one_entity) { "Name eq 'Bread'" }
     let(:many_entities) { 'Rating eq 3' }
 
     it { expect(subject.filter(one_entity)).to be_a(Array) }

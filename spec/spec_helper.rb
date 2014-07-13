@@ -66,7 +66,7 @@ RSpec.configure do |config|
       WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/Products(99)').
           to_return(status: 404, body: File.open('spec/fixtures/sample_service/product_not_found.xml'))
 
-      WebMock.stub_request(:get, "http://services.odata.org/OData/OData.svc/Products?$filter=Name%20eq%20'Bread'").
+      WebMock.stub_request(:get, "http://services.odata.org/OData/OData.svc/Products?$filter=Name eq 'Bread'").
           to_return(status: 200, body: File.open('spec/fixtures/sample_service/product_filter_one.xml'))
 
       WebMock.stub_request(:get, 'http://services.odata.org/OData/OData.svc/Products?$filter=Rating%20eq%203').
