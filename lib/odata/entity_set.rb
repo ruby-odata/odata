@@ -50,7 +50,10 @@ module OData
     # Return the first Entity for the set.
     # @return [OData::EntitySet]
     def first
-      result = service.execute("#{name}?$skip=0&$top=1")
+      query = OData::Query.new(name)
+      query << OData::Query::Criteria.new(operation: 'skip', argument: 0)
+      query << OData::Query::Criteria.new(operation: 'top', argument: 1)
+      result = service.execute(query)
       entities = service.find_entities(result)
       OData::Entity.from_xml(entities[0], entity_options)
     end
@@ -135,7 +138,11 @@ module OData
     end
 
     def get_paginated_entities(per_page, page)
-      result = service.execute("#{name}?$inlinecount=allpages&$skip=#{per_page * page}&$top=#{per_page}")
+      query = OData::Query.new(name)
+      query << OData::Query::Criteria.new(operation: 'inline_count', argument: 'allpages')
+      query << OData::Query::Criteria.new(operation: 'skip', argument: (per_page * page))
+      query << OData::Query::Criteria.new(operation: 'top', argument: per_page)
+      result = service.execute(query)
       entities = service.find_entities(result)
       total = service.find_node(result, 'count').content.to_i
       return total, entities
