@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe OData::Query::Criteria do
   let(:subject) { OData::Query::Criteria.new(operation: 'filter', argument: "Name eq 'Bread'") }
-  let(:valid_operations) { [:filter, :order_by, :skip, :top, :select, :expand, :inlinecount] }
+  let(:valid_operations) { [:filter, :order_by, :skip, :top, :select, :expand, :inline_count] }
 
   it { expect(subject).to respond_to(:operation) }
   it { expect(subject).to respond_to(:argument) }

@@ -8,7 +8,7 @@ module OData
 
       # Defines the operations the OData gem knows how to support.
       SUPPORTED_OPERATIONS = [
-        :filter, :order_by, :skip, :top, :select, :expand, :inlinecount
+        :filter, :order_by, :skip, :top, :select, :expand, :inline_count
       ]
 
       # Creates a new OData::Query::Criteria with the supplied options.
