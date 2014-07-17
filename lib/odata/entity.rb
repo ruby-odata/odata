@@ -56,7 +56,7 @@ module OData
             value = property_xml.content
           end
           klass_name = value_type.gsub(/^Edm\./, '')
-          property = Kernel.const_get("OData::Properties::#{klass_name}").new(property_name, value)
+          property = get_property_class(klass_name).new(property_name, value)
           set_property(property_name, property)
         end
 
@@ -65,7 +65,7 @@ module OData
           property_name = service.get_title_property_name(name)
           value_type = service.get_property_type(name, property_name)
           klass_name = value_type.gsub(/^Edm\./, '')
-          property = Kernel.const_get("OData::Properties::#{klass_name}").new(property_name, title_value)
+          property = get_property_class(klass_name).new(property_name, title_value)
           set_property(property_name, property)
         end
 
@@ -74,7 +74,7 @@ module OData
           property_name = service.get_summary_property_name(name)
           value_type = service.get_property_type(name, property_name)
           klass_name = value_type.gsub(/^Edm\./, '')
-          property = Kernel.const_get("OData::Properties::#{klass_name}").new(property_name, summary_value)
+          property = get_property_class(klass_name).new(property_name, summary_value)
           set_property(property_name, property)
         end
       end
@@ -120,6 +120,10 @@ module OData
     end
 
     private
+
+    def get_property_class(klass_name)
+      ::OData::Properties.const_get(klass_name)
+    end
 
     def properties
       @properties ||= {}
