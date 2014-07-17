@@ -138,10 +138,19 @@ module OData
       metadata.xpath("//EntityType[@Name='#{entity_name}']/Property[@FC_TargetPath='SyndicationSummary']").first.attributes['Name'].value
     end
 
+    # Get the primary key for the supplied Entity.
+    #
+    # @param entity_name [to_s]
+    # @return [String]
     def primary_key_for(entity_name)
       metadata.xpath("//EntityType[@Name='#{entity_name}']/Key/PropertyRef").first.attributes['Name'].value
     end
 
+    # Get the list of properties and their various options for the supplied
+    # Entity name.
+    #
+    # @param entity_name [to_s]
+    # @return [Hash]
     def properties_for(entity_name)
       type_definition = metadata.xpath("//EntityType[@Name='#{entity_name}']").first
       raise ArgumentError, "Unknown EntityType: #{entity_name}" if type_definition.nil?
