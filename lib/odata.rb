@@ -5,9 +5,9 @@ require 'date'
 require 'nokogiri'
 require 'typhoeus'
 
-require 'active_support'
-require 'active_support/core_ext'
-require 'active_support/concern'
+# require 'active_support'
+# require 'active_support/core_ext'
+# require 'active_support/concern'
 
 require 'odata/version'
 require 'odata/property'

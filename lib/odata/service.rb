@@ -152,7 +152,7 @@ module OData
         property_options = {}
         property_options[:allows_nil] = false if property_xml.attributes['Nullable'] == 'false'
         klass_name = value_type.gsub(/^Edm\./, '')
-        properties_to_return[property_name] = "OData::Properties::#{klass_name}".constantize.new(property_name, nil, property_options)
+        properties_to_return[property_name] = Kernel.const_get("OData::Properties::#{klass_name}").new(property_name, nil, property_options)
       end
       properties_to_return
     end
