@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3.1
+
+* Resolved issues causing failure on Ruby 1.9 and JRuby.
+
 ## 0.3.0
 
 * Removed dependency on ActiveSupport
