@@ -3,28 +3,44 @@ module OData
     attr_reader :name
     attr_accessor :value
 
+    # Default intialization for a property with a name, value and options.
+    # @param name [to_s]
+    # @param value [to_s,nil]
+    # @param options [Hash]
     def initialize(name, value, options = {})
       @name = name.to_s
       @value = value.nil? ? nil : value.to_s
       @options = default_options.merge(options)
     end
 
+    # Abstract implementation, should return property type, based on
+    # OData::Service metadata in proper implementation.
+    # @raise NotImplementedError
     def type
       raise NotImplementedError
     end
 
+    # Provides for value-based equality checking.
+    # @param other [value] object for comparison
+    # @return [Boolean]
     def ==(other)
       self.value == other.value
     end
 
+    # Whether the property permits a nil value.
+    # @return [Boolean]
     def allows_nil?
       @allows_nil ||= options[:allows_nil]
     end
 
+    # The configured concurrency mode for the property.
+    # @return [String]
     def concurrency_mode
       @concurrecy_mode ||= options[:concurrency_mode]
     end
 
+    # Value to be used in XML.
+    # @return [String]
     def xml_value
       @value
     end
