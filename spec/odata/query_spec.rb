@@ -1,58 +1,68 @@
 require 'spec_helper'
 
 describe OData::Query do
-  let(:subject) { OData::Query.new('Products') }
+  let(:subject) { OData::Query.new(entity_set) }
+  let(:entity_set) { OData::EntitySet.new(options) }
+  let(:options) { {
+      container: 'DemoService', namespace: 'ODataDemo', name: 'Products',
+      type: 'Product'
+  } }
 
-  it { expect(subject).to respond_to(:<<) }
+  before(:example) do
+    OData::Service.open('http://services.odata.org/OData/OData.svc')
+  end
+
   it { expect(subject).to respond_to(:to_s) }
-
   it { expect(subject.to_s).to eq('Products')}
 
-  it 'handles pagination operations' do
-    skip_criteria = OData::Query::Criteria.new(operation: 'skip', argument: 5)
-    top_criteria = OData::Query::Criteria.new(operation: 'top', argument: 5)
-    subject << top_criteria
-    subject << skip_criteria
-    expect(subject.to_s).to eq('Products?$skip=5&$top=5')
+  describe '#where' do
+    it { expect(subject).to respond_to(:where) }
   end
 
-  it 'handles inline_count operations' do
-    criteria = OData::Query::Criteria.new(operation: 'inline_count', argument: 'allpages')
-    subject << criteria
-    expect(subject.to_s).to eq('Products?$inlinecount=allpages')
+  describe '#and' do
+    it { expect(subject).to respond_to(:and) }
   end
 
-  it 'handles select operations' do
-    criteria1 = OData::Query::Criteria.new(operation: 'select', argument: 'Name')
-    criteria2 = OData::Query::Criteria.new(operation: 'select', argument: 'Rating')
-    criteria3 = OData::Query::Criteria.new(operation: 'select', argument: 'Price')
-    subject << criteria1
-    subject << criteria2
-    subject << criteria3
-    expect(subject.to_s).to eq('Products?$select=Name,Rating,Price')
+  describe '#or' do
+    it { expect(subject).to respond_to(:or) }
   end
 
-  it 'handles expand operations' do
-    criteria1 = OData::Query::Criteria.new(operation: 'expand', argument: 'Supplier')
-    criteria2 = OData::Query::Criteria.new(operation: 'expand', argument: 'ProductDetail')
-    subject << criteria1
-    subject << criteria2
-    expect(subject.to_s).to eq('Products?$expand=Supplier,ProductDetail')
+  describe '#skip' do
+    it { expect(subject).to respond_to(:skip) }
+    it { expect(subject.skip(5)).to eq(subject) }
+    it 'properly formats query with skip specified' do
+      subject.skip(5)
+      expect(subject.to_s).to eq('Products?$skip=5')
+    end
   end
 
-  it 'handles order_by operations' do
-    criteria1 = OData::Query::Criteria.new(operation: 'order_by', argument: 'Price')
-    criteria2 = OData::Query::Criteria.new(operation: 'order_by', argument: 'Rating desc')
-    subject << criteria1
-    subject << criteria2
-    expect(subject.to_s).to eq('Products?$orderby=Price,Rating desc')
+  describe '#limit' do
+    it { expect(subject).to respond_to(:limit) }
+    it { expect(subject.limit(5)).to eq(subject) }
+    it 'properly formats query with limit specified' do
+      subject.limit(5)
+      expect(subject.to_s).to eq('Products?$top=5')
+    end
   end
 
-  it 'handles filter operations' do
-    criteria1 = OData::Query::Criteria.new(operation: 'filter', argument: 'Rating gt 2')
-    criteria2 = OData::Query::Criteria.new(operation: 'filter', argument: 'Price lt 15')
-    subject << criteria1
-    subject << criteria2
-    expect(subject.to_s).to eq('Products?$filter=Rating gt 2 and Price lt 15')
+  describe '#include_count' do
+    it { expect(subject).to respond_to(:include_count) }
+    it { expect(subject.include_count).to eq(subject) }
+    it 'properly formats query with include_count specified' do
+      subject.include_count
+      expect(subject.to_s).to eq('Products?$inlinecount=allpages')
+    end
+  end
+
+  describe '#select' do
+    it { pending; fail }
+  end
+
+  describe '#expand' do
+    it { pending; fail }
+  end
+
+  describe '#order_by' do
+    it { pending; fail }
   end
 end

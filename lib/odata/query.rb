@@ -2,30 +2,46 @@ require 'odata/query/criteria'
 
 module OData
   class Query
-    # Defines the operations the OData gem knows how to support.
-    SUPPORTED_OPERATIONS = [
-        :filter, :order_by, :skip, :top, :select, :expand, :inline_count
-    ]
-
-    def initialize(collection)
-      @collection = collection.to_s
+    def initialize(entity_set)
+      @entity_set = entity_set
       setup_empty_criteria_set
     end
 
-    def <<(criteria)
-      criteria_set[criteria.operation] << criteria.argument
-      prune_criteria
+    def where(criteria)
+
+    end
+
+    def and(criteria)
+
+    end
+
+    def or(criteria)
+
+    end
+
+    def skip(value)
+      criteria_set[:skip] = value.to_i
+      self
+    end
+
+    def limit(value)
+      criteria_set[:top] = value.to_i
+      self
+    end
+
+    def include_count
+      criteria_set[:inline_count] = true
       self
     end
 
     def to_s
-      [collection,assemble_criteria].compact.join('?')
+      [entity_set.name, assemble_criteria].compact.join('?')
     end
 
     private
 
-    def collection
-      @collection
+    def entity_set
+      @entity_set
     end
 
     def criteria_set
@@ -33,16 +49,15 @@ module OData
     end
 
     def setup_empty_criteria_set
-      criteria_set = SUPPORTED_OPERATIONS.map do |operation|
-        [operation, []]
-      end
-      @criteria_set = Hash[criteria_set]
-    end
-
-    def prune_criteria
-      criteria_set[:skip] = [criteria_set[:skip].last].compact
-      criteria_set[:top] = [criteria_set[:top].last].compact
-      criteria_set[:inline_count] = [criteria_set[:inline_count].last].compact
+      @criteria_set = {
+          filter:       [],
+          select:       [],
+          expand:       [],
+          order_by:     [],
+          skip:         nil,
+          top:          nil,
+          inline_count: false
+      }
     end
 
     def assemble_criteria
@@ -76,15 +91,15 @@ module OData
     end
 
     def inline_count_criteria
-      criteria_set[:inline_count].empty? ? nil : "$inlinecount=#{criteria_set[:inline_count].last}"
+      criteria_set[:inline_count] ? '$inlinecount=allpages' : nil
     end
 
     def skip_criteria
-      criteria_set[:skip].empty? ? nil : "$skip=#{criteria_set[:skip].last}"
+      (criteria_set[:skip].nil? || criteria_set[:skip] == 0) ? nil : "$skip=#{criteria_set[:skip]}"
     end
 
     def top_criteria
-      criteria_set[:top].empty? ? nil : "$top=#{criteria_set[:top].last}"
+      (criteria_set[:top].nil? || criteria_set[:top] == 0) ? nil : "$top=#{criteria_set[:top]}"
     end
   end
 end
