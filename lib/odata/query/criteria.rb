@@ -3,14 +3,6 @@ module OData
     # Represents a discreet detail about an OData query. It also validates
     # the criteria based on what the gem knows how to support.
     class Criteria
-      # Defines the options required to create a new OData::Query::Criteria.
-      REQUIRED_OPTIONS = [:operation, :argument]
-
-      # Defines the operations the OData gem knows how to support.
-      SUPPORTED_OPERATIONS = [
-        :filter, :order_by, :skip, :top, :select, :expand, :inline_count
-      ]
-
       # Creates a new OData::Query::Criteria with the supplied options.
       # @param options [Hash]
       def initialize(options = {})
@@ -50,11 +42,11 @@ module OData
       end
 
       def required_options
-        REQUIRED_OPTIONS
+        [:operation, :argument]
       end
 
       def supported_operations
-        SUPPORTED_OPERATIONS
+        [:filter, :order_by, :skip, :top, :select, :expand, :inline_count]
       end
 
       def validate_required_options

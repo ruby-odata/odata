@@ -14,6 +14,8 @@ module OData
 
     def <<(criteria)
       criteria_set[criteria.operation] << criteria.argument
+      prune_criteria
+      self
     end
 
     def to_s
@@ -35,6 +37,12 @@ module OData
         [operation, []]
       end
       @criteria_set = Hash[criteria_set]
+    end
+
+    def prune_criteria
+      criteria_set[:skip] = [criteria_set[:skip].last].compact
+      criteria_set[:top] = [criteria_set[:top].last].compact
+      criteria_set[:inline_count] = [criteria_set[:inline_count].last].compact
     end
 
     def assemble_criteria
