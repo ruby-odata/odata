@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-describe OData::EntitySet do
+describe OData::EntitySet, vcr: {cassette_name: 'entity_set_specs'} do
+  before(:example) do
+    OData::Service.open('http://services.odata.org/OData/OData.svc')
+  end
+
   let(:subject) { OData::EntitySet.new(options) }
   let(:options) { {
       container: 'DemoService', namespace: 'ODataDemo', name: 'Products',
       type: 'Product'
   } }
-
-  before(:example) do
-    OData::Service.open('http://services.odata.org/OData/OData.svc')
-  end
 
   it { expect(subject).to respond_to(:name) }
   it { expect(subject).to respond_to(:type) }
@@ -103,28 +103,21 @@ describe OData::EntitySet do
         Price:            3.5
     } }
 
-    it 'with an existing entity' do
-      WebMock.stub_request(:post, 'http://services.odata.org/OData/OData.svc/Products(0)').
-          to_return(status: 200, body: File.open('spec/fixtures/sample_service/product_0.xml'))
-
-      expect {subject << existing_entity}.to_not raise_error
+    describe 'with an existing entity', vcr: {cassette_name: 'entity_set_specs/existing_entry'} do
+      it { expect {subject << existing_entity}.to_not raise_error }
     end
 
-    it 'with a new entity' do
-      WebMock.stub_request(:post, 'http://services.odata.org/OData/OData.svc/Products').
-          to_return(status: 201, body: File.open('spec/fixtures/sample_service/product_9999.xml'))
-
-      expect(new_entity['ID']).to be_nil
-      expect {subject << new_entity}.to_not raise_error
-      expect(new_entity['ID']).to_not be_nil
-      expect(new_entity['ID']).to eq(9999)
+    describe 'with a new entity', vcr: {cassette_name: 'entity_set_specs/new_entry'} do
+      it do
+        expect(new_entity['ID']).to be_nil
+        expect {subject << new_entity}.to_not raise_error
+        expect(new_entity['ID']).to_not be_nil
+        expect(new_entity['ID']).to eq(9999)
+      end
     end
 
-    it 'with a bad entity' do
-      WebMock.stub_request(:post, 'http://services.odata.org/OData/OData.svc/Products').
-          to_return(status: 400, body: nil)
-
-      expect {subject << bad_entity}.to raise_error(StandardError, 'Something went wrong committing your entity')
+    describe 'with a bad entity', vcr: {cassette_name: 'entity_set_specs/bad_entry'} do
+      it { expect {subject << bad_entity}.to raise_error(StandardError, 'Something went wrong committing your entity') }
     end
   end
 end

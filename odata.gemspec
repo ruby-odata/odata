@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov', '~> 0.8.2'
   spec.add_development_dependency 'codeclimate-test-reporter'
   spec.add_development_dependency 'rspec', '~> 3.0.0'
-  spec.add_development_dependency 'webmock', '~> 1.18.0'
+  spec.add_development_dependency 'vcr', '~> 2.9.2'
   spec.add_development_dependency 'timecop', '~> 0.7.1'
 
   spec.add_dependency 'backports', '~> 3.6.0'

@@ -1,17 +1,11 @@
 require 'spec_helper'
 
-describe OData::Service do
+describe OData::Service, vcr: {cassette_name: 'service_specs'} do
   let(:subject) { OData::Service.open('http://services.odata.org/OData/OData.svc') }
   let(:entity_types) { %w{Product FeaturedProduct ProductDetail Category Supplier Person Customer Employee PersonDetail Advertisement} }
   let(:entity_sets) { %w{Products ProductDetails Categories Suppliers Persons PersonDetails Advertisements} }
   let(:entity_set_types) { %w{Product ProductDetail Category Supplier Person PersonDetail Advertisement} }
   let(:complex_types) { %w{Address} }
-
-  # We're calling this as a private method because there should not be any
-  # reasons to have to flush the service registry except in testing.
-  after :each do
-    OData::ServiceRegistry.instance.send(:flush)
-  end
 
   describe '.open' do
     it { expect(OData::Service).to respond_to(:open) }

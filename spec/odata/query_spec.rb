@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe OData::Query do
+describe OData::Query, vcr: {cassette_name: 'query_specs'} do
   let(:subject) { OData::Query.new(entity_set) }
   let(:entity_set) { OData::EntitySet.new(options) }
   let(:options) { {

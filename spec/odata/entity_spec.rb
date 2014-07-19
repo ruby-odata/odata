@@ -1,6 +1,10 @@
 require 'spec_helper'
 
-describe OData::Entity do
+describe OData::Entity, vcr: {cassette_name: 'entity_specs'} do
+  before(:example) do
+    OData::Service.open('http://services.odata.org/OData/OData.svc')
+  end
+
   let(:subject) { OData::Entity.new(options) }
   let(:options) { {
       type:       'ODataDemo.Product',
@@ -20,10 +24,6 @@ describe OData::Entity do
       document.remove_namespaces!
       document.xpath('//entry').first
     }
-
-    before(:example) do
-      OData::Service.open('http://services.odata.org/OData/OData.svc')
-    end
 
     it { expect(OData::Entity).to respond_to(:from_xml) }
     it { expect(subject).to be_a(OData::Entity) }

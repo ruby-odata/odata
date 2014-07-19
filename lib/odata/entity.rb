@@ -35,7 +35,7 @@ module OData
         end
 
         new_properties.each do |property_name, property_value|
-          self[property_name] = property_value
+          self[property_name.to_s] = property_value
         end
       end
       entity

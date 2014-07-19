@@ -105,7 +105,7 @@ module OData
           method: :post,
           body:   entity.to_xml.gsub(/\n\s+/, ''),
           headers: {
-              Accept: 'application/atom+xml',
+              'Accept'       => 'application/atom+xml',
               'Content-Type' => 'application/atom+xml'
           }
       }
