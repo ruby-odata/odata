@@ -103,7 +103,9 @@ module OData
 
     private
 
-    def get_property_class(klass_name)
+    def get_property_class(property_name)
+      value_type = service.get_property_type(name, property_name)
+      klass_name = value_type.gsub(/^Edm\./, '')
       ::OData::Properties.const_get(klass_name)
     end
 
@@ -123,15 +125,13 @@ module OData
       entity.instance_eval do
         xml_doc.xpath('//content/properties/*').each do |property_xml|
           property_name = property_xml.name
-          value_type = service.get_property_type(name, property_name)
           if property_xml.attributes['null'] &&
               property_xml.attributes['null'].value == 'true'
             value = nil
           else
             value = property_xml.content
           end
-          klass_name = value_type.gsub(/^Edm\./, '')
-          property = get_property_class(klass_name).new(property_name, value)
+          property = get_property_class(property_name).new(property_name, value)
           set_property(property_name, property)
         end
       end
@@ -141,9 +141,7 @@ module OData
       entity.instance_eval do
         property_value = xml_doc.xpath("//#{property_name}").first.content
         property_name = service.send("get_#{property_name}_property_name", name)
-        value_type = service.get_property_type(name, property_name)
-        klass_name = value_type.gsub(/^Edm\./, '')
-        property = get_property_class(klass_name).new(property_name, property_value)
+        property = get_property_class(property_name).new(property_name, property_value)
         set_property(property_name, property)
       end
     end
