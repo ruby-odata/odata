@@ -69,9 +69,9 @@ module OData
           filter:       [],
           select:       [],
           expand:       [],
-          order_by:     [],
-          skip:         nil,
-          top:          nil,
+          orderby:      [],
+          skip:         0,
+          top:          0,
           inline_count: false
       }
     end
@@ -79,12 +79,12 @@ module OData
     def assemble_criteria
       criteria = [
         filter_criteria,
-        order_by_criteria,
-        expand_criteria,
-        select_criteria,
+        list_criteria(:orderby),
+        list_criteria(:expand),
+        list_criteria(:select),
         inline_count_criteria,
-        skip_criteria,
-        top_criteria
+        paging_criteria(:skip),
+        paging_criteria(:top)
       ].compact!
 
       criteria.empty? ? nil : criteria.join('&')
@@ -94,28 +94,16 @@ module OData
       criteria_set[:filter].empty? ? nil : "$filter=#{criteria_set[:filter].join(' and ')}"
     end
 
-    def order_by_criteria
-      criteria_set[:order_by].empty? ? nil : "$orderby=#{criteria_set[:order_by].join(',')}"
-    end
-
-    def expand_criteria
-      criteria_set[:expand].empty? ? nil : "$expand=#{criteria_set[:expand].join(',')}"
-    end
-
-    def select_criteria
-      criteria_set[:select].empty? ? nil : "$select=#{criteria_set[:select].join(',')}"
+    def list_criteria(name)
+      criteria_set[name].empty? ? nil : "$#{name}=#{criteria_set[:name].join(',')}"
     end
 
     def inline_count_criteria
       criteria_set[:inline_count] ? '$inlinecount=allpages' : nil
     end
 
-    def skip_criteria
-      (criteria_set[:skip].nil? || criteria_set[:skip] == 0) ? nil : "$skip=#{criteria_set[:skip]}"
-    end
-
-    def top_criteria
-      (criteria_set[:top].nil? || criteria_set[:top] == 0) ? nil : "$top=#{criteria_set[:top]}"
+    def paging_criteria(name)
+      criteria_set[name] == 0 ? nil : "$#{name}=#{criteria_set[name]}"
     end
   end
 end
