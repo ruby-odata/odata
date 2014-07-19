@@ -26,7 +26,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'vcr', '~> 2.9.2'
   spec.add_development_dependency 'timecop', '~> 0.7.1'
 
-  spec.add_dependency 'backports', '~> 3.6.0'
   spec.add_dependency 'nokogiri', '~> 1.6.2'
   spec.add_dependency 'typhoeus', '~> 0.6.8'
 end

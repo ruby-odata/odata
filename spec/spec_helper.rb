@@ -10,6 +10,7 @@ end
 
 require 'odata'
 
+require 'securerandom'
 require 'timecop'
 require 'vcr'
 
