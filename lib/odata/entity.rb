@@ -2,15 +2,22 @@ module OData
   class Entity
     attr_reader :type, :namespace
 
+    # Initializes a bare Entity
+    # @param options [Hash]
     def initialize(options = {})
       @type = options[:type]
       @namespace = options[:namespace]
     end
 
+    # Returns name of Entity from Service specified type.
+    # @return [String]
     def name
       @name ||= type.gsub(/#{namespace}\./, '')
     end
 
+    # Get property value
+    # @param property_name [to_s]
+    # @return [*]
     def [](property_name)
       begin
        properties[property_name.to_s].value
@@ -19,6 +26,9 @@ module OData
       end
     end
 
+    # Set property value
+    # @param property_name [to_s]
+    # @param value [*]
     def []=(property_name, value)
       begin
         properties[property_name.to_s].value = value
@@ -27,6 +37,10 @@ module OData
       end
     end
 
+    # Create Entity with provided properties and options.
+    # @param new_properties [Hash]
+    # @param options [Hash]
+    # @param [OData::Entity]
     def self.with_properties(new_properties = {}, options = {})
       entity = OData::Entity.new(options)
       entity.instance_eval do
@@ -41,6 +55,10 @@ module OData
       entity
     end
 
+    # Create Entity from XML document with provided options.
+    # @param xml_doc [Nokogiri::XML]
+    # @param options [Hash]
+    # @return [OData::Entity]
     def self.from_xml(xml_doc, options = {})
       return nil if xml_doc.nil?
       entity = OData::Entity.new(options)
@@ -50,6 +68,8 @@ module OData
       entity
     end
 
+    # Converts Entity to its XML representation.
+    # @return [String]
     def to_xml
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.entry('xmlns'           => 'http://www.w3.org/2005/Atom',
@@ -84,6 +104,8 @@ module OData
       builder.to_xml
     end
 
+    # Returns the primary key for the Entity.
+    # @return [String]
     def primary_key
       service.primary_key_for(name)
     end
