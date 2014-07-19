@@ -86,16 +86,7 @@ module OData
             xml['metadata'].properties do
               properties.each do |name, property|
                 next if name == primary_key
-                attributes = {
-                  'metadata:type' => property.type,
-                }
-
-                if property.value.nil?
-                  attributes['metadata:null'] = 'true'
-                  xml['data'].send(name.to_sym, attributes)
-                else
-                  xml['data'].send(name.to_sym, attributes, property.xml_value)
-                end
+                property.to_xml(xml)
               end
             end
           end

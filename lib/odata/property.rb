@@ -45,6 +45,19 @@ module OData
       @value
     end
 
+    def to_xml(xml_builder)
+      attributes = {
+          'metadata:type' => type,
+      }
+
+      if value.nil?
+        attributes['metadata:null'] = 'true'
+        xml_builder['data'].send(name.to_sym, attributes)
+      else
+        xml_builder['data'].send(name.to_sym, attributes, xml_value)
+      end
+    end
+
     private
 
     def default_options
