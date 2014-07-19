@@ -44,40 +44,9 @@ module OData
     def self.from_xml(xml_doc, options = {})
       return nil if xml_doc.nil?
       entity = OData::Entity.new(options)
-      entity.instance_eval do
-        xml_doc.xpath('//content/properties/*').each do |property_xml|
-          property_name = property_xml.name
-          if property_xml.attributes['null'] &&
-              property_xml.attributes['null'].value == 'true'
-            value = nil
-            value_type = service.get_property_type(name, property_name)
-          else
-            value_type = property_xml.attributes['type'].value
-            value = property_xml.content
-          end
-          klass_name = value_type.gsub(/^Edm\./, '')
-          property = get_property_class(klass_name).new(property_name, value)
-          set_property(property_name, property)
-        end
-
-        begin
-          title_value = xml_doc.xpath('//title').first.content
-          property_name = service.get_title_property_name(name)
-          value_type = service.get_property_type(name, property_name)
-          klass_name = value_type.gsub(/^Edm\./, '')
-          property = get_property_class(klass_name).new(property_name, title_value)
-          set_property(property_name, property)
-        end
-
-        begin
-          summary_value = xml_doc.xpath('//summary').first.content
-          property_name = service.get_summary_property_name(name)
-          value_type = service.get_property_type(name, property_name)
-          klass_name = value_type.gsub(/^Edm\./, '')
-          property = get_property_class(klass_name).new(property_name, summary_value)
-          set_property(property_name, property)
-        end
-      end
+      process_properties(entity, xml_doc)
+      process_title_property(entity, xml_doc)
+      process_summary_property(entity, xml_doc)
       entity
     end
 
@@ -135,6 +104,51 @@ module OData
 
     def set_property(name, odata_property)
       properties[name.to_s] = odata_property.dup
+    end
+
+    def self.process_properties(entity, xml_doc)
+      entity.instance_eval do
+        xml_doc.xpath('//content/properties/*').each do |property_xml|
+          property_name = property_xml.name
+          if property_xml.attributes['null'] &&
+              property_xml.attributes['null'].value == 'true'
+            value = nil
+            value_type = service.get_property_type(name, property_name)
+          else
+            value_type = property_xml.attributes['type'].value
+            value = property_xml.content
+          end
+          klass_name = value_type.gsub(/^Edm\./, '')
+          property = get_property_class(klass_name).new(property_name, value)
+          set_property(property_name, property)
+        end
+      end
+    end
+
+    def self.process_summary_property(entity, xml_doc)
+      entity.instance_eval do
+        begin
+          summary_value = xml_doc.xpath('//summary').first.content
+          property_name = service.get_summary_property_name(name)
+          value_type = service.get_property_type(name, property_name)
+          klass_name = value_type.gsub(/^Edm\./, '')
+          property = get_property_class(klass_name).new(property_name, summary_value)
+          set_property(property_name, property)
+        end
+      end
+    end
+
+    def self.process_title_property(entity, xml_doc)
+      entity.instance_eval do
+        begin
+          title_value = xml_doc.xpath('//title').first.content
+          property_name = service.get_title_property_name(name)
+          value_type = service.get_property_type(name, property_name)
+          klass_name = value_type.gsub(/^Edm\./, '')
+          property = get_property_class(klass_name).new(property_name, title_value)
+          set_property(property_name, property)
+        end
+      end
     end
   end
 end
