@@ -110,12 +110,11 @@ module OData
       entity.instance_eval do
         xml_doc.xpath('//content/properties/*').each do |property_xml|
           property_name = property_xml.name
+          value_type = service.get_property_type(name, property_name)
           if property_xml.attributes['null'] &&
               property_xml.attributes['null'].value == 'true'
             value = nil
-            value_type = service.get_property_type(name, property_name)
           else
-            value_type = property_xml.attributes['type'].value
             value = property_xml.content
           end
           klass_name = value_type.gsub(/^Edm\./, '')
@@ -127,14 +126,12 @@ module OData
 
     def self.process_feed_property(entity, xml_doc, property_name)
       entity.instance_eval do
-        begin
-          summary_value = xml_doc.xpath("//#{property_name}").first.content
-          property_name = service.send("get_#{property_name}_property_name", name)
-          value_type = service.get_property_type(name, property_name)
-          klass_name = value_type.gsub(/^Edm\./, '')
-          property = get_property_class(klass_name).new(property_name, summary_value)
-          set_property(property_name, property)
-        end
+        property_value = xml_doc.xpath("//#{property_name}").first.content
+        property_name = service.send("get_#{property_name}_property_name", name)
+        value_type = service.get_property_type(name, property_name)
+        klass_name = value_type.gsub(/^Edm\./, '')
+        property = get_property_class(klass_name).new(property_name, property_value)
+        set_property(property_name, property)
       end
     end
   end
