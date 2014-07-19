@@ -1,5 +1,3 @@
-require 'odata/query/criteria'
-
 module OData
   class Query
     def initialize(entity_set)
