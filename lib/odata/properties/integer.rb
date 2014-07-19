@@ -28,12 +28,16 @@ module OData
 
       private
 
+      def exponent_size
+        63
+      end
+
       def min_value
-        @min ||= -(2**63)
+        @min ||= -(2**exponent_size)
       end
 
       def max_value
-        @max ||= (2**63)-1
+        @max ||= (2**exponent_size)-1
       end
     end
 
@@ -46,12 +50,8 @@ module OData
 
       private
 
-      def min_value
-        @min ||= -(2**15)
-      end
-
-      def max_value
-        @max ||= (2**15)-1
+      def exponent_size
+        15
       end
     end
 
@@ -64,12 +64,8 @@ module OData
 
       private
 
-      def min_value
-        @min ||= -(2**31)
-      end
-
-      def max_value
-        @max ||= (2**31)-1
+      def exponent_size
+        31
       end
     end
 
@@ -85,12 +81,12 @@ module OData
 
       private
 
-      def min_value
-        0
+      def exponent_size
+        8
       end
 
-      def max_value
-        @max ||= (2**8)-1
+      def min_value
+        0
       end
     end
 
@@ -103,12 +99,8 @@ module OData
 
       private
 
-      def min_value
-        @min ||= -(2**7)
-      end
-
-      def max_value
-        @max ||= (2**7)-1
+      def exponent_size
+        7
       end
     end
   end
