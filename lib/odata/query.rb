@@ -20,7 +20,8 @@ module OData
     # Adds a filter criteria to the query.
     # @param criteria
     def where(criteria)
-
+      criteria_set[:filter] << criteria
+      self
     end
 
     # Adds a filter criteria to the query with 'and' logical operator.
@@ -125,7 +126,9 @@ module OData
     end
 
     def filter_criteria
-      criteria_set[:filter].empty? ? nil : "$filter=#{criteria_set[:filter].join(' and ')}"
+      return nil if criteria_set[:filter].empty?
+      filters = criteria_set[:filter].collect {|criteria| criteria.to_s}
+      "$filter=#{filters.join(' and ')}"
     end
 
     def list_criteria(name)

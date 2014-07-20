@@ -23,7 +23,12 @@ describe OData::Query, vcr: {cassette_name: 'query_specs'} do
 
   it { expect(subject).to respond_to(:where) }
   describe '#where' do
+    let(:criteria) { subject[:Name].eq('Bread') }
+    let(:query_string) { "Products?$filter=Name eq 'Bread'" }
 
+    it { expect(subject.where(criteria)).to be_a(OData::Query) }
+    it { expect(subject.where(criteria)).to eq(subject) }
+    it { expect(subject.where(criteria).to_s).to eq(query_string) }
   end
 
   it { expect(subject).to respond_to(:and) }
