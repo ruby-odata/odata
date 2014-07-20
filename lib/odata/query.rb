@@ -26,15 +26,15 @@ module OData
 
     # Adds a filter criteria to the query with 'and' logical operator.
     # @param criteria
-    def and(criteria)
-
-    end
+    #def and(criteria)
+    #
+    #end
 
     # Adds a filter criteria to the query with 'or' logical operator.
     # @param criteria
-    def or(criteria)
-
-    end
+    #def or(criteria)
+    #
+    #end
 
     # Specify properties to order the result by.
     # @param properties [Array<Symbol>]
