@@ -89,6 +89,13 @@ module OData
       [entity_set.name, assemble_criteria].compact.join('?')
     end
 
+    # Execute the query.
+    # @return [OData::Query::Result]
+    def execute
+      response = entity_set.service.execute(self.to_s)
+      OData::Query::Result.new(self, response.body)
+    end
+
     private
 
     def entity_set

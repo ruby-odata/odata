@@ -82,8 +82,6 @@ module OData
       OData::Query.new(self)
     end
 
-
-
     # Find the Entity with the supplied key value.
     # @param key [to_s] primary key to lookup
     # @return [OData::Entity,nil]
@@ -123,11 +121,13 @@ module OData
       entity
     end
 
-    private
-
+    # The OData::Service this EntitySet is associated with.
+    # @return [OData::Service]
     def service
       @service ||= OData::ServiceRegistry[namespace]
     end
+
+    private
 
     def entity_options
       {

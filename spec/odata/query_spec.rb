@@ -94,4 +94,9 @@ describe OData::Query, vcr: {cassette_name: 'query_specs'} do
       expect(subject.to_s).to eq('Products?$orderby=Name,Price')
     end
   end
+
+  it { expect(subject).to respond_to(:execute) }
+  describe '#execute' do
+    it { expect(subject.execute).to be_a(OData::Query::Result) }
+  end
 end
