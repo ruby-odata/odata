@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.4.0
+
+* Added OData::Query#execute to run query and return a result.
+* Added OData::Query::Result to handle enumeration of query results.
+
 ## 0.3.2
 
 * Refactored internals of the query interface.

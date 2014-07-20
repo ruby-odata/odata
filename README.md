@@ -97,6 +97,29 @@ ready to save back to the service or `OData::EntitySet`, which you do like so:
     svc['Products'] << product # Write back to the service
     products << product        # Write back to the Entity Set
 
+### Queries
+
+`OData::Query` instances form the base for finding specific entities within an
+`OData::EntitySet`. A query object exposes a number of capabilities based on
+the [System Query Options](http://www.odata.org/documentation/odata-version-3-0/odata-version-3-0-core-protocol#queryingcollections)
+provided for in the OData specification. Below is just a partial example of
+what is possible:
+
+    query = svc['Products'].query
+    query.where(query[:Price].lt(15))
+    query.where(query[:Rating].gt(3))
+    query.limit(3)
+    results = query.execute
+    results.each {|product| puts product['Name']}
+
+The process of querying is kept purposely verbose to allow for lazy behavior to
+be implemented at higher layers. Internally, `OData::Query` relies on the
+`OData::Query::Criteria` for the way the `where` method works. You should refer
+to the published RubyDocs for full details on the various capabilities:
+
+ * [OData::Query](http://rubydoc.info/github/ruby-odata/odata/master/OData/Query)
+ * [OData::Query::Criteria](http://rubydoc.info/github/ruby-odata/odata/master/OData/Query/Criteria)
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/odata/fork )
