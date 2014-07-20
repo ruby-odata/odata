@@ -95,28 +95,11 @@ module OData
     # @param entity [OData::Entity] entity to save or update in the service
     # @return [OData::Entity]
     def <<(entity)
-      new_entity = entity[entity.primary_key].nil?
-
-      url_chunk = name
-      url_chunk += "(#{entity[entity.primary_key]})" unless new_entity
-
-      options = {
-          method: :post,
-          body:   entity.to_xml.gsub(/\n\s+/, ''),
-          headers: {
-              'Accept'       => 'application/atom+xml',
-              'Content-Type' => 'application/atom+xml'
-          }
-      }
-
-      result = service.execute(url_chunk, options)
-      if result.code.to_s =~ /^2[0-9][0-9]$/
-        if new_entity
-          doc = ::Nokogiri::XML(result.body).remove_namespaces!
-          entity[entity.primary_key] = doc.xpath("//content/properties/#{entity.primary_key}").first.content
-        end
-      else
-        raise StandardError, 'Something went wrong committing your entity'
+      url_chunk, options = setup_entity_post_request(entity)
+      result = execute_entity_post_request(options, url_chunk)
+      if entity.is_new?
+        doc = ::Nokogiri::XML(result).remove_namespaces!
+        entity[entity.primary_key] = doc.xpath("//content/properties/#{entity.primary_key}").first.content
       end
       entity
     end
@@ -147,6 +130,27 @@ module OData
       entities = service.find_entities(result)
       total = service.find_node(result, 'count').content.to_i
       return total, entities
+    end
+
+    def execute_entity_post_request(options, url_chunk)
+      result = service.execute(url_chunk, options)
+      unless result.code.to_s =~ /^2[0-9][0-9]$/
+        raise StandardError, 'Something went wrong committing your entity'
+      end
+      result.body
+    end
+
+    def setup_entity_post_request(entity)
+      chunk = entity.is_new? ? name : "#{name}(#{entity[entity.primary_key]})"
+      options = {
+          method: :post,
+          body: entity.to_xml.gsub(/\n\s+/, ''),
+          headers: {
+              'Accept' => 'application/atom+xml',
+              'Content-Type' => 'application/atom+xml'
+          }
+      }
+      return chunk, options
     end
   end
 end

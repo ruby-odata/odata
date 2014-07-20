@@ -109,6 +109,10 @@ module OData
       service.primary_key_for(name)
     end
 
+    def is_new?
+      self[primary_key].nil?
+    end
+
     private
 
     def get_property_class(property_name)
