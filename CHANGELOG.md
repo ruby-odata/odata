@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3.2
+
+* Refactored internals of the query interface.
+
 ## 0.3.1
 
 * Resolved issues causing failure on Ruby 1.9 and JRuby.
