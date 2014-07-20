@@ -76,19 +76,13 @@ module OData
       OData::Entity.with_properties(properties, entity_options)
     end
 
-    # Find Entities with the supplied filter applied.
-    # @param filter [to_s] filter to apply
-    # @return [Array<OData::Entity>]
-    def filter(filter)
-      entities = []
-      result = service.execute("#{name}?$filter=#{filter}")
-
-      service.find_entities(result).each do |entity_xml|
-        entities << OData::Entity.from_xml(entity_xml, entity_options)
-      end
-
-      entities
+    # Returns a query targetted at the current EntitySet.
+    # @return [OData::Query]
+    def query
+      OData::Query.new(self)
     end
+
+
 
     # Find the Entity with the supplied key value.
     # @param key [to_s] primary key to lookup

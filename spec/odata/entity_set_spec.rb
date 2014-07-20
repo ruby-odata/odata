@@ -16,7 +16,6 @@ describe OData::EntitySet, vcr: {cassette_name: 'entity_set_specs'} do
   it { expect(subject).to respond_to(:container) }
   it { expect(subject).to respond_to(:namespace) }
   it { expect(subject).to respond_to(:new_entity) }
-  it { expect(subject).to respond_to(:filter) }
   it { expect(subject).to respond_to(:[]) }
   it { expect(subject).to respond_to(:<<) }
 
@@ -39,9 +38,14 @@ describe OData::EntitySet, vcr: {cassette_name: 'entity_set_specs'} do
     }.call.shuffle.first).to be_a(OData::Entity) }
   end
 
+  it { expect(subject).to respond_to(:count) }
   describe '#count' do
-    it { expect(subject).to respond_to(:count) }
     it { expect(subject.count).to eq(11) }
+  end
+
+  it { expect(subject).to respond_to(:query) }
+  describe '#query' do
+    it { expect(subject.query).to be_a(OData::Query) }
   end
 
   describe '#new_entity' do
@@ -63,21 +67,6 @@ describe OData::EntitySet, vcr: {cassette_name: 'entity_set_specs'} do
     it { expect(new_entity['DiscontinuedDate']).to be_nil }
     it { expect(new_entity['Rating']).to eq(4) }
     it { expect(new_entity['Price']).to eq(3.5) }
-  end
-
-  describe '#filter' do
-    let(:one_entity) { "Name eq 'Bread'" }
-    let(:many_entities) { 'Rating eq 3' }
-
-    it { expect(subject.filter(one_entity)).to be_a(Array) }
-    it { expect(subject.filter(one_entity).first).to be_a(OData::Entity) }
-
-    it { expect(subject.filter(many_entities)).to be_a(Array) }
-    it do
-      subject.filter(one_entity).each do |entity|
-        expect(entity).to be_a(OData::Entity)
-      end
-    end
   end
 
   describe '#[]' do
