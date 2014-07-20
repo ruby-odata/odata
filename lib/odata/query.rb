@@ -93,14 +93,17 @@ module OData
     # @return [OData::Query::Result]
     def execute
       response = entity_set.service.execute(self.to_s)
-      OData::Query::Result.new(self, response.body)
+      OData::Query::Result.new(self, response)
     end
 
-    private
-
+    # The EntitySet for this query.
+    # @return [OData::EntitySet]
+    # @api private
     def entity_set
       @entity_set
     end
+
+    private
 
     def criteria_set
       @criteria_set

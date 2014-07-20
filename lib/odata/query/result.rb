@@ -5,19 +5,34 @@ module OData
     class Result
       include Enumerable
 
-      # Initialize a result with the query and the result in XML.
+      # Initialize a result with the query and the result.
       # @param query [OData::Query]
-      # @param xml_result [Nokogiri::XML]
-      def initialize(query, xml_result)
+      # @param result [Typhoeus::Result]
+      def initialize(query, result)
         @query      = query
-        @xml_result = xml_result
+        @result     = result
       end
 
       # Provided for Enumerable functionality
       # @param block [block] a block to evaluate
       # @return [OData::Entity] each entity in turn for the query result
       def each(&block)
+        service.find_entities(result).each do |entity_xml|
+          entity = OData::Entity.from_xml(entity_xml, entity_options)
+          block_given? ? block.call(entity) : yield(entity)
+        end
+      end
 
+      private
+
+      attr_reader :query, :result
+
+      def service
+        query.entity_set.service
+      end
+
+      def entity_options
+        query.entity_set.entity_options
       end
     end
   end

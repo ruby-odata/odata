@@ -123,18 +123,22 @@ module OData
 
     # The OData::Service this EntitySet is associated with.
     # @return [OData::Service]
+    # @api private
     def service
       @service ||= OData::ServiceRegistry[namespace]
     end
 
-    private
-
+    # Options used for instantiating a new OData::Entity for this set.
+    # @return [Hash]
+    # @api private
     def entity_options
       {
           namespace:  namespace,
           type:       type
       }
     end
+
+    private
 
     def get_paginated_entities(per_page, page)
       query = OData::Query.new(self)

@@ -1,0 +1,425 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://services.odata.org/OData/OData.svc/$metadata
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '10034'
+      Content-Type:
+      - application/xml;charset=utf-8
+      Server:
+      - Microsoft-IIS/8.0
+      X-Content-Type-Options:
+      - nosniff
+      DataServiceVersion:
+      - 3.0;
+      X-AspNet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Allow-Headers:
+      - Accept, Origin, Content-Type, MaxDataServiceVersion
+      Access-Control-Expose-Headers:
+      - DataServiceVersion
+      Set-Cookie:
+      - ARRAffinity=a9aad020fb0149d28d0efdb1e8bab24ad3481a904c8fb94abced8813c01ee265;Path=/;Domain=services.odata.org
+      Date:
+      - Sun, 20 Jul 2014 21:16:25 GMT
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="utf-8"?><edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"><edmx:DataServices
+        m:DataServiceVersion="3.0" m:MaxDataServiceVersion="3.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><Schema
+        Namespace="ODataDemo" xmlns="http://schemas.microsoft.com/ado/2009/11/edm"><EntityType
+        Name="Product"><Key><PropertyRef Name="ID" /></Key><Property Name="ID" Type="Edm.Int32"
+        Nullable="false" /><Property Name="Name" Type="Edm.String" m:FC_TargetPath="SyndicationTitle"
+        m:FC_ContentKind="text" m:FC_KeepInContent="false" /><Property Name="Description"
+        Type="Edm.String" m:FC_TargetPath="SyndicationSummary" m:FC_ContentKind="text"
+        m:FC_KeepInContent="false" /><Property Name="ReleaseDate" Type="Edm.DateTime"
+        Nullable="false" /><Property Name="DiscontinuedDate" Type="Edm.DateTime" /><Property
+        Name="Rating" Type="Edm.Int16" Nullable="false" /><Property Name="Price" Type="Edm.Double"
+        Nullable="false" /><NavigationProperty Name="Categories" Relationship="ODataDemo.Product_Categories_Category_Products"
+        ToRole="Category_Products" FromRole="Product_Categories" /><NavigationProperty
+        Name="Supplier" Relationship="ODataDemo.Product_Supplier_Supplier_Products"
+        ToRole="Supplier_Products" FromRole="Product_Supplier" /><NavigationProperty
+        Name="ProductDetail" Relationship="ODataDemo.Product_ProductDetail_ProductDetail_Product"
+        ToRole="ProductDetail_Product" FromRole="Product_ProductDetail" /></EntityType><EntityType
+        Name="FeaturedProduct" BaseType="ODataDemo.Product"><NavigationProperty Name="Advertisement"
+        Relationship="ODataDemo.FeaturedProduct_Advertisement_Advertisement_FeaturedProduct"
+        ToRole="Advertisement_FeaturedProduct" FromRole="FeaturedProduct_Advertisement"
+        /></EntityType><EntityType Name="ProductDetail"><Key><PropertyRef Name="ProductID"
+        /></Key><Property Name="ProductID" Type="Edm.Int32" Nullable="false" /><Property
+        Name="Details" Type="Edm.String" /><NavigationProperty Name="Product" Relationship="ODataDemo.Product_ProductDetail_ProductDetail_Product"
+        ToRole="Product_ProductDetail" FromRole="ProductDetail_Product" /></EntityType><EntityType
+        Name="Category" OpenType="true"><Key><PropertyRef Name="ID" /></Key><Property
+        Name="ID" Type="Edm.Int32" Nullable="false" /><Property Name="Name" Type="Edm.String"
+        m:FC_TargetPath="SyndicationTitle" m:FC_ContentKind="text" m:FC_KeepInContent="true"
+        /><NavigationProperty Name="Products" Relationship="ODataDemo.Product_Categories_Category_Products"
+        ToRole="Product_Categories" FromRole="Category_Products" /></EntityType><EntityType
+        Name="Supplier"><Key><PropertyRef Name="ID" /></Key><Property Name="ID" Type="Edm.Int32"
+        Nullable="false" /><Property Name="Name" Type="Edm.String" m:FC_TargetPath="SyndicationTitle"
+        m:FC_ContentKind="text" m:FC_KeepInContent="true" /><Property Name="Address"
+        Type="ODataDemo.Address" /><Property Name="Location" Type="Edm.GeographyPoint"
+        SRID="Variable" /><Property Name="Concurrency" Type="Edm.Int32" ConcurrencyMode="Fixed"
+        Nullable="false" /><NavigationProperty Name="Products" Relationship="ODataDemo.Product_Supplier_Supplier_Products"
+        ToRole="Product_Supplier" FromRole="Supplier_Products" /></EntityType><ComplexType
+        Name="Address"><Property Name="Street" Type="Edm.String" /><Property Name="City"
+        Type="Edm.String" /><Property Name="State" Type="Edm.String" /><Property Name="ZipCode"
+        Type="Edm.String" /><Property Name="Country" Type="Edm.String" /></ComplexType><EntityType
+        Name="Person"><Key><PropertyRef Name="ID" /></Key><Property Name="ID" Type="Edm.Int32"
+        Nullable="false" /><Property Name="Name" Type="Edm.String" /><NavigationProperty
+        Name="PersonDetail" Relationship="ODataDemo.Person_PersonDetail_PersonDetail_Person"
+        ToRole="PersonDetail_Person" FromRole="Person_PersonDetail" /></EntityType><EntityType
+        Name="Customer" BaseType="ODataDemo.Person"><Property Name="TotalExpense"
+        Type="Edm.Decimal" Nullable="false" /></EntityType><EntityType Name="Employee"
+        BaseType="ODataDemo.Person"><Property Name="EmployeeID" Type="Edm.Int64" Nullable="false"
+        /><Property Name="HireDate" Type="Edm.DateTime" Nullable="false" /><Property
+        Name="Salary" Type="Edm.Single" Nullable="false" /></EntityType><EntityType
+        Name="PersonDetail"><Key><PropertyRef Name="PersonID" /></Key><Property Name="PersonID"
+        Type="Edm.Int32" Nullable="false" /><Property Name="Age" Type="Edm.Byte" Nullable="false"
+        /><Property Name="Gender" Type="Edm.Boolean" Nullable="false" /><Property
+        Name="Phone" Type="Edm.String" /><Property Name="Address" Type="ODataDemo.Address"
+        /><Property Name="Photo" Type="Edm.Stream" Nullable="false" /><NavigationProperty
+        Name="Person" Relationship="ODataDemo.Person_PersonDetail_PersonDetail_Person"
+        ToRole="Person_PersonDetail" FromRole="PersonDetail_Person" /></EntityType><EntityType
+        Name="Advertisement" m:HasStream="true"><Key><PropertyRef Name="ID" /></Key><Property
+        Name="ID" Type="Edm.Guid" Nullable="false" /><Property Name="Name" Type="Edm.String"
+        /><Property Name="AirDate" Type="Edm.DateTime" Nullable="false" /><NavigationProperty
+        Name="FeaturedProduct" Relationship="ODataDemo.FeaturedProduct_Advertisement_Advertisement_FeaturedProduct"
+        ToRole="FeaturedProduct_Advertisement" FromRole="Advertisement_FeaturedProduct"
+        /></EntityType><Association Name="Product_Categories_Category_Products"><End
+        Type="ODataDemo.Category" Role="Category_Products" Multiplicity="*" /><End
+        Type="ODataDemo.Product" Role="Product_Categories" Multiplicity="*" /></Association><Association
+        Name="Product_Supplier_Supplier_Products"><End Type="ODataDemo.Supplier" Role="Supplier_Products"
+        Multiplicity="0..1" /><End Type="ODataDemo.Product" Role="Product_Supplier"
+        Multiplicity="*" /></Association><Association Name="Product_ProductDetail_ProductDetail_Product"><End
+        Type="ODataDemo.ProductDetail" Role="ProductDetail_Product" Multiplicity="0..1"
+        /><End Type="ODataDemo.Product" Role="Product_ProductDetail" Multiplicity="0..1"
+        /></Association><Association Name="FeaturedProduct_Advertisement_Advertisement_FeaturedProduct"><End
+        Type="ODataDemo.Advertisement" Role="Advertisement_FeaturedProduct" Multiplicity="0..1"
+        /><End Type="ODataDemo.FeaturedProduct" Role="FeaturedProduct_Advertisement"
+        Multiplicity="0..1" /></Association><Association Name="Person_PersonDetail_PersonDetail_Person"><End
+        Type="ODataDemo.PersonDetail" Role="PersonDetail_Person" Multiplicity="0..1"
+        /><End Type="ODataDemo.Person" Role="Person_PersonDetail" Multiplicity="0..1"
+        /></Association><EntityContainer Name="DemoService" m:IsDefaultEntityContainer="true"><EntitySet
+        Name="Products" EntityType="ODataDemo.Product" /><EntitySet Name="ProductDetails"
+        EntityType="ODataDemo.ProductDetail" /><EntitySet Name="Categories" EntityType="ODataDemo.Category"
+        /><EntitySet Name="Suppliers" EntityType="ODataDemo.Supplier" /><EntitySet
+        Name="Persons" EntityType="ODataDemo.Person" /><EntitySet Name="PersonDetails"
+        EntityType="ODataDemo.PersonDetail" /><EntitySet Name="Advertisements" EntityType="ODataDemo.Advertisement"
+        /><FunctionImport Name="GetProductsByRating" ReturnType="Collection(ODataDemo.Product)"
+        EntitySet="Products" m:HttpMethod="GET"><Parameter Name="rating" Type="Edm.Int16"
+        Nullable="false" /></FunctionImport><AssociationSet Name="Products_Advertisement_Advertisements"
+        Association="ODataDemo.FeaturedProduct_Advertisement_Advertisement_FeaturedProduct"><End
+        Role="FeaturedProduct_Advertisement" EntitySet="Products" /><End Role="Advertisement_FeaturedProduct"
+        EntitySet="Advertisements" /></AssociationSet><AssociationSet Name="Products_Categories_Categories"
+        Association="ODataDemo.Product_Categories_Category_Products"><End Role="Product_Categories"
+        EntitySet="Products" /><End Role="Category_Products" EntitySet="Categories"
+        /></AssociationSet><AssociationSet Name="Products_Supplier_Suppliers" Association="ODataDemo.Product_Supplier_Supplier_Products"><End
+        Role="Product_Supplier" EntitySet="Products" /><End Role="Supplier_Products"
+        EntitySet="Suppliers" /></AssociationSet><AssociationSet Name="Products_ProductDetail_ProductDetails"
+        Association="ODataDemo.Product_ProductDetail_ProductDetail_Product"><End Role="Product_ProductDetail"
+        EntitySet="Products" /><End Role="ProductDetail_Product" EntitySet="ProductDetails"
+        /></AssociationSet><AssociationSet Name="Persons_PersonDetail_PersonDetails"
+        Association="ODataDemo.Person_PersonDetail_PersonDetail_Person"><End Role="Person_PersonDetail"
+        EntitySet="Persons" /><End Role="PersonDetail_Person" EntitySet="PersonDetails"
+        /></AssociationSet></EntityContainer><Annotations Target="ODataDemo.DemoService"><ValueAnnotation
+        Term="Org.OData.Display.V1.Description" String="This is a sample OData service
+        with vocabularies" /></Annotations><Annotations Target="ODataDemo.Product"><ValueAnnotation
+        Term="Org.OData.Display.V1.Description" String="All Products available in
+        the online store" /></Annotations><Annotations Target="ODataDemo.Product/Name"><ValueAnnotation
+        Term="Org.OData.Display.V1.DisplayName" String="Product Name" /></Annotations><Annotations
+        Target="ODataDemo.DemoService/Suppliers"><ValueAnnotation Term="Org.OData.Publication.V1.PublisherName"
+        String="Microsoft Corp." /><ValueAnnotation Term="Org.OData.Publication.V1.PublisherId"
+        String="MSFT" /><ValueAnnotation Term="Org.OData.Publication.V1.Keywords"
+        String="Inventory, Supplier, Advertisers, Sales, Finance" /><ValueAnnotation
+        Term="Org.OData.Publication.V1.AttributionUrl" String="http://www.odata.org/"
+        /><ValueAnnotation Term="Org.OData.Publication.V1.AttributionDescription"
+        String="All rights reserved" /><ValueAnnotation Term="Org.OData.Publication.V1.DocumentationUrl
+        " String="http://www.odata.org/" /><ValueAnnotation Term="Org.OData.Publication.V1.TermsOfUseUrl"
+        String="All rights reserved" /><ValueAnnotation Term="Org.OData.Publication.V1.PrivacyPolicyUrl"
+        String="http://www.odata.org/" /><ValueAnnotation Term="Org.OData.Publication.V1.LastModified"
+        String="4/2/2013" /><ValueAnnotation Term="Org.OData.Publication.V1.ImageUrl
+        " String="http://www.odata.org/" /></Annotations></Schema></edmx:DataServices></edmx:Edmx>
+    http_version: '1.1'
+    adapter_metadata:
+      effective_url: http://services.odata.org/OData/OData.svc/$metadata
+  recorded_at: Sun, 20 Jul 2014 21:16:26 GMT
+- request:
+    method: get
+    uri: http://services.odata.org/OData/OData.svc/Products
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '20955'
+      Content-Type:
+      - application/atom+xml;type=feed;charset=utf-8
+      Server:
+      - Microsoft-IIS/8.0
+      X-Content-Type-Options:
+      - nosniff
+      DataServiceVersion:
+      - 3.0;
+      X-AspNet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Allow-Headers:
+      - Accept, Origin, Content-Type, MaxDataServiceVersion
+      Access-Control-Expose-Headers:
+      - DataServiceVersion
+      Set-Cookie:
+      - ARRAffinity=a9aad020fb0149d28d0efdb1e8bab24ad3481a904c8fb94abced8813c01ee265;Path=/;Domain=services.odata.org
+      Date:
+      - Sun, 20 Jul 2014 21:16:25 GMT
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="utf-8"?><feed xml:base="http://services.odata.org/OData/OData.svc/"
+        xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
+        xmlns:gml="http://www.opengis.net/gml"><id>http://services.odata.org/OData/OData.svc/Products</id><title
+        type="text">Products</title><updated>2014-07-20T21:16:26Z</updated><link rel="self"
+        title="Products" href="Products" /><entry><id>http://services.odata.org/OData/OData.svc/Products(0)</id><category
+        term="ODataDemo.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
+        /><link rel="edit" title="Product" href="Products(0)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories"
+        type="application/atom+xml;type=feed" title="Categories" href="Products(0)/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Supplier"
+        type="application/atom+xml;type=entry" title="Supplier" href="Products(0)/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
+        type="application/atom+xml;type=entry" title="ProductDetail" href="Products(0)/ProductDetail"
+        /><title type="text">Bread</title><summary type="text">Whole grain bread</summary><updated>2014-07-20T21:16:26Z</updated><author><name
+        /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
+        type="application/xml" title="Categories" href="Products(0)/$links/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
+        type="application/xml" title="Supplier" href="Products(0)/$links/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/ProductDetail"
+        type="application/xml" title="ProductDetail" href="Products(0)/$links/ProductDetail"
+        /><content type="application/xml"><m:properties><d:ID m:type="Edm.Int32">0</d:ID><d:ReleaseDate
+        m:type="Edm.DateTime">1992-01-01T00:00:00</d:ReleaseDate><d:DiscontinuedDate
+        m:null="true" /><d:Rating m:type="Edm.Int16">4</d:Rating><d:Price m:type="Edm.Double">2.5</d:Price></m:properties></content></entry><entry><id>http://services.odata.org/OData/OData.svc/Products(1)</id><category
+        term="ODataDemo.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
+        /><link rel="edit" title="Product" href="Products(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories"
+        type="application/atom+xml;type=feed" title="Categories" href="Products(1)/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Supplier"
+        type="application/atom+xml;type=entry" title="Supplier" href="Products(1)/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
+        type="application/atom+xml;type=entry" title="ProductDetail" href="Products(1)/ProductDetail"
+        /><title type="text">Milk</title><summary type="text">Low fat milk</summary><updated>2014-07-20T21:16:26Z</updated><author><name
+        /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
+        type="application/xml" title="Categories" href="Products(1)/$links/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
+        type="application/xml" title="Supplier" href="Products(1)/$links/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/ProductDetail"
+        type="application/xml" title="ProductDetail" href="Products(1)/$links/ProductDetail"
+        /><content type="application/xml"><m:properties><d:ID m:type="Edm.Int32">1</d:ID><d:ReleaseDate
+        m:type="Edm.DateTime">1995-10-01T00:00:00</d:ReleaseDate><d:DiscontinuedDate
+        m:null="true" /><d:Rating m:type="Edm.Int16">3</d:Rating><d:Price m:type="Edm.Double">3.5</d:Price></m:properties></content></entry><entry><id>http://services.odata.org/OData/OData.svc/Products(2)</id><category
+        term="ODataDemo.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
+        /><link rel="edit" title="Product" href="Products(2)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories"
+        type="application/atom+xml;type=feed" title="Categories" href="Products(2)/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Supplier"
+        type="application/atom+xml;type=entry" title="Supplier" href="Products(2)/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
+        type="application/atom+xml;type=entry" title="ProductDetail" href="Products(2)/ProductDetail"
+        /><title type="text">Vint soda</title><summary type="text">Americana Variety
+        - Mix of 6 flavors</summary><updated>2014-07-20T21:16:26Z</updated><author><name
+        /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
+        type="application/xml" title="Categories" href="Products(2)/$links/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
+        type="application/xml" title="Supplier" href="Products(2)/$links/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/ProductDetail"
+        type="application/xml" title="ProductDetail" href="Products(2)/$links/ProductDetail"
+        /><content type="application/xml"><m:properties><d:ID m:type="Edm.Int32">2</d:ID><d:ReleaseDate
+        m:type="Edm.DateTime">2000-10-01T00:00:00</d:ReleaseDate><d:DiscontinuedDate
+        m:null="true" /><d:Rating m:type="Edm.Int16">3</d:Rating><d:Price m:type="Edm.Double">20.9</d:Price></m:properties></content></entry><entry><id>http://services.odata.org/OData/OData.svc/Products(3)</id><category
+        term="ODataDemo.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
+        /><link rel="edit" title="Product" href="Products(3)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories"
+        type="application/atom+xml;type=feed" title="Categories" href="Products(3)/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Supplier"
+        type="application/atom+xml;type=entry" title="Supplier" href="Products(3)/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
+        type="application/atom+xml;type=entry" title="ProductDetail" href="Products(3)/ProductDetail"
+        /><title type="text">Havina Cola</title><summary type="text">The Original
+        Key Lime Cola</summary><updated>2014-07-20T21:16:26Z</updated><author><name
+        /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
+        type="application/xml" title="Categories" href="Products(3)/$links/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
+        type="application/xml" title="Supplier" href="Products(3)/$links/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/ProductDetail"
+        type="application/xml" title="ProductDetail" href="Products(3)/$links/ProductDetail"
+        /><content type="application/xml"><m:properties><d:ID m:type="Edm.Int32">3</d:ID><d:ReleaseDate
+        m:type="Edm.DateTime">2005-10-01T00:00:00</d:ReleaseDate><d:DiscontinuedDate
+        m:type="Edm.DateTime">2006-10-01T00:00:00</d:DiscontinuedDate><d:Rating m:type="Edm.Int16">3</d:Rating><d:Price
+        m:type="Edm.Double">19.9</d:Price></m:properties></content></entry><entry><id>http://services.odata.org/OData/OData.svc/Products(4)</id><category
+        term="ODataDemo.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
+        /><link rel="edit" title="Product" href="Products(4)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories"
+        type="application/atom+xml;type=feed" title="Categories" href="Products(4)/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Supplier"
+        type="application/atom+xml;type=entry" title="Supplier" href="Products(4)/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
+        type="application/atom+xml;type=entry" title="ProductDetail" href="Products(4)/ProductDetail"
+        /><title type="text">Fruit Punch</title><summary type="text">Mango flavor,
+        8.3 Ounce Cans (Pack of 24)</summary><updated>2014-07-20T21:16:26Z</updated><author><name
+        /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
+        type="application/xml" title="Categories" href="Products(4)/$links/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
+        type="application/xml" title="Supplier" href="Products(4)/$links/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/ProductDetail"
+        type="application/xml" title="ProductDetail" href="Products(4)/$links/ProductDetail"
+        /><content type="application/xml"><m:properties><d:ID m:type="Edm.Int32">4</d:ID><d:ReleaseDate
+        m:type="Edm.DateTime">2003-01-05T00:00:00</d:ReleaseDate><d:DiscontinuedDate
+        m:null="true" /><d:Rating m:type="Edm.Int16">3</d:Rating><d:Price m:type="Edm.Double">22.99</d:Price></m:properties></content></entry><entry><id>http://services.odata.org/OData/OData.svc/Products(5)</id><category
+        term="ODataDemo.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
+        /><link rel="edit" title="Product" href="Products(5)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories"
+        type="application/atom+xml;type=feed" title="Categories" href="Products(5)/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Supplier"
+        type="application/atom+xml;type=entry" title="Supplier" href="Products(5)/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
+        type="application/atom+xml;type=entry" title="ProductDetail" href="Products(5)/ProductDetail"
+        /><title type="text">Cranberry Juice</title><summary type="text">16-Ounce
+        Plastic Bottles (Pack of 12)</summary><updated>2014-07-20T21:16:26Z</updated><author><name
+        /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
+        type="application/xml" title="Categories" href="Products(5)/$links/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
+        type="application/xml" title="Supplier" href="Products(5)/$links/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/ProductDetail"
+        type="application/xml" title="ProductDetail" href="Products(5)/$links/ProductDetail"
+        /><content type="application/xml"><m:properties><d:ID m:type="Edm.Int32">5</d:ID><d:ReleaseDate
+        m:type="Edm.DateTime">2006-08-04T00:00:00</d:ReleaseDate><d:DiscontinuedDate
+        m:null="true" /><d:Rating m:type="Edm.Int16">3</d:Rating><d:Price m:type="Edm.Double">22.8</d:Price></m:properties></content></entry><entry><id>http://services.odata.org/OData/OData.svc/Products(6)</id><category
+        term="ODataDemo.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
+        /><link rel="edit" title="Product" href="Products(6)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories"
+        type="application/atom+xml;type=feed" title="Categories" href="Products(6)/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Supplier"
+        type="application/atom+xml;type=entry" title="Supplier" href="Products(6)/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
+        type="application/atom+xml;type=entry" title="ProductDetail" href="Products(6)/ProductDetail"
+        /><title type="text">Pink Lemonade</title><summary type="text">36 Ounce Cans
+        (Pack of 3)</summary><updated>2014-07-20T21:16:26Z</updated><author><name
+        /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
+        type="application/xml" title="Categories" href="Products(6)/$links/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
+        type="application/xml" title="Supplier" href="Products(6)/$links/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/ProductDetail"
+        type="application/xml" title="ProductDetail" href="Products(6)/$links/ProductDetail"
+        /><content type="application/xml"><m:properties><d:ID m:type="Edm.Int32">6</d:ID><d:ReleaseDate
+        m:type="Edm.DateTime">2006-11-05T00:00:00</d:ReleaseDate><d:DiscontinuedDate
+        m:null="true" /><d:Rating m:type="Edm.Int16">3</d:Rating><d:Price m:type="Edm.Double">18.8</d:Price></m:properties></content></entry><entry><id>http://services.odata.org/OData/OData.svc/Products(7)</id><category
+        term="ODataDemo.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
+        /><link rel="edit" title="Product" href="Products(7)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories"
+        type="application/atom+xml;type=feed" title="Categories" href="Products(7)/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Supplier"
+        type="application/atom+xml;type=entry" title="Supplier" href="Products(7)/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
+        type="application/atom+xml;type=entry" title="ProductDetail" href="Products(7)/ProductDetail"
+        /><title type="text">DVD Player</title><summary type="text">1080P Upconversion
+        DVD Player</summary><updated>2014-07-20T21:16:26Z</updated><author><name /></author><link
+        rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
+        type="application/xml" title="Categories" href="Products(7)/$links/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
+        type="application/xml" title="Supplier" href="Products(7)/$links/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/ProductDetail"
+        type="application/xml" title="ProductDetail" href="Products(7)/$links/ProductDetail"
+        /><content type="application/xml"><m:properties><d:ID m:type="Edm.Int32">7</d:ID><d:ReleaseDate
+        m:type="Edm.DateTime">2006-11-15T00:00:00</d:ReleaseDate><d:DiscontinuedDate
+        m:null="true" /><d:Rating m:type="Edm.Int16">5</d:Rating><d:Price m:type="Edm.Double">35.88</d:Price></m:properties></content></entry><entry><id>http://services.odata.org/OData/OData.svc/Products(8)</id><category
+        term="ODataDemo.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
+        /><link rel="edit" title="Product" href="Products(8)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories"
+        type="application/atom+xml;type=feed" title="Categories" href="Products(8)/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Supplier"
+        type="application/atom+xml;type=entry" title="Supplier" href="Products(8)/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
+        type="application/atom+xml;type=entry" title="ProductDetail" href="Products(8)/ProductDetail"
+        /><title type="text">LCD HDTV</title><summary type="text">42 inch 1080p LCD
+        with Built-in Blu-ray Disc Player</summary><updated>2014-07-20T21:16:26Z</updated><author><name
+        /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
+        type="application/xml" title="Categories" href="Products(8)/$links/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
+        type="application/xml" title="Supplier" href="Products(8)/$links/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/ProductDetail"
+        type="application/xml" title="ProductDetail" href="Products(8)/$links/ProductDetail"
+        /><content type="application/xml"><m:properties><d:ID m:type="Edm.Int32">8</d:ID><d:ReleaseDate
+        m:type="Edm.DateTime">2008-05-08T00:00:00</d:ReleaseDate><d:DiscontinuedDate
+        m:null="true" /><d:Rating m:type="Edm.Int16">3</d:Rating><d:Price m:type="Edm.Double">1088.8</d:Price></m:properties></content></entry><entry><id>http://services.odata.org/OData/OData.svc/Products(9)</id><category
+        term="ODataDemo.FeaturedProduct" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
+        /><link rel="edit" title="Product" href="Products(9)/ODataDemo.FeaturedProduct"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories"
+        type="application/atom+xml;type=feed" title="Categories" href="Products(9)/ODataDemo.FeaturedProduct/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Supplier"
+        type="application/atom+xml;type=entry" title="Supplier" href="Products(9)/ODataDemo.FeaturedProduct/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
+        type="application/atom+xml;type=entry" title="ProductDetail" href="Products(9)/ODataDemo.FeaturedProduct/ProductDetail"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Advertisement"
+        type="application/atom+xml;type=entry" title="Advertisement" href="Products(9)/ODataDemo.FeaturedProduct/Advertisement"
+        /><title type="text">Lemonade</title><summary type="text">Classic, refreshing
+        lemonade (Single bottle)</summary><updated>2014-07-20T21:16:26Z</updated><author><name
+        /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
+        type="application/xml" title="Categories" href="Products(9)/ODataDemo.FeaturedProduct/$links/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
+        type="application/xml" title="Supplier" href="Products(9)/ODataDemo.FeaturedProduct/$links/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/ProductDetail"
+        type="application/xml" title="ProductDetail" href="Products(9)/ODataDemo.FeaturedProduct/$links/ProductDetail"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Advertisement"
+        type="application/xml" title="Advertisement" href="Products(9)/ODataDemo.FeaturedProduct/$links/Advertisement"
+        /><content type="application/xml"><m:properties><d:ID m:type="Edm.Int32">9</d:ID><d:ReleaseDate
+        m:type="Edm.DateTime">1970-01-01T00:00:00</d:ReleaseDate><d:DiscontinuedDate
+        m:null="true" /><d:Rating m:type="Edm.Int16">7</d:Rating><d:Price m:type="Edm.Double">1.01</d:Price></m:properties></content></entry><entry><id>http://services.odata.org/OData/OData.svc/Products(10)</id><category
+        term="ODataDemo.FeaturedProduct" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
+        /><link rel="edit" title="Product" href="Products(10)/ODataDemo.FeaturedProduct"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories"
+        type="application/atom+xml;type=feed" title="Categories" href="Products(10)/ODataDemo.FeaturedProduct/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Supplier"
+        type="application/atom+xml;type=entry" title="Supplier" href="Products(10)/ODataDemo.FeaturedProduct/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
+        type="application/atom+xml;type=entry" title="ProductDetail" href="Products(10)/ODataDemo.FeaturedProduct/ProductDetail"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Advertisement"
+        type="application/atom+xml;type=entry" title="Advertisement" href="Products(10)/ODataDemo.FeaturedProduct/Advertisement"
+        /><title type="text">Coffee</title><summary type="text">Bulk size can of instant
+        coffee</summary><updated>2014-07-20T21:16:26Z</updated><author><name /></author><link
+        rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
+        type="application/xml" title="Categories" href="Products(10)/ODataDemo.FeaturedProduct/$links/Categories"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
+        type="application/xml" title="Supplier" href="Products(10)/ODataDemo.FeaturedProduct/$links/Supplier"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/ProductDetail"
+        type="application/xml" title="ProductDetail" href="Products(10)/ODataDemo.FeaturedProduct/$links/ProductDetail"
+        /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Advertisement"
+        type="application/xml" title="Advertisement" href="Products(10)/ODataDemo.FeaturedProduct/$links/Advertisement"
+        /><content type="application/xml"><m:properties><d:ID m:type="Edm.Int32">10</d:ID><d:ReleaseDate
+        m:type="Edm.DateTime">1982-12-31T00:00:00</d:ReleaseDate><d:DiscontinuedDate
+        m:null="true" /><d:Rating m:type="Edm.Int16">1</d:Rating><d:Price m:type="Edm.Double">6.99</d:Price></m:properties></content></entry></feed>
+    http_version: '1.1'
+    adapter_metadata:
+      effective_url: http://services.odata.org/OData/OData.svc/Products
+  recorded_at: Sun, 20 Jul 2014 21:16:26 GMT
+recorded_with: VCR 2.9.2
