@@ -10,7 +10,14 @@ module OData
   class EntitySet
     include Enumerable
 
-    attr_reader :name, :type, :namespace, :container
+    # The name of the EntitySet
+    attr_reader :name
+    # The Entity type for the EntitySet
+    attr_reader :type
+    # The OData::Service namespace
+    attr_reader :namespace
+    # The EntitySet's container name
+    attr_reader :container
 
     # Sets up the EntitySet to permit querying for the resources in the set.
     #

@@ -1,6 +1,14 @@
 module OData
+  # An OData::Entity represents a single record returned by the service. All
+  # Entities have a type and belong to a specific namespace. They are written
+  # back to the service via the EntitySet they came from. OData::Entity
+  # instances should not be instantiated directly; instead, they should either
+  # be read or instantiated from their respective OData::EntitySet.
   class Entity
-    attr_reader :type, :namespace
+    # The Entity type name
+    attr_reader :type
+    # The OData::Service namespace
+    attr_reader :namespace
 
     # Initializes a bare Entity
     # @param options [Hash]

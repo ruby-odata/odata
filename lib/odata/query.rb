@@ -1,4 +1,8 @@
 module OData
+  # OData::Query provides the query interface for requesting Entities matching
+  # specific criteria from an OData::EntitySet. This class should not be
+  # instantiated directly, but can be. Normally you will access a Query by
+  # first asking for one from the OData::EntitySet you want to query.
   class Query
     # Create a new Query for the provided EntitySet
     # @param entity_set [OData::EntitySet]

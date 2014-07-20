@@ -1,6 +1,12 @@
 module OData
+  # OData::Property represents an abstract property, defining the basic
+  # interface and required methods, with some default implementations. All
+  # supported property types should be implemented under the OData::Properties
+  # namespace.
   class Property
+    # The property's name
     attr_reader :name
+    # The property's value
     attr_accessor :value
 
     # Default intialization for a property with a name, value and options.
@@ -45,6 +51,9 @@ module OData
       @value
     end
 
+    # Returns the XML representation of the property to the supplied XML
+    # builder.
+    # @param xml_builder [Nokogiri::XML::Builder]
     def to_xml(xml_builder)
       attributes = {
           'metadata:type' => type,

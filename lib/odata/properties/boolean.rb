@@ -2,6 +2,8 @@ module OData
   module Properties
     # Defines the Boolean OData type.
     class Boolean < OData::Property
+      # Returns the property value, properly typecast
+      # @return [Boolean, nil]
       def value
         if @value.nil? && allows_nil?
           nil
@@ -10,11 +12,14 @@ module OData
         end
       end
 
+      # Sets the property value
+      # @params new_value [Boolean]
       def value=(new_value)
         validate(new_value)
         @value = new_value.to_s
       end
 
+      # The OData type name
       def type
         'Edm.Boolean'
       end
