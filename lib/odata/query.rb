@@ -11,6 +11,12 @@ module OData
       setup_empty_criteria_set
     end
 
+    # Instantiates an OData::Query::Criteria for the named property.
+    # @param property [to_s]
+    def [](property)
+      OData::Query::Criteria.new(property: property)
+    end
+
     # Adds a filter criteria to the query.
     # @param criteria
     def where(criteria)
@@ -27,6 +33,30 @@ module OData
     # @param criteria
     def or(criteria)
 
+    end
+
+    # Specify properties to order the result by.
+    # @param properties [Array<Symbol>]
+    # @return [self]
+    def order_by(*properties)
+      # criteria_set[:orderby] += properties
+      # self
+    end
+
+    # Specify associations to expand in the result.
+    # @param associations [Array<Symbol>]
+    # @return [self]
+    def expand(*associations)
+      # criteria_set[:expand] += associations
+      # self
+    end
+
+    # Specify properties to select within the result.
+    # @param properties [Array<Symbol>]
+    # @return [self]
+    def select(*properties)
+      # criteria_set[:select] += properties
+      # self
     end
 
     # Add skip criteria to query.

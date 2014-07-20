@@ -15,20 +15,29 @@ describe OData::Query, vcr: {cassette_name: 'query_specs'} do
   it { expect(subject).to respond_to(:to_s) }
   it { expect(subject.to_s).to eq('Products')}
 
+  it { expect(subject).to respond_to(:[]) }
+  describe '#[]' do
+    it { expect(subject[:Name]).to be_a(OData::Query::Criteria) }
+    it { expect(subject[:Name].property).to eq(:Name) }
+  end
+
+  it { expect(subject).to respond_to(:where) }
   describe '#where' do
-    it { expect(subject).to respond_to(:where) }
+
   end
 
+  it { expect(subject).to respond_to(:and) }
   describe '#and' do
-    it { expect(subject).to respond_to(:and) }
+
   end
 
+  it { expect(subject).to respond_to(:or) }
   describe '#or' do
-    it { expect(subject).to respond_to(:or) }
+
   end
 
+  it { expect(subject).to respond_to(:skip) }
   describe '#skip' do
-    it { expect(subject).to respond_to(:skip) }
     it { expect(subject.skip(5)).to eq(subject) }
     it 'properly formats query with skip specified' do
       subject.skip(5)
@@ -36,8 +45,9 @@ describe OData::Query, vcr: {cassette_name: 'query_specs'} do
     end
   end
 
+  it { expect(subject).to respond_to(:limit) }
   describe '#limit' do
-    it { expect(subject).to respond_to(:limit) }
+
     it { expect(subject.limit(5)).to eq(subject) }
     it 'properly formats query with limit specified' do
       subject.limit(5)
@@ -45,8 +55,8 @@ describe OData::Query, vcr: {cassette_name: 'query_specs'} do
     end
   end
 
+  it { expect(subject).to respond_to(:include_count) }
   describe '#include_count' do
-    it { expect(subject).to respond_to(:include_count) }
     it { expect(subject.include_count).to eq(subject) }
     it 'properly formats query with include_count specified' do
       subject.include_count
@@ -54,14 +64,17 @@ describe OData::Query, vcr: {cassette_name: 'query_specs'} do
     end
   end
 
+  it { expect(subject).to respond_to(:select) }
   describe '#select' do
     it { pending; fail }
   end
 
+  it { expect(subject).to respond_to(:expand) }
   describe '#expand' do
     it { pending; fail }
   end
 
+  it { expect(subject).to respond_to(:order_by) }
   describe '#order_by' do
     it { pending; fail }
   end
