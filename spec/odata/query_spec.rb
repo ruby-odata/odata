@@ -26,7 +26,6 @@ describe OData::Query, vcr: {cassette_name: 'query_specs'} do
     let(:criteria) { subject[:Name].eq('Bread') }
     let(:query_string) { "Products?$filter=Name eq 'Bread'" }
 
-    it { expect(subject.where(criteria)).to be_a(OData::Query) }
     it { expect(subject.where(criteria)).to eq(subject) }
     it { expect(subject.where(criteria).to_s).to eq(query_string) }
   end
@@ -71,16 +70,28 @@ describe OData::Query, vcr: {cassette_name: 'query_specs'} do
 
   it { expect(subject).to respond_to(:select) }
   describe '#select' do
-    it { pending; fail }
+    it { expect(subject.select(:Name, :Price)).to eq(subject) }
+    it 'properly formats query with select operation specified' do
+      subject.select(:Name, :Price)
+      expect(subject.to_s).to eq('Products?$select=Name,Price')
+    end
   end
 
   it { expect(subject).to respond_to(:expand) }
   describe '#expand' do
-    it { pending; fail }
+    it { expect(subject.expand(:Supplier)).to eq(subject) }
+    it 'properly formats query with expand operation specified' do
+      subject.expand(:Supplier)
+      expect(subject.to_s).to eq('Products?$expand=Supplier')
+    end
   end
 
   it { expect(subject).to respond_to(:order_by) }
   describe '#order_by' do
-    it { pending; fail }
+    it { expect(subject.order_by(:Name, :Price)).to eq(subject) }
+    it 'properly formats query with orderby operation specified' do
+      subject.order_by(:Name, :Price)
+      expect(subject.to_s).to eq('Products?$orderby=Name,Price')
+    end
   end
 end

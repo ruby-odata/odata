@@ -40,24 +40,24 @@ module OData
     # @param properties [Array<Symbol>]
     # @return [self]
     def order_by(*properties)
-      # criteria_set[:orderby] += properties
-      # self
+      criteria_set[:orderby] += properties
+      self
     end
 
     # Specify associations to expand in the result.
     # @param associations [Array<Symbol>]
     # @return [self]
     def expand(*associations)
-      # criteria_set[:expand] += associations
-      # self
+      criteria_set[:expand] += associations
+      self
     end
 
     # Specify properties to select within the result.
     # @param properties [Array<Symbol>]
     # @return [self]
     def select(*properties)
-      # criteria_set[:select] += properties
-      # self
+      criteria_set[:select] += properties
+      self
     end
 
     # Add skip criteria to query.
@@ -132,7 +132,7 @@ module OData
     end
 
     def list_criteria(name)
-      criteria_set[name].empty? ? nil : "$#{name}=#{criteria_set[:name].join(',')}"
+      criteria_set[name].empty? ? nil : "$#{name}=#{criteria_set[name].join(',')}"
     end
 
     def inline_count_criteria
