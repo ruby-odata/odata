@@ -14,8 +14,10 @@ module OData
     attr_reader :name
     # The Entity type for the EntitySet
     attr_reader :type
-    # The OData::Service namespace
+    # The OData::Service's namespace
     attr_reader :namespace
+    # The OData::Service's identifiable name
+    attr_reader :service_name
     # The EntitySet's container name
     attr_reader :container
 
@@ -24,11 +26,11 @@ module OData
     # @param options [Hash] the options to setup the EntitySet
     # @return [OData::EntitySet] an instance of the EntitySet
     def initialize(options = {})
-      @name = options[:name]
-      @type = options[:type]
-      @namespace = options[:namespace]
-      @container = options[:container]
-      self
+      @name         = options[:name]
+      @type         = options[:type]
+      @namespace    = options[:namespace]
+      @service_name = options[:service_name]
+      @container    = options[:container]
     end
 
     # Provided for Enumerable functionality
@@ -108,7 +110,7 @@ module OData
     # @return [OData::Service]
     # @api private
     def service
-      @service ||= OData::ServiceRegistry[namespace]
+      @service ||= OData::ServiceRegistry[service_name]
     end
 
     # Options used for instantiating a new OData::Entity for this set.
@@ -116,8 +118,9 @@ module OData
     # @api private
     def entity_options
       {
-          namespace:  namespace,
-          type:       type
+          namespace:    namespace,
+          service_name: service_name,
+          type:         type
       }
     end
 

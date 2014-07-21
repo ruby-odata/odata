@@ -79,6 +79,7 @@ module OData
       OData::EntitySet.new(name: entity_set_name,
                            namespace: namespace,
                            type: entity_type_name.to_s,
+                           service_name: name,
                            container: container_name)
     end
 

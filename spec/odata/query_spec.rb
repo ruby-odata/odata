@@ -9,7 +9,7 @@ describe OData::Query, vcr: {cassette_name: 'query_specs'} do
   let(:entity_set) { OData::EntitySet.new(options) }
   let(:options) { {
       container: 'DemoService', namespace: 'ODataDemo', name: 'Products',
-      type: 'Product'
+      service_name: 'ODataDemo', type: 'Product'
   } }
 
   it { expect(subject).to respond_to(:to_s) }

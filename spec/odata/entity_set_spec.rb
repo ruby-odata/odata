@@ -8,13 +8,14 @@ describe OData::EntitySet, vcr: {cassette_name: 'entity_set_specs'} do
   let(:subject) { OData::EntitySet.new(options) }
   let(:options) { {
       container: 'DemoService', namespace: 'ODataDemo', name: 'Products',
-      type: 'Product'
+      type: 'Product', service_name: 'ODataDemo'
   } }
 
   it { expect(subject).to respond_to(:name) }
   it { expect(subject).to respond_to(:type) }
   it { expect(subject).to respond_to(:container) }
   it { expect(subject).to respond_to(:namespace) }
+  it { expect(subject).to respond_to(:service_name) }
   it { expect(subject).to respond_to(:new_entity) }
   it { expect(subject).to respond_to(:[]) }
   it { expect(subject).to respond_to(:<<) }
@@ -22,6 +23,7 @@ describe OData::EntitySet, vcr: {cassette_name: 'entity_set_specs'} do
   it { expect(subject.name).to eq('Products') }
   it { expect(subject.container).to eq('DemoService') }
   it { expect(subject.namespace).to eq('ODataDemo') }
+  it { expect(subject.service_name).to eq('ODataDemo') }
   it { expect(subject.type).to eq('Product') }
 
   describe '#each' do
