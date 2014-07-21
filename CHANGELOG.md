@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.5.0
+
+* Stopped using namespace from OData service as unique identifier in favor of
+  a supplied name option when opening a service.
+
 ## 0.4.0
 
 * Added OData::Query#execute to run query and return a result.
