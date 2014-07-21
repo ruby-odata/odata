@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe OData::Query::Result, vcr: {cassette_name: 'query/result_specs'} do
   before(:example) do
-    OData::Service.open('http://services.odata.org/OData/OData.svc')
+    OData::Service.open('http://services.odata.org/OData/OData.svc', name: 'ODataDemo')
   end
 
   let(:subject) { query.execute }

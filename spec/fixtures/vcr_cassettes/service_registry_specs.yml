@@ -41,7 +41,7 @@ http_interactions:
       Set-Cookie:
       - ARRAffinity=a9aad020fb0149d28d0efdb1e8bab24ad3481a904c8fb94abced8813c01ee265;Path=/;Domain=services.odata.org
       Date:
-      - Sat, 19 Jul 2014 02:59:51 GMT
+      - Mon, 21 Jul 2014 17:13:14 GMT
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"><edmx:DataServices
@@ -160,5 +160,5 @@ http_interactions:
     http_version: '1.1'
     adapter_metadata:
       effective_url: http://services.odata.org/OData/OData.svc/$metadata
-  recorded_at: Sat, 19 Jul 2014 02:59:52 GMT
+  recorded_at: Mon, 21 Jul 2014 17:13:14 GMT
 recorded_with: VCR 2.9.2

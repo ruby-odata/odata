@@ -4,7 +4,6 @@ module OData
   class Service
     # The OData Service's URL
     attr_reader :service_url
-
     # Options to pass around
     attr_reader :options
 
@@ -29,6 +28,12 @@ module OData
     # @return [OData::Service] an instance of the service
     def self.open(service_url, options = {})
       Service.new(service_url, options)
+    end
+
+    # Returns user supplied name for service, or its URL
+    # @return [String]
+    def name
+      @name ||= options[:name] || service_url
     end
 
     # Returns a list of entities exposed by the service
@@ -58,7 +63,7 @@ module OData
 
     # Returns a more compact inspection of the service object
     def inspect
-      "#<#{self.class.name}:#{self.object_id} namespace='#{self.namespace}' service_url='#{self.service_url}'>"
+      "#<#{self.class.name}:#{self.object_id} name='#{name}' service_url='#{self.service_url}'>"
     end
 
     # Retrieves the EntitySet associated with a specific EntityType by name

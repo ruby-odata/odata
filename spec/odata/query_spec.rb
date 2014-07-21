@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe OData::Query, vcr: {cassette_name: 'query_specs'} do
+  before(:example) do
+    OData::Service.open('http://services.odata.org/OData/OData.svc', name: 'ODataDemo')
+  end
+
   let(:subject) { OData::Query.new(entity_set) }
   let(:entity_set) { OData::EntitySet.new(options) }
   let(:options) { {
       container: 'DemoService', namespace: 'ODataDemo', name: 'Products',
       type: 'Product'
   } }
-
-  before(:example) do
-    OData::Service.open('http://services.odata.org/OData/OData.svc')
-  end
 
   it { expect(subject).to respond_to(:to_s) }
   it { expect(subject.to_s).to eq('Products')}

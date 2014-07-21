@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe OData::Service, vcr: {cassette_name: 'service_specs'} do
-  let(:subject) { OData::Service.open('http://services.odata.org/OData/OData.svc') }
+  let(:subject) { OData::Service.open('http://services.odata.org/OData/OData.svc', name: 'ODataDemo') }
   let(:entity_types) { %w{Product FeaturedProduct ProductDetail Category Supplier Person Customer Employee PersonDetail Advertisement} }
   let(:entity_sets) { %w{Products ProductDetails Categories Suppliers Persons PersonDetails Advertisements} }
   let(:entity_set_types) { %w{Product ProductDetail Category Supplier Person PersonDetail Advertisement} }
@@ -15,7 +15,7 @@ describe OData::Service, vcr: {cassette_name: 'service_specs'} do
     expect(OData::ServiceRegistry['ODataDemo']).to be_nil
     expect(OData::ServiceRegistry['http://services.odata.org/OData/OData.svc']).to be_nil
 
-    service = OData::Service.open('http://services.odata.org/OData/OData.svc')
+    service = OData::Service.open('http://services.odata.org/OData/OData.svc', name: 'ODataDemo')
 
     expect(OData::ServiceRegistry['ODataDemo']).to eq(service)
     expect(OData::ServiceRegistry['http://services.odata.org/OData/OData.svc']).to eq(service)

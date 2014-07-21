@@ -11,17 +11,17 @@ module OData
     def add(service)
       initialize_instance_variables
       @services << service if service.is_a?(OData::Service) && !@services.include?(service)
-      @services_by_namespace[service.namespace] = @services.find_index(service)
+      @services_by_name[service.name] = @services.find_index(service)
       @services_by_url[service.service_url] = @services.find_index(service)
     end
 
-    # Lookup a service by URL or namespace
+    # Lookup a service by URL or name
     #
-    # @param lookup_key [String] the URL or namespace to lookup
+    # @param lookup_key [String] the URL or name to lookup
     # @return [OData::Service, nil] the OData::Service or nil
     def [](lookup_key)
       initialize_instance_variables
-      index = @services_by_namespace[lookup_key] || @services_by_url[lookup_key]
+      index = @services_by_name[lookup_key] || @services_by_url[lookup_key]
       index.nil? ? nil : @services[index]
     end
 
@@ -39,13 +39,13 @@ module OData
 
     def initialize_instance_variables
       @services ||= []
-      @services_by_namespace ||= {}
+      @services_by_name ||= {}
       @services_by_url ||= {}
     end
 
     def flush
       @services = []
-      @services_by_namespace = {}
+      @services_by_name = {}
       @services_by_url = {}
     end
   end

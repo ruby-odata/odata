@@ -43,22 +43,28 @@ to it like this:
 
     OData::Service.open('http://services.odata.org/OData/OData.svc')
 
+You may also provide an options hash after the URL. It is suggested that you
+supply a name for the service via this hash like so:
+
+    OData::Service.open('http://services.odata.org/OData/OData.svc', name: 'ODataDemo')
+
 This one call will setup the service and allow for the discovery of everything
 the other parts of the OData gem need to function. The two methods you will
-want to remember from `OData::Service` are `#service_url` and `#namespace`. Both
+want to remember from `OData::Service` are `#service_url` and `#name`. Both
 of these methods are available on instances and will allow for lookup in the
 `OData::ServiceRegistry`, should you need it.
 
-Using either the service URL or the namespace provided by a service's CSDL
-schema will allow for quick lookup in the `OData::ServiceRegistry` like such:
+Using either the service URL or the name provided as an option when creating an
+`OData::Service` will allow for quick lookup in the `OData::ServiceRegistry`
+like such:
 
     OData::ServiceRegistry['http://services.odata.org/OData/OData.svc']
     OData::ServiceRegistry['ODataDemo']
 
 Both of the above calls would retrieve the same service from the registry. At
-the moment there is no protection against namespace collisions provided in
+the moment there is no protection against name collisions provided in
 `OData::ServiceRegistry`. So, looking up services by their service URL is the
-most exact method, but lookup by namespace is provided for convenience.
+most exact method, but lookup by name is provided for convenience.
 
 ### Entity Sets
 

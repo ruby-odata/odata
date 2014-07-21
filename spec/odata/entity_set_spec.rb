@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe OData::EntitySet, vcr: {cassette_name: 'entity_set_specs'} do
   before(:example) do
-    OData::Service.open('http://services.odata.org/OData/OData.svc')
+    OData::Service.open('http://services.odata.org/OData/OData.svc', name: 'ODataDemo')
   end
 
   let(:subject) { OData::EntitySet.new(options) }
