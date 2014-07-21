@@ -7,14 +7,17 @@ module OData
   class Entity
     # The Entity type name
     attr_reader :type
-    # The OData::Service namespace
+    # The OData::Service's namespace
     attr_reader :namespace
+    # The OData::Service's identifying name
+    attr_reader :service_name
 
     # Initializes a bare Entity
     # @param options [Hash]
     def initialize(options = {})
       @type = options[:type]
       @namespace = options[:namespace]
+      @service_name = options[:service_name]
     end
 
     # Returns name of Entity from Service specified type.

@@ -7,15 +7,17 @@ describe OData::Entity, vcr: {cassette_name: 'entity_specs'} do
 
   let(:subject) { OData::Entity.new(options) }
   let(:options) { {
-      type:       'ODataDemo.Product',
-      namespace:  'ODataDemo'
+      type:         'ODataDemo.Product',
+      namespace:    'ODataDemo',
+      service_name: 'ODataDemo'
   } }
 
-  it { expect(subject).to respond_to(:name, :type, :namespace) }
+  it { expect(subject).to respond_to(:name, :type, :namespace, :service_name) }
 
   it { expect(subject.name).to eq('Product') }
   it { expect(subject.type).to eq('ODataDemo.Product') }
   it { expect(subject.namespace).to eq('ODataDemo') }
+  it { expect(subject.service_name).to eq('ODataDemo') }
 
   describe '.from_xml' do
     let(:subject) { OData::Entity.from_xml(product_xml, options) }
@@ -31,6 +33,7 @@ describe OData::Entity, vcr: {cassette_name: 'entity_specs'} do
     it { expect(subject.name).to eq('Product') }
     it { expect(subject.type).to eq('ODataDemo.Product') }
     it { expect(subject.namespace).to eq('ODataDemo') }
+    it { expect(subject.service_name).to eq('ODataDemo') }
 
     it { expect(subject['ID']).to eq(0) }
     it { expect(subject['Name']).to eq('Bread') }
