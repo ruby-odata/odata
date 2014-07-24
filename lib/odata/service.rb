@@ -154,20 +154,32 @@ module OData
 
     # Get the list of properties and their various options for the supplied
     # Entity name.
-    #
     # @param entity_name [to_s]
     # @return [Hash]
-    def properties_for(entity_name)
+    # @api private
+    def properties_for_entity(entity_name)
       type_definition = metadata.xpath("//EntityType[@Name='#{entity_name}']").first
       raise ArgumentError, "Unknown EntityType: #{entity_name}" if type_definition.nil?
       properties_to_return = {}
       type_definition.xpath('./Property').each do |property_xml|
-        property_name = property_xml.attributes['Name'].value
-        value_type = property_xml.attributes['Type'].value
-        property_options = {}
-        property_options[:allows_nil] = false if property_xml.attributes['Nullable'] == 'false'
-        klass_name = value_type.gsub(/^Edm\./, '')
-        properties_to_return[property_name] = get_property_class(klass_name).new(property_name, nil, property_options)
+        property_name, property = process_property_from_xml(property_xml)
+        properties_to_return[property_name] = property
+      end
+      properties_to_return
+    end
+
+    # Get list of properties and their various options for the supplied
+    # ComplexType name.
+    # @param type_name [to_s]
+    # @return [Hash]
+    # @api private
+    def properties_for_complex_type(type_name)
+      type_definition = metadata.xpath("//ComplexType[@Name='#{type_name}']").first
+      raise ArgumentError, "Unknown ComplexType: #{type_name}" if type_definition.nil?
+      properties_to_return = {}
+      type_definition.xpath('./Property').each do |property_xml|
+        property_name, property = process_property_from_xml(property_xml)
+        properties_to_return[property_name] = property
       end
       properties_to_return
     end
@@ -196,6 +208,16 @@ module OData
         response = request.response
         ::Nokogiri::XML(response.body).remove_namespaces!
       }.call
+    end
+
+    def process_property_from_xml(property_xml)
+      property_name = property_xml.attributes['Name'].value
+      value_type = property_xml.attributes['Type'].value
+      property_options = {}
+      property_options[:allows_nil] = false if property_xml.attributes['Nullable'] == 'false'
+      klass_name = value_type.gsub(/^Edm\./, '')
+      property = get_property_class(klass_name).new(property_name, nil, property_options)
+      return [property_name, property]
     end
   end
 end
