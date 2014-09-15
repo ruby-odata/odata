@@ -30,22 +30,22 @@ module OData
     # @param property_name [to_s]
     # @return [*]
     def [](property_name)
-      begin
-       properties[property_name.to_s].value
-      rescue NoMethodError
-        raise ArgumentError, "Unknown property: #{property_name}"
+      if properties[property_name.to_s].is_a?(::OData::ComplexType)
+        properties[property_name.to_s]
+      else
+        properties[property_name.to_s].value
       end
+    rescue NoMethodError
+      raise ArgumentError, "Unknown property: #{property_name}"
     end
 
     # Set property value
     # @param property_name [to_s]
     # @param value [*]
     def []=(property_name, value)
-      begin
-        properties[property_name.to_s].value = value
-      rescue NoMethodError
-        raise ArgumentError, "Unknown property: #{property_name}"
-      end
+      properties[property_name.to_s].value = value
+    rescue NoMethodError
+      raise ArgumentError, "Unknown property: #{property_name}"
     end
 
     # Create Entity with provided properties and options.
@@ -118,10 +118,20 @@ module OData
 
     private
 
-    def get_property_class(property_name)
+    def instantiate_property(property_name, value)
       value_type = service.get_property_type(name, property_name)
-      klass_name = value_type.gsub(/^Edm\./, '')
-      ::OData::Properties.const_get(klass_name)
+      if value_type =~ /^#{namespace}\./
+        type_name = value_type.gsub(/^#{namespace}\./, '')
+        property = ::OData::ComplexType.new(name: type_name, service: service)
+        value.element_children.each do |node|
+          property[node.name] = node.content
+        end
+        property
+      else
+        klass_name = value_type.gsub(/^Edm\./, '')
+        value = value.content unless value.nil?
+        ::OData::Properties.const_get(klass_name).new(property_name, value)
+      end
     end
 
     def properties
@@ -144,9 +154,9 @@ module OData
               property_xml.attributes['null'].value == 'true'
             value = nil
           else
-            value = property_xml.content
+            value = property_xml
           end
-          property = get_property_class(property_name).new(property_name, value)
+          property = instantiate_property(property_name, value)
           set_property(property_name, property)
         end
       end
@@ -154,9 +164,10 @@ module OData
 
     def self.process_feed_property(entity, xml_doc, property_name)
       entity.instance_eval do
-        property_value = xml_doc.xpath("//#{property_name}").first.content
+        property_value = xml_doc.xpath("//#{property_name}").first
         property_name = service.send("get_#{property_name}_property_name", name)
-        property = get_property_class(property_name).new(property_name, property_value)
+        return if property_name.nil?
+        property = instantiate_property(property_name, property_value)
         set_property(property_name, property)
       end
     end

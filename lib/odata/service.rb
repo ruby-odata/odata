@@ -142,6 +142,8 @@ module OData
     # @return [String] the name of the property used as the entity summary
     def get_summary_property_name(entity_name)
       metadata.xpath("//EntityType[@Name='#{entity_name}']/Property[@FC_TargetPath='SyndicationSummary']").first.attributes['Name'].value
+    rescue NoMethodError
+      nil
     end
 
     # Get the primary key for the supplied Entity.

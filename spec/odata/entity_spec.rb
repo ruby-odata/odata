@@ -45,5 +45,27 @@ describe OData::Entity, vcr: {cassette_name: 'entity_specs'} do
 
     it { expect {subject['NonExistant']}.to raise_error(ArgumentError) }
     it { expect {subject['NonExistant'] = 5}.to raise_error(ArgumentError) }
+
+    context 'with a complex type property' do
+      let(:options) { {
+          type:         'ODataDemo.Supplier',
+          namespace:    'ODataDemo',
+          service_name: 'ODataDemo'
+      } }
+
+      let(:subject) { OData::Entity.from_xml(supplier_xml, options) }
+      let(:supplier_xml) {
+        document = ::Nokogiri::XML(File.open('spec/fixtures/sample_service/supplier_0.xml'))
+        document.remove_namespaces!
+        document.xpath('//entry').first
+      }
+
+      it { expect(subject.name).to eq('Supplier') }
+      it { expect(subject.type).to eq('ODataDemo.Supplier') }
+
+      it { expect(subject['Address']).to be_a(OData::ComplexType) }
+      it { expect(subject['Address']['Street']).to eq('NE 228th') }
+      it { expect(subject['Address']['City']).to eq('Sammamish') }
+    end
   end
 end
