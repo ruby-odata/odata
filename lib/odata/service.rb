@@ -216,9 +216,16 @@ module OData
       property_name = property_xml.attributes['Name'].value
       value_type = property_xml.attributes['Type'].value
       property_options = {}
-      property_options[:allows_nil] = false if property_xml.attributes['Nullable'] == 'false'
-      klass_name = value_type.gsub(/^Edm\./, '')
-      property = get_property_class(klass_name).new(property_name, nil, property_options)
+
+      if value_type =~ /^#{namespace}\./
+        type_name = value_type.gsub(/^#{namespace}\./, '')
+        property = ::OData::ComplexType.new(name: type_name, service: self)
+      else
+        klass_name = value_type.gsub(/^Edm\./, '')
+        property_options[:allows_nil] = false if property_xml.attributes['Nullable'] == 'false'
+        property = ::OData::Properties.const_get(klass_name).new(property_name, nil, property_options)
+      end
+
       return [property_name, property]
     end
   end
