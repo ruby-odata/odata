@@ -139,7 +139,7 @@ module OData
     end
 
     def service
-      @service ||= OData::ServiceRegistry[namespace]
+      @service ||= OData::ServiceRegistry[service_name]
     end
 
     def set_property(name, odata_property)
