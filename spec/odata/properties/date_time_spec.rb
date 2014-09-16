@@ -7,6 +7,8 @@ describe OData::Properties::DateTime do
   it { expect(subject.type).to eq('Edm.DateTime') }
   it { expect(subject.value).to eq(DateTime.parse('2000-01-01T16:00:00.000')) }
 
+  it { expect(subject.url_value).to eq("datetime'2000-01-01T16:00:00+00:00'")}
+
   it { expect {subject.value = 'bad'}.to raise_error(ArgumentError) }
 
   it { expect(lambda {

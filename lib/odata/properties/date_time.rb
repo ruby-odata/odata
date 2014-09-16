@@ -28,6 +28,12 @@ module OData
         'Edm.DateTime'
       end
 
+      # Value to be used in URLs.
+      # @return [String]
+      def url_value
+        "datetime'#{value}'"
+      end
+
       private
 
       def validate(value)
