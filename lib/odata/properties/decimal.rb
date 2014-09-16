@@ -24,6 +24,12 @@ module OData
         'Edm.Decimal'
       end
 
+      # Value to be used in URLs.
+      # @return [String]
+      def url_value
+        "#{value.to_f}M"
+      end
+
       private
 
       def validate(value)
