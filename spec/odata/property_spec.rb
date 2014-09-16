@@ -11,6 +11,12 @@ describe OData::Property do
   it { expect(subject).to respond_to(:value) }
   it { expect(subject.value).to eq('1') }
 
+  it { expect(subject).to respond_to(:xml_value) }
+  it { expect(subject.xml_value).to eq('1') }
+
+  it { expect(subject).to respond_to(:url_value) }
+  it { expect(subject.url_value).to eq('1') }
+
   it { expect(subject).to respond_to(:type) }
   it { expect(lambda {subject.type}).to raise_error(NotImplementedError) }
 

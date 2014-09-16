@@ -48,7 +48,13 @@ module OData
     # Value to be used in XML.
     # @return [String]
     def xml_value
-      @value
+      value
+    end
+
+    # Value to be used in URLs.
+    # @return [String]
+    def url_value
+      value
     end
 
     # Returns the XML representation of the property to the supplied XML
