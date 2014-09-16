@@ -88,7 +88,12 @@ module OData
     # @param key [to_s] primary key to lookup
     # @return [OData::Entity,nil]
     def [](key)
-      result = service.execute("#{name}(#{key})")
+      entity = new_entity
+      key_property = entity.send(:properties)[entity.primary_key]
+      key_property.value = key
+      url_key = key_property.url_value
+
+      result = service.execute("#{name}(#{url_key})")
       entities = service.find_entities(result)
       OData::Entity.from_xml(entities[0], entity_options)
     end
