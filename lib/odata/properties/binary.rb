@@ -24,6 +24,12 @@ module OData
         'Edm.Binary'
       end
 
+      # Value to be used in URLs.
+      # @return [String]
+      def url_value
+        "binary'#{value}'"
+      end
+
       private
 
       def parse_value(value)

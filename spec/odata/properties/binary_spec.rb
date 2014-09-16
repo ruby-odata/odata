@@ -8,6 +8,8 @@ describe OData::Properties::Binary do
 
   it { expect {subject.value = 'bad'}.to raise_error(ArgumentError) }
 
+  it { expect(subject.url_value).to eq("binary'1'") }
+
   describe 'setting to 0' do
     it { expect(lambda {
       subject.value = 0
