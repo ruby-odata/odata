@@ -27,6 +27,8 @@ describe OData::Properties::Float do
     it { expect(subject.type).to eq('Edm.Single') }
     it { expect(subject.value).to eq(678.90325) }
 
+    it { expect(subject.url_value).to eq('678.90325F') }
+
     it { expect { subject.value = (3.4 * (10**38) * 2) }.to raise_error(ArgumentError) }
     it { expect { subject.value = (-3.4 * (10**38) * 2) }.to raise_error(ArgumentError) }
 

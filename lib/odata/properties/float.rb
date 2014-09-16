@@ -47,6 +47,12 @@ module OData
         'Edm.Single'
       end
 
+      # Value to be used in URLs.
+      # @return [String]
+      def url_value
+        "#{value}F"
+      end
+
       private
 
       def min_value
