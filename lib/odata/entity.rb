@@ -120,16 +120,18 @@ module OData
 
     def instantiate_property(property_name, value)
       value_type = service.get_property_type(name, property_name)
-      if value_type =~ /^#{namespace}\./
+      klass = ::OData::PropertyRegistry[value_type]
+
+      if klass.nil? && value_type =~ /^#{namespace}\./
         type_name = value_type.gsub(/^#{namespace}\./, '')
         property = ::OData::ComplexType.new(name: type_name, service: service)
         value.element_children.each do |node|
           property[node.name] = node.content
         end
         property
+      elsif klass.nil?
+        raise RuntimeError, "Unknown property type: #{value_type}"
       else
-        klass = ::OData::PropertyRegistry[value_type]
-        raise RuntimeError, "Unknown property type: #{value_type}" if klass.nil?
         value = value.content unless value.nil?
         klass.new(property_name, value)
       end

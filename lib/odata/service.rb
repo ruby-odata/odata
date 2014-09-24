@@ -213,12 +213,14 @@ module OData
       value_type = property_xml.attributes['Type'].value
       property_options = {}
 
-      if value_type =~ /^#{namespace}\./
+      klass = ::OData::PropertyRegistry[value_type]
+
+      if klass.nil? && value_type =~ /^#{namespace}\./
         type_name = value_type.gsub(/^#{namespace}\./, '')
         property = ::OData::ComplexType.new(name: type_name, service: self)
+      elsif klass.nil?
+        raise RuntimeError, "Unknown property type: #{value_type}"
       else
-        klass = ::OData::PropertyRegistry[value_type]
-        raise RuntimeError, "Unknown property type: #{value_type}" if klass.nil?
         property_options[:allows_nil] = false if property_xml.attributes['Nullable'] == 'false'
         property = klass.new(property_name, nil, property_options)
       end
