@@ -128,9 +128,10 @@ module OData
         end
         property
       else
-        klass_name = value_type.gsub(/^Edm\./, '')
+        klass = ::OData::PropertyRegistry[value_type]
+        raise RuntimeError, "Unknown property type: #{value_type}" if klass.nil?
         value = value.content unless value.nil?
-        ::OData::Properties.const_get(klass_name).new(property_name, value)
+        klass.new(property_name, value)
       end
     end
 

@@ -188,10 +188,6 @@ module OData
 
     private
 
-    def get_property_class(klass_name)
-      ::OData::Properties.const_get(klass_name)
-    end
-
     def default_options
       {
           typhoeus: {}
@@ -221,9 +217,10 @@ module OData
         type_name = value_type.gsub(/^#{namespace}\./, '')
         property = ::OData::ComplexType.new(name: type_name, service: self)
       else
-        klass_name = value_type.gsub(/^Edm\./, '')
+        klass = ::OData::PropertyRegistry[value_type]
+        raise RuntimeError, "Unknown property type: #{value_type}" if klass.nil?
         property_options[:allows_nil] = false if property_xml.attributes['Nullable'] == 'false'
-        property = ::OData::Properties.const_get(klass_name).new(property_name, nil, property_options)
+        property = klass.new(property_name, nil, property_options)
       end
 
       return [property_name, property]
