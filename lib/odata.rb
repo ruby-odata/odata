@@ -9,6 +9,7 @@ require 'typhoeus'
 # require 'active_support/concern'
 
 require 'odata/version'
+require 'odata/property_registry'
 require 'odata/property'
 require 'odata/properties'
 require 'odata/complex_type'
