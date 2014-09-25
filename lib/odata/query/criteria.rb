@@ -74,7 +74,7 @@ module OData
       end
 
       def value_for_string
-        value.is_a?(String) ? "'#{value}'" : value
+        value.is_a?(String) ? "#{value}" : value
       end
     end
   end
