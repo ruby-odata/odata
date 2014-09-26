@@ -96,6 +96,12 @@ module OData
       OData::Query::Result.new(self, response)
     end
 
+    # Executes the query to get a count of entities.
+    # @return [Integer]
+    def count
+      entity_set.service.execute("#{self.to_s}/$count").body.to_i
+    end
+
     # The EntitySet for this query.
     # @return [OData::EntitySet]
     # @api private
