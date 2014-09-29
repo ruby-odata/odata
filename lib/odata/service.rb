@@ -56,6 +56,11 @@ module OData
       @complex_types ||= metadata.xpath('//ComplexType').collect {|entity| entity.attributes['Name'].value}
     end
 
+    # Returns the associations defined by the service
+    def associations
+      @associations ||= metadata.xpath('//Association').collect {|association_definition| build_association(association_definition)}
+    end
+
     # Returns the namespace defined on the service's schema
     def namespace
       @namespace ||= metadata.xpath('//Schema').first.attributes['Namespace'].value
@@ -228,6 +233,24 @@ module OData
       end
 
       return [property_name, property]
+    end
+
+    def build_association(association_definition)
+      options = {
+        name: association_definition.attributes['Name'].value,
+        ends: build_association_ends(association_definition.xpath('./End'))
+      }
+      ::OData::Association.new(options)
+    end
+
+    def build_association_ends(end_definitions)
+      end_definitions.collect do |end_definition|
+        options = {
+          entity_type:  end_definition.attributes['Type'].value,
+          multiplicity: end_definition.attributes['Multiplicity'].value
+        }
+        ::OData::Association::End.new(options)
+      end
     end
   end
 end

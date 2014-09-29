@@ -6,6 +6,11 @@ describe OData::Service, vcr: {cassette_name: 'service_specs'} do
   let(:entity_sets) { %w{Products ProductDetails Categories Suppliers Persons PersonDetails Advertisements} }
   let(:entity_set_types) { %w{Product ProductDetail Category Supplier Person PersonDetail Advertisement} }
   let(:complex_types) { %w{Address} }
+  let(:associations) { %w{Product_Categories_Category_Products
+                          Product_Supplier_Supplier_Products
+                          Product_ProductDetail_ProductDetail_Product
+                          FeaturedProduct_Advertisement_Advertisement_FeaturedProduct
+                          Person_PersonDetail_PersonDetail_Person} }
 
   describe '.open' do
     it { expect(OData::Service).to respond_to(:open) }
@@ -26,6 +31,7 @@ describe OData::Service, vcr: {cassette_name: 'service_specs'} do
     it { expect(subject).to respond_to(:entity_types) }
     it { expect(subject).to respond_to(:entity_sets) }
     it { expect(subject).to respond_to(:complex_types) }
+    it { expect(subject).to respond_to(:associations) }
     it { expect(subject).to respond_to(:namespace) }
   end
 
@@ -47,6 +53,11 @@ describe OData::Service, vcr: {cassette_name: 'service_specs'} do
   describe '#complex_types' do
     it { expect(subject.complex_types.size).to eq(1) }
     it { expect(subject.complex_types).to eq(complex_types) }
+  end
+
+  describe '#associations' do
+    it { expect(subject.associations.size).to eq(5) }
+    it { expect(subject.associations.collect {|a| a.name}).to eq(associations) }
   end
 
   describe '#namespace' do
