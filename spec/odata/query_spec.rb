@@ -99,4 +99,9 @@ describe OData::Query, vcr: {cassette_name: 'query_specs'} do
   describe '#execute' do
     it { expect(subject.execute).to be_a(OData::Query::Result) }
   end
+
+  it { expect(subject).to respond_to(:count) }
+  describe '#count' do
+    it { expect(subject.count).to be_a(Integer) }
+  end
 end
