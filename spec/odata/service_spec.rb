@@ -58,6 +58,11 @@ describe OData::Service, vcr: {cassette_name: 'service_specs'} do
   describe '#associations' do
     it { expect(subject.associations.size).to eq(5) }
     it { expect(subject.associations.collect {|a| a.name}).to eq(associations) }
+    it do
+      subject.associations.each do |association|
+        expect(association).to be_a(OData::Association)
+      end
+    end
   end
 
   describe '#namespace' do
