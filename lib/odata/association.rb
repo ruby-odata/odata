@@ -2,7 +2,7 @@ module OData
   class Association
     attr_reader :name, :ends
 
-    def initialize(options = {})
+    def initialize(options)
       @name = options[:name]
       @ends = options[:ends] || {}
 
