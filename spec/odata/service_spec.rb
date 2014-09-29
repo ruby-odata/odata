@@ -57,12 +57,18 @@ describe OData::Service, vcr: {cassette_name: 'service_specs'} do
 
   describe '#associations' do
     it { expect(subject.associations.size).to eq(5) }
-    it { expect(subject.associations.collect {|a| a.name}).to eq(associations) }
+    it { expect(subject.associations.keys).to eq(associations) }
     it do
-      subject.associations.each do |association|
+      subject.associations.each do |name, association|
         expect(association).to be_a(OData::Association)
       end
     end
+  end
+
+  describe '#navigation_properties' do
+    it { expect(subject).to respond_to(:navigation_properties) }
+    it { expect(subject.navigation_properties['Product'].size).to eq(3) }
+    it { expect(subject.navigation_properties['Product']['Categories']).to be_a(OData::Association) }
   end
 
   describe '#namespace' do

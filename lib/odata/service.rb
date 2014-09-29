@@ -57,8 +57,34 @@ module OData
     end
 
     # Returns the associations defined by the service
+    # @return [Hash<OData::Association>]
     def associations
-      @associations ||= metadata.xpath('//Association').collect {|association_definition| build_association(association_definition)}
+      @associations ||= Hash[metadata.xpath('//Association').collect do |association_definition|
+        [
+            association_definition.attributes['Name'].value,
+            build_association(association_definition)
+        ]
+      end]
+    end
+
+    # Returns a hash for finding an association through an entity type's defined
+    # NavigationProperty elements.
+    # @return [Hash<Hash<OData::Association>>]
+    def navigation_properties
+      @navigation_properties ||= Hash[metadata.xpath('//EntityType').collect do |entity_type_def|
+        entity_type_name = entity_type_def.attributes['Name'].value
+        [
+            entity_type_name,
+            Hash[entity_type_def.xpath('./NavigationProperty').collect do |nav_property_def|
+              relationship_name = nav_property_def.attributes['Relationship'].value
+              relationship_name.gsub!(/^#{namespace}\./, '')
+              [
+                  nav_property_def.attributes['Name'].value,
+                  associations[relationship_name]
+              ]
+            end]
+        ]
+      end]
     end
 
     # Returns the namespace defined on the service's schema
