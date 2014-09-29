@@ -23,6 +23,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov', '~> 0.8.2'
   spec.add_development_dependency 'codeclimate-test-reporter'
   spec.add_development_dependency 'rspec', '~> 3.0.0'
+  spec.add_development_dependency 'rspec-autotest', '~> 1.0.0'
+  spec.add_development_dependency 'autotest', '~> 4.4.6'
   spec.add_development_dependency 'vcr', '~> 2.9.2'
   spec.add_development_dependency 'timecop', '~> 0.7.1'
 
