@@ -19,6 +19,12 @@ module OData
         @value = new_value.nil? ? nil : encode_value(new_value.to_s)
       end
 
+      # Value to be used in URLs.
+      # @return [String]
+      def url_value
+        "'#{value}'"
+      end
+
       # The OData type name
       def type
         'Edm.String'

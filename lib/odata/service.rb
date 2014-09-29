@@ -190,7 +190,9 @@ module OData
 
     def default_options
       {
-          typhoeus: {}
+          typhoeus: {
+              headers: { 'DataServiceVersion' => '3.0' }
+          }
       }
     end
 

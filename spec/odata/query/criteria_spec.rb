@@ -1,10 +1,12 @@
 require 'spec_helper'
 
 describe OData::Query::Criteria do
-  let(:subject) { OData::Query::Criteria.new(property: :Name) }
+  let(:string_property) { OData::Properties::String.new(:Name, nil) }
+  let(:integer_property) { OData::Properties::Integer.new(:Name, nil) }
+  let(:subject) { OData::Query::Criteria.new(property: string_property) }
 
   it { expect(subject).to respond_to(:property) }
-  it { expect(subject.property).to eq(:Name)}
+  it { expect(subject.property).to eq(string_property)}
 
   it { expect(subject).to respond_to(:operator) }
   it { expect(subject).to respond_to(:value) }
@@ -35,6 +37,8 @@ describe OData::Query::Criteria do
     end
 
     it '#gt sets up criteria properly' do
+      subject = OData::Query::Criteria.new(property: integer_property)
+
       criteria = subject.gt(5)
       expect(criteria).to eq(subject)
       expect(criteria.operator).to eq(:gt)
@@ -43,6 +47,8 @@ describe OData::Query::Criteria do
     end
 
     it '#ge sets up criteria properly' do
+      subject = OData::Query::Criteria.new(property: integer_property)
+
       criteria = subject.ge(5)
       expect(criteria).to eq(subject)
       expect(criteria.operator).to eq(:ge)
@@ -51,6 +57,8 @@ describe OData::Query::Criteria do
     end
 
     it '#lt sets up criteria properly' do
+      subject = OData::Query::Criteria.new(property: integer_property)
+
       criteria = subject.lt(5)
       expect(criteria).to eq(subject)
       expect(criteria.operator).to eq(:lt)
@@ -59,6 +67,8 @@ describe OData::Query::Criteria do
     end
 
     it '#le sets up criteria properly' do
+      subject = OData::Query::Criteria.new(property: integer_property)
+
       criteria = subject.le(5)
       expect(criteria).to eq(subject)
       expect(criteria.operator).to eq(:le)

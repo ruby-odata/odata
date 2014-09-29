@@ -14,7 +14,8 @@ module OData
     # Instantiates an OData::Query::Criteria for the named property.
     # @param property [to_s]
     def [](property)
-      OData::Query::Criteria.new(property: property)
+      property_instance = @entity_set.new_entity.send(:properties)[property.to_s]
+      OData::Query::Criteria.new(property: property_instance)
     end
 
     # Adds a filter criteria to the query.
