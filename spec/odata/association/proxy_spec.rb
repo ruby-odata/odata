@@ -5,12 +5,8 @@ describe OData::Association::Proxy, vcr: {cassette_name: 'association_proxy_spec
     OData::Service.open('http://services.odata.org/OData/OData.svc', name: 'ODataDemo')
   end
 
-  let(:subject) { OData::Association::Proxy.new('ODataDemo.Product', service) }
-  let(:service) { OData::ServiceRegistry['ODataDemo'] }
-
-  it { expect(subject).to respond_to(:service) }
-  it { expect(subject).to respond_to(:namespace) }
-  it { expect(subject).to respond_to(:entity_type) }
+  let(:subject) { OData::Association::Proxy.new(entity) }
+  let(:entity) { OData::ServiceRegistry['ODataDemo']['Products'].first }
 
   it { expect(subject).to respond_to(:[]) }
   it { expect(subject).to respond_to(:size)}

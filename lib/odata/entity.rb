@@ -49,7 +49,7 @@ module OData
     end
 
     def associations
-      @associations ||= OData::Association::Proxy.new(type, service)
+      @associations ||= OData::Association::Proxy.new(self)
     end
 
     # Create Entity with provided properties and options.

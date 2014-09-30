@@ -1,17 +1,14 @@
 module OData
   class Association
     class Proxy
-      attr_reader :service, :namespace, :entity_type
-
-      def initialize(entity_type, service)
-        @service = service
-        @namespace = service.namespace
-        @entity_type = entity_type.gsub!(/^#{namespace}\./, '')
+      def initialize(entity)
+        @entity = entity
       end
 
       def [](association_name)
         association = associations[association_name]
         raise ArgumentError, "unknown association: #{association_name}" if association.nil?
+        association.entity = entity
         association
       end
 
@@ -21,8 +18,22 @@ module OData
 
       private
 
+      attr_reader :entity
+
+      def service
+        entity.send(:service)
+      end
+
+      def namespace
+        service.namespace
+      end
+
+      def entity_type
+        entity.type.gsub(/^#{namespace}\./, '')
+      end
+
       def associations
-        @associations ||= service.navigation_properties[entity_type]
+        @associations ||= service.navigation_properties[entity_type].dup
       end
     end
   end

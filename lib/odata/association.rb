@@ -4,6 +4,7 @@ require 'odata/association/proxy'
 module OData
   class Association
     attr_reader :name, :ends
+    attr_writer :entity
 
     def initialize(options)
       @name = options[:name]
