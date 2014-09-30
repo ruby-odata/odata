@@ -48,6 +48,10 @@ module OData
       raise ArgumentError, "Unknown property: #{property_name}"
     end
 
+    def associations
+      @associations ||= OData::Association::Proxy.new(type, service)
+    end
+
     # Create Entity with provided properties and options.
     # @param new_properties [Hash]
     # @param options [Hash]

@@ -19,6 +19,13 @@ describe OData::Entity, vcr: {cassette_name: 'entity_specs'} do
   it { expect(subject.namespace).to eq('ODataDemo') }
   it { expect(subject.service_name).to eq('ODataDemo') }
 
+  describe '#associations' do
+    it { expect(subject).to respond_to(:associations) }
+    it { expect(subject.associations.size).to eq(3) }
+    it { expect(subject.associations['Categories']).to be_a(OData::Association) }
+    it { expect {subject.associations['NonExistant']}.to raise_error(ArgumentError) }
+  end
+
   describe '.from_xml' do
     let(:subject) { OData::Entity.from_xml(product_xml, options) }
     let(:product_xml) {
