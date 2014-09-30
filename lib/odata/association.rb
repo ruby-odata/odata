@@ -1,3 +1,6 @@
+require 'odata/association/end'
+require 'odata/association/proxy'
+
 module OData
   class Association
     attr_reader :name, :ends
