@@ -21,15 +21,15 @@ module OData
       attr_reader :entity
 
       def service
-        entity.send(:service)
+        @service ||= OData::ServiceRegistry[entity.service_name]
       end
 
       def namespace
-        service.namespace
+        @namespace ||= service.namespace
       end
 
       def entity_type
-        entity.type.gsub(/^#{namespace}\./, '')
+        @entity_type ||= entity.type.gsub(/^#{namespace}\./, '')
       end
 
       def associations
