@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.6.0
+
+* Added ability to handle associations in a reasonable way.
+
+## 0.5.1-8
+
+* Tons of changes throughout the code base
+
 ## 0.5.0
 
 * Stopped using namespace from OData service as unique identifier in favor of
