@@ -19,6 +19,26 @@ describe OData::Entity, vcr: {cassette_name: 'entity_specs'} do
   it { expect(subject.namespace).to eq('ODataDemo') }
   it { expect(subject.service_name).to eq('ODataDemo') }
 
+  describe '#links' do
+    let(:subject) { OData::Entity.from_xml(product_xml, options) }
+    let(:product_xml) {
+      document = ::Nokogiri::XML(File.open('spec/fixtures/sample_service/product_0.xml'))
+      document.remove_namespaces!
+      document.xpath('//entry').first
+    }
+    let(:links) do
+      {
+          'Categories'    => {type: :feed, href: 'Products(0)/Categories'},
+          'Supplier'      => {type: :entry, href: 'Products(0)/Supplier'},
+          'ProductDetail' => {type: :entry, href: 'Products(0)/ProductDetail'}
+      }
+    end
+
+    it { expect(subject).to respond_to(:links) }
+    it { expect(subject.links.size).to eq(3) }
+    it { expect(subject.links).to eq(links) }
+  end
+
   describe '#associations' do
     it { expect(subject).to respond_to(:associations) }
     it { expect(subject.associations.size).to eq(3) }

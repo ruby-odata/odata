@@ -8,7 +8,6 @@ module OData
       def [](association_name)
         association = associations[association_name]
         raise ArgumentError, "unknown association: #{association_name}" if association.nil?
-        association.entity = entity
         association
       end
 

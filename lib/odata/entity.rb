@@ -11,6 +11,8 @@ module OData
     attr_reader :namespace
     # The OData::Service's identifying name
     attr_reader :service_name
+    # Links to other OData entitites
+    attr_reader :links
 
     # Initializes a bare Entity
     # @param options [Hash]
@@ -18,6 +20,7 @@ module OData
       @type = options[:type]
       @namespace = options[:namespace]
       @service_name = options[:service_name]
+      @links = options[:links] || {}
     end
 
     # Returns name of Entity from Service specified type.
@@ -80,6 +83,7 @@ module OData
       process_properties(entity, xml_doc)
       process_feed_property(entity, xml_doc, 'title')
       process_feed_property(entity, xml_doc, 'summary')
+      process_links(entity, xml_doc)
       entity
     end
 
@@ -176,6 +180,23 @@ module OData
         return if property_name.nil?
         property = instantiate_property(property_name, property_value)
         set_property(property_name, property)
+      end
+    end
+
+    def self.process_links(entity, xml_doc)
+      entity.instance_eval do
+        service.navigation_properties[name].each do |nav_name, details|
+          xml_doc.xpath("//link[@title='#{nav_name}']").each do |node|
+            next unless node.attributes['type'].value =~ /^application\/atom\+xml;type=(feed|entry)$/i
+            link_type = node.attributes['type'].value =~ /type=entry$/i ? :entry : :feed
+            new_links = instance_variable_get(:@links)
+            new_links[nav_name] = {
+                type: link_type,
+                href: node.attributes['href'].value
+            }
+            instance_variable_set(:@links, new_links)
+          end
+        end
       end
     end
   end
