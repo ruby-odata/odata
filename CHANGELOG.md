@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.1
+
+* Made a minor change to internals of OData::Query::Criteria.
+
 ## 0.6.0
 
 * Added ability to handle associations in a reasonable way.
