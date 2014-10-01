@@ -164,7 +164,8 @@ module OData
     # @param entity_name [to_s] the name of the relevant entity
     # @return [String] the name of the property used as the entity title
     def get_title_property_name(entity_name)
-      metadata.xpath("//EntityType[@Name='#{entity_name}']/Property[@FC_TargetPath='SyndicationTitle']").first.attributes['Name'].value
+      node = metadata.xpath("//EntityType[@Name='#{entity_name}']/Property[@FC_TargetPath='SyndicationTitle']").first
+      node.nil? ? nil : node.attributes['Name'].value
     end
 
     # Get the property used as the summary for an entity from metadata.

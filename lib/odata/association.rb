@@ -7,7 +7,7 @@ module OData
 
     def initialize(options)
       @name = options[:name]
-      @ends = options[:ends] || {}
+      @ends = options[:ends] || []
 
       raise ArgumentError, 'name must be provided' if name.nil? || name == ''
       raise ArgumentError, 'too many association ends' if ends.size > 2

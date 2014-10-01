@@ -8,7 +8,7 @@ describe OData::Association do
   it { expect(subject).to respond_to(:name) }
 
   it { expect(subject).to respond_to(:ends) }
-  it { expect(subject.ends).to be_a(Hash) }
+  it { expect(subject.ends).to be_a(Array) }
 
   context 'when initialized' do
     let(:subject) do

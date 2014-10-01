@@ -42,7 +42,6 @@ describe OData::Entity, vcr: {cassette_name: 'entity_specs'} do
   describe '#associations' do
     it { expect(subject).to respond_to(:associations) }
     it { expect(subject.associations.size).to eq(3) }
-    it { expect(subject.associations['Categories']).to be_a(OData::Association) }
     it { expect {subject.associations['NonExistant']}.to raise_error(ArgumentError) }
   end
 
