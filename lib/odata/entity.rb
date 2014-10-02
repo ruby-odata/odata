@@ -187,6 +187,7 @@ module OData
       entity.instance_eval do
         service.navigation_properties[name].each do |nav_name, details|
           xml_doc.xpath("//link[@title='#{nav_name}']").each do |node|
+            next if node.attributes['type'].nil?
             next unless node.attributes['type'].value =~ /^application\/atom\+xml;type=(feed|entry)$/i
             link_type = node.attributes['type'].value =~ /type=entry$/i ? :entry : :feed
             new_links = instance_variable_get(:@links)
