@@ -156,7 +156,8 @@ module OData
     # @param property_name [to_s] the property name needed
     # @return [String] the name of the property's type
     def get_property_type(entity_name, property_name)
-      metadata.xpath("//EntityType[@Name='#{entity_name}']/Property[@Name='#{property_name}']").first.attributes['Type'].value
+      properties_for_entity(entity_name) if metadata_hash[:entity_types][entity_name].nil?
+      metadata_hash[:entity_types][entity_name][:properties][property_name].type
     end
 
     # Get the property used as the title for an entity from metadata.
@@ -192,14 +193,18 @@ module OData
     # @return [Hash]
     # @api private
     def properties_for_entity(entity_name)
-      type_definition = metadata.xpath("//EntityType[@Name='#{entity_name}']").first
-      raise ArgumentError, "Unknown EntityType: #{entity_name}" if type_definition.nil?
-      properties_to_return = {}
-      type_definition.xpath('./Property').each do |property_xml|
-        property_name, property = process_property_from_xml(property_xml)
-        properties_to_return[property_name] = property
+      if metadata_hash[:entity_types][entity_name].nil?
+        entity_spec = metadata.xpath("//EntityType[@Name='#{entity_name}']")
+        hsh = { properties: Hash[entity_spec.xpath('./Property').collect {|property_node|
+          process_property_from_xml(property_node)
+        }] }
+        metadata_hash[:entity_types][entity_name] ||= {}
+        metadata_hash[:entity_types][entity_name].merge!(hsh)
       end
-      properties_to_return
+
+      definition = metadata_hash[:entity_types][entity_name]
+      raise ArgumentError, "Unknown EntityType: #{entity_name}" if definition.nil?
+      definition[:properties]
     end
 
     # Get list of properties and their various options for the supplied
@@ -208,14 +213,9 @@ module OData
     # @return [Hash]
     # @api private
     def properties_for_complex_type(type_name)
-      type_definition = metadata.xpath("//ComplexType[@Name='#{type_name}']").first
-      raise ArgumentError, "Unknown ComplexType: #{type_name}" if type_definition.nil?
-      properties_to_return = {}
-      type_definition.xpath('./Property').each do |property_xml|
-        property_name, property = process_property_from_xml(property_xml)
-        properties_to_return[property_name] = property
-      end
-      properties_to_return
+      definition = metadata_hash[:complex_types][type_name]
+      raise ArgumentError, "Unknown ComplexType: #{type_name}" if definition.nil?
+      definition[:properties]
     end
 
     private
@@ -239,6 +239,25 @@ module OData
         request.run
         response = request.response
         ::Nokogiri::XML(response.body).remove_namespaces!
+      }.call
+    end
+
+    def metadata_hash
+      @metadata_hash ||= lambda {
+        hsh = {}
+
+        hsh[:complex_types] = Hash[metadata.xpath('//ComplexType').collect {|node|
+          [
+              node.attributes['Name'].value,
+              { properties: Hash[node.xpath('./Property').collect {|property_node|
+                process_property_from_xml(property_node)
+              }] }
+          ]
+        }]
+
+        hsh[:entity_types] = {}
+
+        hsh
       }.call
     end
 
