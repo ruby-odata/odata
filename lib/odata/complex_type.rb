@@ -19,6 +19,12 @@ module OData
       collect_properties
     end
 
+    # Returns the namespaced type for the ComplexType.
+    # @return [String]
+    def type
+      "#{namespace}.#{name}"
+    end
+
     # Returns the namespace this ComplexType belongs to.
     # @return [String]
     def namespace

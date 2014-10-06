@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.4
+
+* Added implementation of OData::ComplexType#type.
+
 ## 0.6.3
 
 * Added OData::ComplexType#to_xml to make entity saving work correctly.
