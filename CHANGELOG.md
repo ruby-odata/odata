@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.3
+
+* Added OData::ComplexType#to_xml to make entity saving work correctly.
+
 ## 0.6.1
 
 * Made a minor change to internals of OData::Query::Criteria.
