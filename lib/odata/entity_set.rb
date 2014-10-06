@@ -149,7 +149,8 @@ module OData
     end
 
     def setup_entity_post_request(entity)
-      chunk = entity.is_new? ? name : "#{name}(#{entity[entity.primary_key]})"
+      primary_key = entity.send(:properties)[entity.primary_key].url_value
+      chunk = entity.is_new? ? name : "#{name}(#{primary_key})"
       options = {
           method: :post,
           body: entity.to_xml.gsub(/\n\s+/, ''),

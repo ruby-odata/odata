@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.6.6
+
+* Updated OData::EntitySet#setup_entity_post_request to properly format primary
+  key values when posting an entity.
+
 ## 0.6.5
 
 * Fixed problem in OData::ComplexType#to_xml implementation.
