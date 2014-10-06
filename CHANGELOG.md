@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.5
+
+* Fixed problem in OData::ComplexType#to_xml implementation.
+
 ## 0.6.4
 
 * Added implementation of OData::ComplexType#type.

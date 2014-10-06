@@ -62,7 +62,7 @@ module OData
 
       xml_builder['data'].send(name.to_sym, attributes) do
         properties.each do |name, property|
-          property.to_xml(xml)
+          property.to_xml(xml_builder)
         end
       end
     end
