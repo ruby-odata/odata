@@ -46,6 +46,21 @@ module OData
       properties[property_name.to_s].value = value
     end
 
+    # Returns the XML representation of the property to the supplied XML
+    # builder.
+    # @param xml_builder [Nokogiri::XML::Builder]
+    def to_xml(xml_builder)
+      attributes = {
+          'metadata:type' => type,
+      }
+
+      xml_builder['data'].send(name.to_sym, attributes) do
+        properties.each do |name, property|
+          property.to_xml(xml)
+        end
+      end
+    end
+
     private
 
     def service
