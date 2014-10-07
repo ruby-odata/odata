@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.8
+
+* Added empty checking when checking for a nil value.
+
 ## 0.6.7
 
 * Changed how commit failures are handled to use logging instead of raising an
