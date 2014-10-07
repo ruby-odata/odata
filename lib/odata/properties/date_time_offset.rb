@@ -5,7 +5,7 @@ module OData
       # Returns the property value, properly typecast
       # @return [DateTime,nil]
       def value
-        if @value.nil? && allow_nil?
+        if (@value.nil? || @value.empty?) && allow_nil?
           nil
         else
           ::DateTime.strptime(@value, '%Y-%m-%dT%H:%M:%S.%LZ%:z')

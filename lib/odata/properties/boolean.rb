@@ -5,7 +5,7 @@ module OData
       # Returns the property value, properly typecast
       # @return [Boolean, nil]
       def value
-        if @value.nil? && allows_nil?
+        if (@value.nil? || @value.empty?) && allows_nil?
           nil
         else
           (@value == 'true' || @value == '1')
