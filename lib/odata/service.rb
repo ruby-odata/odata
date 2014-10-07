@@ -218,6 +218,14 @@ module OData
       properties_to_return
     end
 
+    def logger
+      @logger ||= defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
+    end
+
+    def logger=(custom_logger)
+      @logger = custom_logger
+    end
+
     private
 
     def default_options

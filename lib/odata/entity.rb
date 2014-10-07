@@ -13,6 +13,8 @@ module OData
     attr_reader :service_name
     # Links to other OData entitites
     attr_reader :links
+    # List of errors on entity
+    attr_reader :errors
 
     # Initializes a bare Entity
     # @param options [Hash]
@@ -21,6 +23,7 @@ module OData
       @namespace = options[:namespace]
       @service_name = options[:service_name]
       @links = options[:links] || {}
+      @errors = []
     end
 
     # Returns name of Entity from Service specified type.
@@ -122,6 +125,10 @@ module OData
 
     def is_new?
       self[primary_key].nil?
+    end
+
+    def any_errors?
+      !errors.empty?
     end
 
     private
