@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.6.7
+
+* Changed how commit failures are handled to use logging instead of raising an
+  error.
+* Added errors array to OData::Entity.
+
 ## 0.6.6
 
 * Updated OData::EntitySet#setup_entity_post_request to properly format primary
