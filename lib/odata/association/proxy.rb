@@ -58,7 +58,7 @@ module OData
         else
           document = ::Nokogiri::XML(results.body)
           document.remove_namespaces!
-          OData::Entity.from_xml(document, options)
+          OData::Entity.from_xml(document.xpath('//entry'), options)
         end
       end
     end

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.10
+
+* Changed how associations behave with mulitiplicity of one.
+
 ## 0.6.9
 
 * Changed how OData::Entity#from_xml functions to better work with feed results.
