@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.9
+
+* Changed how OData::Entity#from_xml functions to better work with feed results.
+
 ## 0.6.8
 
 * Added empty checking when checking for a nil value.
