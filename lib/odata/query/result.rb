@@ -17,15 +17,19 @@ module OData
       # @param block [block] a block to evaluate
       # @return [OData::Entity] each entity in turn for the query result
       def each(&block)
-        service.find_entities(result).each do |entity_xml|
-          entity = OData::Entity.from_xml(entity_xml, entity_options)
-          block_given? ? block.call(entity) : yield(entity)
+        until next_page.nil?
+          service.find_entities(result).each do |entity_xml|
+            entity = OData::Entity.from_xml(entity_xml, entity_options)
+            block_given? ? block.call(entity) : yield(entity)
+          end
+          result = service.execute(next_page_url)
         end
       end
 
       private
 
-      attr_reader :query, :result
+      attr_reader :query
+      attr_accessor :result
 
       def service
         query.entity_set.service
@@ -33,6 +37,16 @@ module OData
 
       def entity_options
         query.entity_set.entity_options
+      end
+
+      def next_page
+        doc = ::Nokogiri::XML(result.body)
+        doc.remove_namespaces!
+        doc.xpath("/feed/link[@rel='next']").first
+      end
+
+      def next_page_url
+        next_page.attributes['href'].gsub(service.service_url, '')
       end
     end
   end
