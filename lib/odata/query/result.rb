@@ -46,7 +46,7 @@ module OData
       end
 
       def next_page_url
-        next_page.attributes['href'].gsub(service.service_url, '')
+        next_page.attributes['href'].value.gsub(service.service_url, '')
       end
     end
   end
