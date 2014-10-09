@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.13
+
+* Minor bug fix in OData::Query::Result#each implementation.
+
 ## 0.6.12
 
 * Minor bug fix in OData::Query::Result#each implementation.

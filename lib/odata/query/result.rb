@@ -17,12 +17,10 @@ module OData
       # @param block [block] a block to evaluate
       # @return [OData::Entity] each entity in turn for the query result
       def each(&block)
+        process_results(&block)
         until next_page.nil?
-          service.find_entities(result).each do |entity_xml|
-            entity = OData::Entity.from_xml(entity_xml, entity_options)
-            block_given? ? block.call(entity) : yield(entity)
-          end
           result = service.execute(next_page_url)
+          process_results(&block)
         end
       end
 
@@ -37,6 +35,13 @@ module OData
 
       def entity_options
         query.entity_set.entity_options
+      end
+
+      def process_results(&block)
+        service.find_entities(result).each do |entity_xml|
+          entity = OData::Entity.from_xml(entity_xml, entity_options)
+          block_given? ? block.call(entity) : yield(entity)
+        end
       end
 
       def next_page
