@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.16
+
+* Implemented OData::Query#empty? and fixed OData::Query#count.
+
 ## 0.6.15
 
 * Fixed minor bug in last release.
