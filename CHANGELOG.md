@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.18
+
+* Minor internal fixes to OData::Query::Criteria.
+
 ## 0.6.17
 
 * Added more graceful handling of manually passed advanced queries to

@@ -74,11 +74,11 @@ module OData
       end
 
       def url_value
-        property.nil? ? value : property.url_value
+        property.respond_to?(:url_value) ? property.url_value : value
       end
 
       def set_operator_and_value(operator, value)
-        property.value = value unless property.nil?
+        property.value = value if property.respond_to?(:value)
 
         @operator = operator
         @value = value
