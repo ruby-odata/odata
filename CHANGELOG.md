@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.6.17
+
+* Added more graceful handling of manually passed advanced queries to
+  OData::Query::Criteria.
+
 ## 0.6.16
 
 * Implemented OData::Query#empty? and fixed OData::Query#count.

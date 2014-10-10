@@ -62,10 +62,16 @@ module OData
 
       # Returns criteria as query-ready string.
       def to_s
-        "#{property.name} #{operator} #{url_value}"
+        "#{property_name} #{operator} #{url_value}"
       end
 
       private
+
+      def property_name
+        property.name
+      rescue NoMethodError
+        property.to_s
+      end
 
       def url_value
         property.nil? ? value : property.url_value

@@ -15,6 +15,7 @@ module OData
     # @param property [to_s]
     def [](property)
       property_instance = @entity_set.new_entity.send(:properties)[property.to_s]
+      property_instance = property if property_instance.nil?
       OData::Query::Criteria.new(property: property_instance)
     end
 
