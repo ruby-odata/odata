@@ -17,9 +17,9 @@ module OData
           else
             nil
           end
+        else
+          association_results(association_name)
         end
-
-        association_results(association_name)
       end
 
       def size

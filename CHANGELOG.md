@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.15
+
+* Fixed minor bug in last release.
+
 ## 0.6.14
 
 * Changed implementation of OData::Association::Proxy#[] to properly handle
