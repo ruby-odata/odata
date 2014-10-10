@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.6.14
+
+* Changed implementation of OData::Association::Proxy#[] to properly handle
+  empty associations.
+
 ## 0.6.13
 
 * Minor bug fix in OData::Query::Result#each implementation.
