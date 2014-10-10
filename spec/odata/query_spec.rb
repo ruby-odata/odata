@@ -95,13 +95,33 @@ describe OData::Query, vcr: {cassette_name: 'query_specs'} do
     end
   end
 
-  it { expect(subject).to respond_to(:execute) }
   describe '#execute' do
+    it { expect(subject).to respond_to(:execute) }
     it { expect(subject.execute).to be_a(OData::Query::Result) }
   end
 
-  it { expect(subject).to respond_to(:count) }
   describe '#count' do
+    it { expect(subject).to respond_to(:count) }
     it { expect(subject.count).to be_a(Integer) }
+    it { expect(subject.count).to eq(11) }
+
+    context 'with filters' do
+      let(:criteria) { subject[:Name].eq('Bread') }
+
+      it { expect(subject.where(criteria).count).to eq(1) }
+    end
+  end
+
+  describe '#empty?' do
+    it { expect(subject).to respond_to(:empty?) }
+    it { expect(subject.empty?).to eq(false) }
+
+    context 'with filters' do
+      let(:non_empty_criteria) { subject[:Name].eq('Bread') }
+      let(:empty_criteria) { subject[:Name].eq('NonExistent') }
+
+      it { expect(subject.where(non_empty_criteria).empty?).to eq(false) }
+      it { expect(subject.where(empty_criteria).empty?).to eq(true) }
+    end
   end
 end

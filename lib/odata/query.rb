@@ -100,7 +100,14 @@ module OData
     # Executes the query to get a count of entities.
     # @return [Integer]
     def count
-      entity_set.service.execute("#{self.to_s}/$count").body.to_i
+      url_chunk = "#{entity_set.name}/$count?#{assemble_criteria}"
+      entity_set.service.execute(url_chunk).body.to_i
+    end
+
+    # Checks whether a query will return any results by calling #count
+    # @return [Boolean]
+    def empty?
+      self.count == 0
     end
 
     # The EntitySet for this query.
