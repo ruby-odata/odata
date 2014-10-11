@@ -15,8 +15,10 @@ module OData
 
       @name = options[:name].to_s
       @service = options[:service]
+      @xml = options[:xml]
 
       collect_properties
+      set_property_values
     end
 
     # Returns the namespaced type for the ComplexType.
@@ -83,6 +85,15 @@ module OData
 
     def collect_properties
       @properties = service.properties_for_complex_type(name)
+    end
+
+    def set_property_values
+      unless @xml.nil?
+        @properties.each do |name, instance|
+          node = @xml.xpath("./#{name}").first
+          instance.value = (node.nil? ? nil : node.content)
+        end
+      end
     end
   end
 end

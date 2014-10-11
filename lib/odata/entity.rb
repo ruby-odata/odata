@@ -134,22 +134,10 @@ module OData
     private
 
     def instantiate_property(property_name, value)
-      value_type = service.get_property_type(name, property_name)
-      klass = ::OData::PropertyRegistry[value_type]
-
-      if klass.nil? && value_type =~ /^#{namespace}\./
-        type_name = value_type.gsub(/^#{namespace}\./, '')
-        property = ::OData::ComplexType.new(name: type_name, service: service)
-        value.element_children.each do |node|
-          property[node.name] = node.content
-        end
-        property
-      elsif klass.nil?
-        raise RuntimeError, "Unknown property type: #{value_type}"
-      else
-        value = value.content unless value.nil?
-        klass.new(property_name, value)
-      end
+      metadata = service.send(:metadata_hash)
+      options = metadata[:entity_types][name][:properties][property_name]
+      value = value.content if value.respond_to?(:content) && !options[:complex]
+      service.initialize_property(property_name, options, value)
     end
 
     def properties
@@ -183,6 +171,7 @@ module OData
     def self.process_feed_property(entity, xml_doc, property_name)
       entity.instance_eval do
         property_value = xml_doc.xpath("./#{property_name}").first
+        property_value = property_value.nil? ? nil : property_value.content
         property_name = service.send("get_#{property_name}_property_name", name)
         return if property_name.nil?
         property = instantiate_property(property_name, property_value)

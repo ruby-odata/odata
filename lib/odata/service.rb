@@ -193,18 +193,11 @@ module OData
     # @return [Hash]
     # @api private
     def properties_for_entity(entity_name)
-      if metadata_hash[:entity_types][entity_name].nil?
-        entity_spec = metadata.xpath("//EntityType[@Name='#{entity_name}']")
-        hsh = { properties: Hash[entity_spec.xpath('./Property').collect {|property_node|
-          process_property_from_xml(property_node)
-        }] }
-        metadata_hash[:entity_types][entity_name] ||= {}
-        metadata_hash[:entity_types][entity_name].merge!(hsh)
-      end
-
-      definition = metadata_hash[:entity_types][entity_name]
-      raise ArgumentError, "Unknown EntityType: #{entity_name}" if definition.nil?
-      definition[:properties]
+      definition = metadata_hash[:entity_types][entity_name.to_s]
+      raise ArgumentError, "Unknown EntityType: #{entity_name}" unless definition
+      Hash[definition[:properties].collect {|name, options|
+        [name, initialize_property(name, options)]
+      }]
     end
 
     # Get list of properties and their various options for the supplied
@@ -213,9 +206,24 @@ module OData
     # @return [Hash]
     # @api private
     def properties_for_complex_type(type_name)
-      definition = metadata_hash[:complex_types][type_name]
-      raise ArgumentError, "Unknown ComplexType: #{type_name}" if definition.nil?
-      definition[:properties]
+      definition = metadata_hash[:complex_types][type_name.to_s]
+      raise ArgumentError, "Unknown ComplexType: #{type_name}" unless definition
+      Hash[definition[:properties].collect {|name, options|
+        [name, initialize_property(name, options)]
+      }]
+    end
+
+    def initialize_property(name, options, value = nil)
+      klass = ::OData::PropertyRegistry[options[:type]]
+
+      if klass.nil? && options[:complex]
+        type_name = options[:type].gsub(/^#{namespace}\./, '')
+        ::OData::ComplexType.new(name: type_name, service: self, xml: value)
+      elsif klass.nil?
+        raise RuntimeError, "Unknown property type: #{options[:type]}"
+      else
+        klass.new(name, value, options)
+      end
     end
 
     def logger
@@ -258,35 +266,41 @@ module OData
           [
               node.attributes['Name'].value,
               { properties: Hash[node.xpath('./Property').collect {|property_node|
-                process_property_from_xml(property_node)
+                nullable = property_node.attributes['Nullable']
+                allows_nil = (nullable && nullable.value == 'false') ? false : true
+                [
+                    property_node.attributes['Name'].value,
+                    {
+                        type: property_node.attributes['Type'].value,
+                        complex: false,
+                        allows_nil: allows_nil
+                    }
+                ]
               }] }
           ]
         }]
 
-        hsh[:entity_types] = {}
+        hsh[:entity_types] = Hash[metadata.xpath('//EntityType').collect {|node|
+          [
+              node.attributes['Name'].value,
+              { properties: Hash[node.xpath('./Property').collect {|property_node|
+                nullable = property_node.attributes['Nullable']
+                allows_nil = (nullable && nullable.value == 'false') ? false : true
+                type = property_node.attributes['Type'].value
+                [
+                    property_node.attributes['Name'].value,
+                    {
+                        type: property_node.attributes['Type'].value,
+                        complex: (type =~ /^Edm\./i) ? false : true,
+                        allows_nil: allows_nil
+                    }
+                ]
+              }]}
+          ]
+        }]
 
         hsh
       }.call
-    end
-
-    def process_property_from_xml(property_xml)
-      property_name = property_xml.attributes['Name'].value
-      value_type = property_xml.attributes['Type'].value
-      property_options = {}
-
-      klass = ::OData::PropertyRegistry[value_type]
-
-      if klass.nil? && value_type =~ /^#{namespace}\./
-        type_name = value_type.gsub(/^#{namespace}\./, '')
-        property = ::OData::ComplexType.new(name: type_name, service: self)
-      elsif klass.nil?
-        raise RuntimeError, "Unknown property type: #{value_type}"
-      else
-        property_options[:allows_nil] = false if property_xml.attributes['Nullable'] == 'false'
-        property = klass.new(property_name, nil, property_options)
-      end
-
-      return [property_name, property]
     end
 
     def build_association(association_definition)
