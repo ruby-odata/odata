@@ -5,7 +5,7 @@ module OData
       # Returns the property value, properly typecast
       # @return [Time,nil]
       def value
-        if @value.nil? && allow_nil?
+        if (@value.nil? || @value.empty?) && allow_nil?
           nil
         else
           ::Time.strptime(@value, '%H:%M:%S%:z')

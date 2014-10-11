@@ -15,6 +15,7 @@ module OData
     # @param property [to_s]
     def [](property)
       property_instance = @entity_set.new_entity.send(:properties)[property.to_s]
+      property_instance = property if property_instance.nil?
       OData::Query::Criteria.new(property: property_instance)
     end
 
@@ -100,7 +101,14 @@ module OData
     # Executes the query to get a count of entities.
     # @return [Integer]
     def count
-      entity_set.service.execute("#{self.to_s}/$count").body.to_i
+      url_chunk = "#{entity_set.name}/$count?#{assemble_criteria}"
+      entity_set.service.execute(url_chunk).body.to_i
+    end
+
+    # Checks whether a query will return any results by calling #count
+    # @return [Boolean]
+    def empty?
+      self.count == 0
     end
 
     # The EntitySet for this query.

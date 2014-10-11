@@ -13,6 +13,8 @@ module OData
     attr_reader :service_name
     # Links to other OData entitites
     attr_reader :links
+    # List of errors on entity
+    attr_reader :errors
 
     # Initializes a bare Entity
     # @param options [Hash]
@@ -21,6 +23,7 @@ module OData
       @namespace = options[:namespace]
       @service_name = options[:service_name]
       @links = options[:links] || {}
+      @errors = []
     end
 
     # Returns name of Entity from Service specified type.
@@ -124,6 +127,10 @@ module OData
       self[primary_key].nil?
     end
 
+    def any_errors?
+      !errors.empty?
+    end
+
     private
 
     def instantiate_property(property_name, value)
@@ -159,7 +166,7 @@ module OData
 
     def self.process_properties(entity, xml_doc)
       entity.instance_eval do
-        xml_doc.xpath('//content/properties/*').each do |property_xml|
+        xml_doc.xpath('./content/properties/*').each do |property_xml|
           property_name = property_xml.name
           if property_xml.attributes['null'] &&
               property_xml.attributes['null'].value == 'true'
@@ -175,7 +182,7 @@ module OData
 
     def self.process_feed_property(entity, xml_doc, property_name)
       entity.instance_eval do
-        property_value = xml_doc.xpath("//#{property_name}").first
+        property_value = xml_doc.xpath("./#{property_name}").first
         property_name = service.send("get_#{property_name}_property_name", name)
         return if property_name.nil?
         property = instantiate_property(property_name, property_value)
@@ -186,7 +193,7 @@ module OData
     def self.process_links(entity, xml_doc)
       entity.instance_eval do
         service.navigation_properties[name].each do |nav_name, details|
-          xml_doc.xpath("//link[@title='#{nav_name}']").each do |node|
+          xml_doc.xpath("./link[@title='#{nav_name}']").each do |node|
             next if node.attributes['type'].nil?
             next unless node.attributes['type'].value =~ /^application\/atom\+xml;type=(feed|entry)$/i
             link_type = node.attributes['type'].value =~ /type=entry$/i ? :entry : :feed

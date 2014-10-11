@@ -95,7 +95,11 @@ describe OData::EntitySet, vcr: {cassette_name: 'entity_set_specs'} do
     } }
 
     describe 'with an existing entity', vcr: {cassette_name: 'entity_set_specs/existing_entry'} do
-      it { expect {subject << existing_entity}.to_not raise_error }
+      before(:each) do
+        subject << existing_entity
+      end
+
+      it { expect(existing_entity.any_errors?).to eq(false) }
     end
 
     describe 'with a new entity', vcr: {cassette_name: 'entity_set_specs/new_entry'} do
@@ -108,7 +112,11 @@ describe OData::EntitySet, vcr: {cassette_name: 'entity_set_specs'} do
     end
 
     describe 'with a bad entity', vcr: {cassette_name: 'entity_set_specs/bad_entry'} do
-      it { expect {subject << bad_entity}.to raise_error(StandardError, 'Something went wrong committing your entity') }
+      before(:each) do
+        subject << bad_entity
+      end
+
+      it { expect(bad_entity.any_errors?).to eq(true) }
     end
   end
 end

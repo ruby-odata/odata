@@ -2,6 +2,57 @@
 http_interactions:
 - request:
     method: get
+    uri: http://services.odata.org/OData/OData.svc/Products/$count?
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      DataServiceVersion:
+      - '3.0'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '2'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Server:
+      - Microsoft-IIS/8.0
+      X-Content-Type-Options:
+      - nosniff
+      DataServiceVersion:
+      - 2.0;
+      X-AspNet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Allow-Headers:
+      - Accept, Origin, Content-Type, MaxDataServiceVersion
+      Access-Control-Expose-Headers:
+      - DataServiceVersion
+      Set-Cookie:
+      - ARRAffinity=f52a868fbb9bda30202dea2c82bfa2f9350871e50836757efd92afab45cf9549;Path=/;Domain=services.odata.org
+      Date:
+      - Fri, 10 Oct 2014 20:17:49 GMT
+    body:
+      encoding: UTF-8
+      string: '11'
+    http_version: '1.1'
+    adapter_metadata:
+      effective_url: http://services.odata.org/OData/OData.svc/Products/$count?
+  recorded_at: Fri, 10 Oct 2014 20:17:49 GMT
+- request:
+    method: get
     uri: http://services.odata.org/OData/OData.svc/$metadata
     body:
       encoding: US-ASCII
@@ -41,9 +92,9 @@ http_interactions:
       Access-Control-Expose-Headers:
       - DataServiceVersion
       Set-Cookie:
-      - ARRAffinity=cb44902b614a02a3a0dc1bccc3de360d89b180ff17e14b11fd9b289a8de75827;Path=/;Domain=services.odata.org
+      - ARRAffinity=f52a868fbb9bda30202dea2c82bfa2f9350871e50836757efd92afab45cf9549;Path=/;Domain=services.odata.org
       Date:
-      - Mon, 29 Sep 2014 04:25:33 GMT
+      - Fri, 10 Oct 2014 20:17:49 GMT
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"><edmx:DataServices
@@ -162,7 +213,7 @@ http_interactions:
     http_version: '1.1'
     adapter_metadata:
       effective_url: http://services.odata.org/OData/OData.svc/$metadata
-  recorded_at: Mon, 29 Sep 2014 04:25:33 GMT
+  recorded_at: Fri, 10 Oct 2014 20:17:49 GMT
 - request:
     method: get
     uri: http://services.odata.org/OData/OData.svc/Products
@@ -204,16 +255,16 @@ http_interactions:
       Access-Control-Expose-Headers:
       - DataServiceVersion
       Set-Cookie:
-      - ARRAffinity=cb44902b614a02a3a0dc1bccc3de360d89b180ff17e14b11fd9b289a8de75827;Path=/;Domain=services.odata.org
+      - ARRAffinity=f52a868fbb9bda30202dea2c82bfa2f9350871e50836757efd92afab45cf9549;Path=/;Domain=services.odata.org
       Date:
-      - Mon, 29 Sep 2014 04:25:33 GMT
+      - Fri, 10 Oct 2014 20:17:49 GMT
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><feed xml:base="http://services.odata.org/OData/OData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
         xmlns:gml="http://www.opengis.net/gml"><id>http://services.odata.org/OData/OData.svc/Products</id><title
-        type="text">Products</title><updated>2014-09-29T04:25:33Z</updated><link rel="self"
+        type="text">Products</title><updated>2014-10-10T20:17:49Z</updated><link rel="self"
         title="Products" href="Products" /><entry><id>http://services.odata.org/OData/OData.svc/Products(0)</id><category
         term="ODataDemo.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Product" href="Products(0)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Categories"
@@ -222,7 +273,7 @@ http_interactions:
         type="application/atom+xml;type=entry" title="Supplier" href="Products(0)/Supplier"
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
         type="application/atom+xml;type=entry" title="ProductDetail" href="Products(0)/ProductDetail"
-        /><title type="text">Bread</title><summary type="text">Whole grain bread</summary><updated>2014-09-29T04:25:33Z</updated><author><name
+        /><title type="text">Bread</title><summary type="text">Whole grain bread</summary><updated>2014-10-10T20:17:49Z</updated><author><name
         /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
         type="application/xml" title="Categories" href="Products(0)/$links/Categories"
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
@@ -239,7 +290,7 @@ http_interactions:
         type="application/atom+xml;type=entry" title="Supplier" href="Products(1)/Supplier"
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
         type="application/atom+xml;type=entry" title="ProductDetail" href="Products(1)/ProductDetail"
-        /><title type="text">Milk</title><summary type="text">Low fat milk</summary><updated>2014-09-29T04:25:33Z</updated><author><name
+        /><title type="text">Milk</title><summary type="text">Low fat milk</summary><updated>2014-10-10T20:17:49Z</updated><author><name
         /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
         type="application/xml" title="Categories" href="Products(1)/$links/Categories"
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
@@ -257,7 +308,7 @@ http_interactions:
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
         type="application/atom+xml;type=entry" title="ProductDetail" href="Products(2)/ProductDetail"
         /><title type="text">Vint soda</title><summary type="text">Americana Variety
-        - Mix of 6 flavors</summary><updated>2014-09-29T04:25:33Z</updated><author><name
+        - Mix of 6 flavors</summary><updated>2014-10-10T20:17:49Z</updated><author><name
         /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
         type="application/xml" title="Categories" href="Products(2)/$links/Categories"
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
@@ -275,7 +326,7 @@ http_interactions:
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
         type="application/atom+xml;type=entry" title="ProductDetail" href="Products(3)/ProductDetail"
         /><title type="text">Havina Cola</title><summary type="text">The Original
-        Key Lime Cola</summary><updated>2014-09-29T04:25:33Z</updated><author><name
+        Key Lime Cola</summary><updated>2014-10-10T20:17:49Z</updated><author><name
         /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
         type="application/xml" title="Categories" href="Products(3)/$links/Categories"
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
@@ -294,7 +345,7 @@ http_interactions:
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
         type="application/atom+xml;type=entry" title="ProductDetail" href="Products(4)/ProductDetail"
         /><title type="text">Fruit Punch</title><summary type="text">Mango flavor,
-        8.3 Ounce Cans (Pack of 24)</summary><updated>2014-09-29T04:25:33Z</updated><author><name
+        8.3 Ounce Cans (Pack of 24)</summary><updated>2014-10-10T20:17:49Z</updated><author><name
         /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
         type="application/xml" title="Categories" href="Products(4)/$links/Categories"
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
@@ -312,7 +363,7 @@ http_interactions:
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
         type="application/atom+xml;type=entry" title="ProductDetail" href="Products(5)/ProductDetail"
         /><title type="text">Cranberry Juice</title><summary type="text">16-Ounce
-        Plastic Bottles (Pack of 12)</summary><updated>2014-09-29T04:25:33Z</updated><author><name
+        Plastic Bottles (Pack of 12)</summary><updated>2014-10-10T20:17:49Z</updated><author><name
         /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
         type="application/xml" title="Categories" href="Products(5)/$links/Categories"
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
@@ -330,7 +381,7 @@ http_interactions:
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
         type="application/atom+xml;type=entry" title="ProductDetail" href="Products(6)/ProductDetail"
         /><title type="text">Pink Lemonade</title><summary type="text">36 Ounce Cans
-        (Pack of 3)</summary><updated>2014-09-29T04:25:33Z</updated><author><name
+        (Pack of 3)</summary><updated>2014-10-10T20:17:49Z</updated><author><name
         /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
         type="application/xml" title="Categories" href="Products(6)/$links/Categories"
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
@@ -348,7 +399,7 @@ http_interactions:
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
         type="application/atom+xml;type=entry" title="ProductDetail" href="Products(7)/ProductDetail"
         /><title type="text">DVD Player</title><summary type="text">1080P Upconversion
-        DVD Player</summary><updated>2014-09-29T04:25:33Z</updated><author><name /></author><link
+        DVD Player</summary><updated>2014-10-10T20:17:49Z</updated><author><name /></author><link
         rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
         type="application/xml" title="Categories" href="Products(7)/$links/Categories"
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
@@ -366,7 +417,7 @@ http_interactions:
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ProductDetail"
         type="application/atom+xml;type=entry" title="ProductDetail" href="Products(8)/ProductDetail"
         /><title type="text">LCD HDTV</title><summary type="text">42 inch 1080p LCD
-        with Built-in Blu-ray Disc Player</summary><updated>2014-09-29T04:25:33Z</updated><author><name
+        with Built-in Blu-ray Disc Player</summary><updated>2014-10-10T20:17:49Z</updated><author><name
         /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
         type="application/xml" title="Categories" href="Products(8)/$links/Categories"
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
@@ -387,7 +438,7 @@ http_interactions:
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Advertisement"
         type="application/atom+xml;type=entry" title="Advertisement" href="Products(9)/ODataDemo.FeaturedProduct/Advertisement"
         /><title type="text">Lemonade</title><summary type="text">Classic, refreshing
-        lemonade (Single bottle)</summary><updated>2014-09-29T04:25:33Z</updated><author><name
+        lemonade (Single bottle)</summary><updated>2014-10-10T20:17:49Z</updated><author><name
         /></author><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
         type="application/xml" title="Categories" href="Products(9)/ODataDemo.FeaturedProduct/$links/Categories"
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
@@ -410,7 +461,7 @@ http_interactions:
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Advertisement"
         type="application/atom+xml;type=entry" title="Advertisement" href="Products(10)/ODataDemo.FeaturedProduct/Advertisement"
         /><title type="text">Coffee</title><summary type="text">Bulk size can of instant
-        coffee</summary><updated>2014-09-29T04:25:33Z</updated><author><name /></author><link
+        coffee</summary><updated>2014-10-10T20:17:49Z</updated><author><name /></author><link
         rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Categories"
         type="application/xml" title="Categories" href="Products(10)/ODataDemo.FeaturedProduct/$links/Categories"
         /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/relatedlinks/Supplier"
@@ -425,10 +476,10 @@ http_interactions:
     http_version: '1.1'
     adapter_metadata:
       effective_url: http://services.odata.org/OData/OData.svc/Products
-  recorded_at: Mon, 29 Sep 2014 04:25:33 GMT
+  recorded_at: Fri, 10 Oct 2014 20:17:49 GMT
 - request:
     method: get
-    uri: http://services.odata.org/OData/OData.svc/Products/$count
+    uri: http://services.odata.org/OData/OData.svc/Products/$count?$filter=Name%20eq%20'Bread'
     body:
       encoding: US-ASCII
       string: ''
@@ -445,7 +496,7 @@ http_interactions:
       Cache-Control:
       - no-cache
       Content-Length:
-      - '2'
+      - '1'
       Content-Type:
       - text/plain;charset=utf-8
       Server:
@@ -467,14 +518,65 @@ http_interactions:
       Access-Control-Expose-Headers:
       - DataServiceVersion
       Set-Cookie:
-      - ARRAffinity=cb44902b614a02a3a0dc1bccc3de360d89b180ff17e14b11fd9b289a8de75827;Path=/;Domain=services.odata.org
+      - ARRAffinity=f52a868fbb9bda30202dea2c82bfa2f9350871e50836757efd92afab45cf9549;Path=/;Domain=services.odata.org
       Date:
-      - Mon, 29 Sep 2014 20:25:02 GMT
+      - Fri, 10 Oct 2014 20:20:16 GMT
     body:
       encoding: UTF-8
-      string: '11'
+      string: '1'
     http_version: '1.1'
     adapter_metadata:
-      effective_url: http://services.odata.org/OData/OData.svc/Products/$count
-  recorded_at: Mon, 29 Sep 2014 20:25:03 GMT
+      effective_url: http://services.odata.org/OData/OData.svc/Products/$count?$filter=Name%20eq%20'Bread'
+  recorded_at: Fri, 10 Oct 2014 20:20:15 GMT
+- request:
+    method: get
+    uri: http://services.odata.org/OData/OData.svc/Products/$count?$filter=Name%20eq%20'NonExistent'
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      DataServiceVersion:
+      - '3.0'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '1'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Server:
+      - Microsoft-IIS/8.0
+      X-Content-Type-Options:
+      - nosniff
+      DataServiceVersion:
+      - 2.0;
+      X-AspNet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Allow-Headers:
+      - Accept, Origin, Content-Type, MaxDataServiceVersion
+      Access-Control-Expose-Headers:
+      - DataServiceVersion
+      Set-Cookie:
+      - ARRAffinity=f52a868fbb9bda30202dea2c82bfa2f9350871e50836757efd92afab45cf9549;Path=/;Domain=services.odata.org
+      Date:
+      - Fri, 10 Oct 2014 20:21:36 GMT
+    body:
+      encoding: UTF-8
+      string: '0'
+    http_version: '1.1'
+    adapter_metadata:
+      effective_url: http://services.odata.org/OData/OData.svc/Products/$count?$filter=Name%20eq%20'NonExistent'
+  recorded_at: Fri, 10 Oct 2014 20:21:36 GMT
 recorded_with: VCR 2.9.2

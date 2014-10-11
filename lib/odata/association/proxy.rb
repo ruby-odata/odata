@@ -6,11 +6,20 @@ module OData
       end
 
       def [](association_name)
-        if entity.links[association_name].nil? || associations[association_name].nil?
+        if associations[association_name].nil?
           raise ArgumentError, "unknown association: #{association_name}"
+        elsif entity.links[association_name].nil?
+          association = associations[association_name]
+          association_end = association.ends.select {|details| details.entity_type != "#{namespace}.#{entity_type}"}.first
+          raise RuntimeError, 'association ends undefined' if association_end.nil?
+          if association_end.multiplicity == :many
+            []
+          else
+            nil
+          end
+        else
+          association_results(association_name)
         end
-
-        association_results(association_name)
       end
 
       def size
@@ -58,7 +67,7 @@ module OData
         else
           document = ::Nokogiri::XML(results.body)
           document.remove_namespaces!
-          OData::Entity.from_xml(document, options)
+          OData::Entity.from_xml(document.xpath('//entry'), options)
         end
       end
     end

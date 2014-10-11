@@ -19,6 +19,8 @@ module OData
       collect_properties
     end
 
+    # Returns the namespaced type for the ComplexType.
+    # @return [String]
     def type
       "#{namespace}.#{name}"
     end
@@ -48,6 +50,21 @@ module OData
     # @return [*]
     def []=(property_name, value)
       properties[property_name.to_s].value = value
+    end
+
+    # Returns the XML representation of the property to the supplied XML
+    # builder.
+    # @param xml_builder [Nokogiri::XML::Builder]
+    def to_xml(xml_builder)
+      attributes = {
+          'metadata:type' => type,
+      }
+
+      xml_builder['data'].send(name.to_sym, attributes) do
+        properties.each do |name, property|
+          property.to_xml(xml_builder)
+        end
+      end
     end
 
     private

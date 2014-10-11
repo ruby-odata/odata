@@ -1,5 +1,74 @@
 # CHANGELOG
 
+## 0.6.18
+
+* Minor internal fixes to OData::Query::Criteria.
+
+## 0.6.17
+
+* Added more graceful handling of manually passed advanced queries to
+  OData::Query::Criteria.
+
+## 0.6.16
+
+* Implemented OData::Query#empty? and fixed OData::Query#count.
+
+## 0.6.15
+
+* Fixed minor bug in last release.
+
+## 0.6.14
+
+* Changed implementation of OData::Association::Proxy#[] to properly handle
+  empty associations.
+
+## 0.6.13
+
+* Minor bug fix in OData::Query::Result#each implementation.
+
+## 0.6.12
+
+* Minor bug fix in OData::Query::Result#each implementation.
+
+## 0.6.11
+
+* Added logic to allow OData::Query::Result#each to handle paginated results.
+
+## 0.6.10
+
+* Changed how associations behave with mulitiplicity of one.
+
+## 0.6.9
+
+* Changed how OData::Entity#from_xml functions to better work with feed results.
+
+## 0.6.8
+
+* Added empty checking when checking for a nil value.
+
+## 0.6.7
+
+* Changed how commit failures are handled to use logging instead of raising an
+  error.
+* Added errors array to OData::Entity.
+
+## 0.6.6
+
+* Updated OData::EntitySet#setup_entity_post_request to properly format primary
+  key values when posting an entity.
+
+## 0.6.5
+
+* Fixed problem in OData::ComplexType#to_xml implementation.
+
+## 0.6.4
+
+* Added implementation of OData::ComplexType#type.
+
+## 0.6.3
+
+* Added OData::ComplexType#to_xml to make entity saving work correctly.
+
 ## 0.6.1
 
 * Made a minor change to internals of OData::Query::Criteria.
