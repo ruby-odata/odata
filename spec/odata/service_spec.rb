@@ -46,8 +46,8 @@ describe OData::Service, vcr: {cassette_name: 'service_specs'} do
 
   describe '#entity_sets' do
     it { expect(subject.entity_sets.size).to eq(7) }
-    it { expect(subject.entity_sets.keys).to eq(entity_set_types) }
-    it { expect(subject.entity_sets.values).to eq(entity_sets) }
+    it { expect(subject.entity_sets.keys).to eq(entity_sets) }
+    it { expect(subject.entity_sets.values).to eq(entity_set_types) }
   end
 
   describe '#complex_types' do

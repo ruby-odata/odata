@@ -45,8 +45,8 @@ module OData
     def entity_sets
       @entity_sets ||= Hash[metadata.xpath('//EntityContainer/EntitySet').collect {|entity|
         [
-          entity.attributes['EntityType'].value.gsub("#{namespace}.", ''),
-          entity.attributes['Name'].value
+          entity.attributes['Name'].value,
+          entity.attributes['EntityType'].value.gsub("#{namespace}.", '')
         ]
       }]
     end
