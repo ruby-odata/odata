@@ -19,7 +19,7 @@ module OData
       def each(&block)
         process_results(&block)
         until next_page.nil?
-          result = service.execute(next_page_url)
+          @result = service.execute(next_page_url)
           process_results(&block)
         end
       end
