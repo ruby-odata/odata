@@ -7,6 +7,8 @@ module OData
     # Options to pass around
     attr_reader :options
 
+    HTTP_TIMEOUT = 5
+
     # Opens the service based on the requested URL and adds the service to
     # {OData::Registry}
     #
@@ -122,12 +124,14 @@ module OData
     def execute(url_chunk, additional_options = {})
       request = ::Typhoeus::Request.new(
           URI.escape("#{service_url}/#{url_chunk}"),
-          options[:typhoeus].merge({
-            method: :get
-          }).merge(additional_options)
+          options[:typhoeus].merge({ method: :get
+                                   })
+                            .merge(additional_options)
       )
       request.run
-      request.response
+      response = request.response
+      validate_response(response)
+      response
     end
 
     # Find a specific node in the given result set
@@ -231,23 +235,30 @@ module OData
     def default_options
       {
           typhoeus: {
-              headers: { 'DataServiceVersion' => '3.0' }
+              headers: { 'DataServiceVersion' => '3.0' },
+              timeout: HTTP_TIMEOUT
           }
       }
     end
 
     def metadata
       @metadata ||= lambda {
-        request = ::Typhoeus::Request.new(
-            URI.escape("#{service_url}/$metadata"),
-            options[:typhoeus].merge({
-              method: :get
-            })
-        )
-        request.run
-        response = request.response
+        response = ::Typhoeus::Request.get(URI.escape("#{service_url}/$metadata"),
+                                         options[:typhoeus])
+        validate_response(response)
         ::Nokogiri::XML(response.body).remove_namespaces!
       }.call
+    end
+
+    def validate_response(response)
+      raise "Bad Request. #{error_message(response)}" if response.code == 400
+      raise "Access Denied" if response.code == 401
+      raise "Invalid URL" if [0,404].include?(response.code)
+    end
+
+    def error_message(response)
+      xml = ::Nokogiri::XML(response.body).remove_namespaces!
+      xml.xpath('//error/message').first.andand.text
     end
 
     def process_property_from_xml(property_xml)

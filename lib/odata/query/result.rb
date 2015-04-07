@@ -5,6 +5,8 @@ module OData
     class Result
       include Enumerable
 
+      attr_reader :query
+
       # Initialize a result with the query and the result.
       # @param query [OData::Query]
       # @param result [Typhoeus::Result]
@@ -26,7 +28,6 @@ module OData
 
       private
 
-      attr_reader :query
       attr_accessor :result
 
       def service

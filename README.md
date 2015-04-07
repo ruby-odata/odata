@@ -67,6 +67,38 @@ the moment there is no protection against name collisions provided in
 `OData::ServiceRegistry`. So, looking up services by their service URL is the
 most exact method, but lookup by name is provided for convenience.
 
+### Authentication
+
+When authenticating with your service you can set parameters to the Typhoeus gem
+which uses libcurl. Use the **:typhoeus** option to set your authentication.
+
+For example using **ntlm** authentication:
+
+    conn = OData::Service.open('http://services.odata.org/OData/OData.svc', {
+        name: 'ODataDemo',
+        typhoeus: {
+          username: 'username',
+          password: 'password',
+          httpauth: :ntlm
+        }
+    })
+
+For more authentication options see [libcurl](http://curl.haxx.se/libcurl/c/CURLOPT_HTTPAUTH.html) or
+[typhoeus](https://github.com/typhoeus/typhoeus).
+
+### Headers
+
+You can set the headers with the **:typhoeus** param like so:
+
+    conn = OData::Service.open('http://services.odata.org/OData/OData.svc', {
+        name: 'ODataDemo',
+        typhoeus: {
+          headers: {
+            "DataServiceVersion" => "2.0"
+          }
+        }
+    })
+
 ### Entity Sets
 
 When it comes to reading data from an OData service the most typical way will
@@ -76,7 +108,7 @@ an `OData::EntitySet` for the products in the ODataDemo service simply access
 the entity set through the service like this:
 
     svc = OData::Service.open('http://services.odata.org/OData/OData.svc')
-    products = svc['Products'] # => OData::EntitySet
+    products = svc['ProductsSet'] # => OData::EntitySet
 
 `OData::EntitySet` instances implement the `Enumerable` module, meaning you can
 work with them very naturally, like this:
@@ -84,6 +116,35 @@ work with them very naturally, like this:
     products.each do |entity|
       entity # => OData::Entity for type Product
     end
+
+You can get a list of all your entity sets like this:
+
+    svc.entity_sets
+
+#### Count
+Some versions of Microsoft CRM do not support count.
+
+    products.count
+
+#### Collections
+You can you the following methods to grab a collection of Entities:
+
+    products.each do |entity|
+      ...
+    end
+
+The first entity object returns a single entity object.
+
+    products.first
+
+first(x) returns an array of entity objects.
+
+    products.first(x)
+
+#### Find a certain Entity
+
+    svc['ProductsSet']['<guid of entity>']
+
 
 ### Entities
 
@@ -104,6 +165,10 @@ ready to save back to the service or `OData::EntitySet`, which you do like so:
     svc['Products'] << product # Write back to the service
     products << product        # Write back to the Entity Set
 
+You can get a list of all your entities like this:
+
+    svc.entity_types
+
 ### Queries
 
 `OData::Query` instances form the base for finding specific entities within an
@@ -116,6 +181,10 @@ what is possible:
     query.where(query[:Price].lt(15))
     query.where(query[:Rating].gt(3))
     query.limit(3)
+    query.skip(2)
+    query.order_by("Name")
+    query.select("Name,CreatedBy")
+    query.inline_count
     results = query.execute
     results.each {|product| puts product['Name']}
 
