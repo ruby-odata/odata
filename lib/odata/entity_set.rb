@@ -21,6 +21,8 @@ module OData
     # The EntitySet's container name
     attr_reader :container
 
+    EACH_BATCH_SIZE = 10
+
     # Sets up the EntitySet to permit querying for the resources in the set.
     #
     # @param options [Hash] the options to setup the EntitySet
@@ -31,6 +33,7 @@ module OData
       @namespace    = options[:namespace]
       @service_name = options[:service_name]
       @container    = options[:container]
+      @each_batch_size = options[:each_batch_size] || EACH_BATCH_SIZE
     end
 
     # Provided for Enumerable functionality
@@ -38,34 +41,34 @@ module OData
     # @param block [block] a block to evaluate
     # @return [OData::Entity] each entity in turn from this set
     def each(&block)
-      per_page = 5; page = 0; page_position = 0; counter = 0
-      total, entities = get_paginated_entities(per_page, page)
+      per_page = @each_batch_size
+      page = 0
 
-      until counter == total
-        if page_position >= per_page
-          page += 1
-          _, entities = get_paginated_entities(per_page, page)
-          page_position = 0
+      loop do
+        entities = get_paginated_entities(per_page, page)
+        break if entities.empty?
+
+        entities.each do |entity|
+          block_given? ? block.call(entity) : yield(entity)
         end
 
-        entity = OData::Entity.from_xml(entities[page_position], entity_options)
-        block_given? ? block.call(entity) : yield(entity)
-
-        counter += 1
-        page_position += 1
+        page += 1
       end
     end
 
-    # Return the first Entity for the set.
+    # Return the first n Entities for the set.
+    # If count is 1 it returns the single entity, otherwise its an array of entities
     # @return [OData::EntitySet]
-    def first
-      query = OData::Query.new(self).limit(1)
+    def first(count = 1)
+      query = OData::Query.new(self).limit(count)
       result = service.execute(query)
       entities = service.find_entities(result)
-      OData::Entity.from_xml(entities[0], entity_options)
+      res = count == 1 ? single_entity_from_xml(entities) : multiple_entities_from_xml(entities)
+      res
     end
 
     # Returns the number of entities within the set.
+    # Not supported in Microsoft CRM2011
     # @return [Integer]
     def count
       service.execute("#{name}/$count").body.to_i
@@ -89,16 +92,16 @@ module OData
     # @return [OData::Entity,nil]
     def [](key)
       entity = new_entity
-      key_property = entity.send(:properties)[entity.primary_key]
+      key_property = entity.get_property(entity.primary_key)
       key_property.value = key
-      url_key = key_property.url_value
 
-      result = service.execute("#{name}(#{url_key})")
+      result = service.execute("#{name}(#{key_property.url_value})")
       entities = service.find_entities(result)
-      OData::Entity.from_xml(entities[0], entity_options)
+      single_entity_from_xml(entities)
     end
 
     # Write supplied entity back to the service.
+    # TODO Test this more with CRM2011
     # @param entity [OData::Entity] entity to save or update in the service
     # @return [OData::Entity]
     def <<(entity)
@@ -139,11 +142,10 @@ module OData
 
     def get_paginated_entities(per_page, page)
       query = OData::Query.new(self)
-      query.include_count.skip(per_page * page).limit(per_page)
+      query.skip(per_page * page).limit(per_page)
       result = service.execute(query)
       entities = service.find_entities(result)
-      total = service.find_node(result, 'count').content.to_i
-      return total, entities
+      multiple_entities_from_xml(entities)
     end
 
     def execute_entity_post_request(options, url_chunk)
@@ -168,7 +170,7 @@ module OData
     end
 
     def setup_entity_post_request(entity)
-      primary_key = entity.send(:properties)[entity.primary_key].url_value
+      primary_key = entity.get_property(entity.primary_key).url_value
       chunk = entity.is_new? ? name : "#{name}(#{primary_key})"
       options = {
           method: :post,
@@ -179,6 +181,14 @@ module OData
           }
       }
       return chunk, options
+    end
+
+    def single_entity_from_xml(entities)
+      OData::Entity.from_xml(entities[0], entity_options)
+    end
+
+    def multiple_entities_from_xml(entities)
+      entities.map {|entity| OData::Entity.from_xml(entity, entity_options) }
     end
   end
 end

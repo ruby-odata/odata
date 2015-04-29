@@ -36,10 +36,10 @@ module OData
     # @param property_name [to_s]
     # @return [*]
     def [](property_name)
-      if properties[property_name.to_s].is_a?(::OData::ComplexType)
-        properties[property_name.to_s]
+      if get_property(property_name).is_a?(::OData::ComplexType)
+        get_property(property_name)
       else
-        properties[property_name.to_s].value
+        get_property(property_name).value
       end
     rescue NoMethodError
       raise ArgumentError, "Unknown property: #{property_name}"
@@ -54,6 +54,10 @@ module OData
       raise ArgumentError, "Unknown property: #{property_name}"
     end
 
+    def get_property(property_name)
+      properties[property_name.to_s]
+    end
+
     def associations
       @associations ||= OData::Association::Proxy.new(self)
     end
@@ -65,6 +69,7 @@ module OData
     def self.with_properties(new_properties = {}, options = {})
       entity = OData::Entity.new(options)
       entity.instance_eval do
+        # TODO shouldnt use name and name here
         service.properties_for_entity(name).each do |name, instance|
           set_property(name, instance)
         end
@@ -174,6 +179,7 @@ module OData
           else
             value = property_xml
           end
+          # TODO Instantiating properties is slow. Hopefully we can lazy load properties and maybe find a better way to parse and store properties
           property = instantiate_property(property_name, value)
           set_property(property_name, property)
         end

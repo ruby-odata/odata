@@ -78,7 +78,7 @@ describe OData::EntitySet, vcr: {cassette_name: 'entity_set_specs'} do
     it { expect(existing_entity).to be_a(OData::Entity) }
     it { expect(existing_entity['ID']).to eq(0) }
 
-    it { expect(nonexistant_entity).to be_nil }
+    it { expect{nonexistant_entity}.to raise_error }
   end
 
   describe '#<<' do
@@ -112,11 +112,7 @@ describe OData::EntitySet, vcr: {cassette_name: 'entity_set_specs'} do
     end
 
     describe 'with a bad entity', vcr: {cassette_name: 'entity_set_specs/bad_entry'} do
-      before(:each) do
-        subject << bad_entity
-      end
-
-      it { expect(bad_entity.any_errors?).to eq(true) }
+      it { expect{subject << bad_entity}.to raise_error }
     end
   end
 end

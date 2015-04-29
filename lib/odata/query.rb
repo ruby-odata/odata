@@ -14,12 +14,24 @@ module OData
     # Instantiates an OData::Query::Criteria for the named property.
     # @param property [to_s]
     def [](property)
-      property_instance = @entity_set.new_entity.send(:properties)[property.to_s]
+      property_instance = @entity_set.new_entity.get_property(property)
       property_instance = property if property_instance.nil?
       OData::Query::Criteria.new(property: property_instance)
     end
 
     # Adds a filter criteria to the query.
+    # For filter syntax see https://msdn.microsoft.com/en-us/library/gg309461.aspx
+    # Syntax:
+    #   Property Operator Value
+    #
+    # For example:
+    #   Name eq 'Customer Service'
+    #
+    # Operators:
+    # eq, ne, gt, ge, lt, le, and, or, not
+    #
+    # Value
+    #  can be 'null', can use single quotes
     # @param criteria
     def where(criteria)
       criteria_set[:filter] << criteria
@@ -39,6 +51,7 @@ module OData
     #end
 
     # Specify properties to order the result by.
+    # Can use 'desc' like 'Name desc'
     # @param properties [Array<Symbol>]
     # @return [self]
     def order_by(*properties)
@@ -79,6 +92,7 @@ module OData
     end
 
     # Add inline count criteria to query.
+    # Not Supported in CRM2011
     # @return [self]
     def include_count
       criteria_set[:inline_count] = true
@@ -160,6 +174,7 @@ module OData
       criteria_set[name].empty? ? nil : "$#{name}=#{criteria_set[name].join(',')}"
     end
 
+    # inlinecount not supported by Microsoft CRM 2011
     def inline_count_criteria
       criteria_set[:inline_count] ? '$inlinecount=allpages' : nil
     end
