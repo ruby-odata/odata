@@ -579,4 +579,128 @@ http_interactions:
     adapter_metadata:
       effective_url: http://services.odata.org/OData/OData.svc/Products/$count?$filter=Name%20eq%20'NonExistent'
   recorded_at: Fri, 10 Oct 2014 20:21:36 GMT
-recorded_with: VCR 2.9.2
+- request:
+    method: get
+    uri: http://services.odata.org/OData/OData.svc/Products/$count?$filter=Name%20eq%20Bread
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      DataServiceVersion:
+      - '3.0'
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - '1611'
+      Content-Type:
+      - application/xml;charset=utf-8
+      Server:
+      - Microsoft-IIS/8.0
+      X-Content-Type-Options:
+      - nosniff
+      DataServiceVersion:
+      - 1.0;
+      X-AspNet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Allow-Headers:
+      - Accept, Origin, Content-Type, MaxDataServiceVersion
+      Access-Control-Expose-Headers:
+      - DataServiceVersion
+      Set-Cookie:
+      - ARRAffinity=b1399c8672c5f524fd7bdda0a48adededda0ab63f6956750aa2e9a3df719db91;Path=/;Domain=services.odata.org
+      Date:
+      - Tue, 28 Apr 2015 20:26:58 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="utf-8"?><m:error xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><m:code /><m:message xml:lang="en-US">Could not find a property named 'Bread' on type 'ODataDemo.Product'.</m:message><m:innererror><m:message>Could not find a property named 'Bread' on type 'ODataDemo.Product'.</m:message><m:type>Microsoft.Data.OData.ODataException</m:type><m:stacktrace>   at Microsoft.Data.OData.Query.EndPathBinder.GeneratePropertyAccessQueryForOpenType(EndPathToken endPathToken, SingleValueNode parentNode)&#xD;
+           at Microsoft.Data.OData.Query.EndPathBinder.BindEndPath(EndPathToken endPathToken, BindingState state)&#xD;
+           at Microsoft.Data.OData.Query.MetadataBinder.BindEndPath(EndPathToken endPathToken)&#xD;
+           at Microsoft.Data.OData.Query.MetadataBinder.Bind(QueryToken token)&#xD;
+           at Microsoft.Data.OData.Query.BinaryOperatorBinder.GetOperandFromToken(BinaryOperatorKind operatorKind, QueryToken queryToken)&#xD;
+           at Microsoft.Data.OData.Query.BinaryOperatorBinder.BindBinaryOperator(BinaryOperatorToken binaryOperatorToken)&#xD;
+           at Microsoft.Data.OData.Query.MetadataBinder.BindBinaryOperator(BinaryOperatorToken binaryOperatorToken)&#xD;
+           at Microsoft.Data.OData.Query.MetadataBinder.Bind(QueryToken token)&#xD;
+           at Microsoft.Data.OData.Query.FilterBinder.BindFilter(QueryToken filter)&#xD;
+           at Microsoft.Data.OData.Query.ODataUriParser.ParseFilterImplementation(String filter, IEdmType elementType, IEdmEntitySet entitySet)&#xD;
+           at System.Data.Services.Parsing.RequestExpressionParser.ParseFilter()</m:stacktrace></m:innererror></m:error>
+    http_version: '1.1'
+    adapter_metadata:
+      effective_url: http://services.odata.org/OData/OData.svc/Products/$count?$filter=Name%20eq%20Bread
+  recorded_at: Tue, 28 Apr 2015 20:26:59 GMT
+- request:
+    method: get
+    uri: http://services.odata.org/OData/OData.svc/Products/$count?$filter=Name%20eq%20NonExistent
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      DataServiceVersion:
+      - '3.0'
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - '1623'
+      Content-Type:
+      - application/xml;charset=utf-8
+      Server:
+      - Microsoft-IIS/8.0
+      X-Content-Type-Options:
+      - nosniff
+      DataServiceVersion:
+      - 1.0;
+      X-AspNet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Allow-Headers:
+      - Accept, Origin, Content-Type, MaxDataServiceVersion
+      Access-Control-Expose-Headers:
+      - DataServiceVersion
+      Set-Cookie:
+      - ARRAffinity=b1399c8672c5f524fd7bdda0a48adededda0ab63f6956750aa2e9a3df719db91;Path=/;Domain=services.odata.org
+      Date:
+      - Tue, 28 Apr 2015 20:26:58 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="utf-8"?><m:error xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><m:code /><m:message xml:lang="en-US">Could not find a property named 'NonExistent' on type 'ODataDemo.Product'.</m:message><m:innererror><m:message>Could not find a property named 'NonExistent' on type 'ODataDemo.Product'.</m:message><m:type>Microsoft.Data.OData.ODataException</m:type><m:stacktrace>   at Microsoft.Data.OData.Query.EndPathBinder.GeneratePropertyAccessQueryForOpenType(EndPathToken endPathToken, SingleValueNode parentNode)&#xD;
+           at Microsoft.Data.OData.Query.EndPathBinder.BindEndPath(EndPathToken endPathToken, BindingState state)&#xD;
+           at Microsoft.Data.OData.Query.MetadataBinder.BindEndPath(EndPathToken endPathToken)&#xD;
+           at Microsoft.Data.OData.Query.MetadataBinder.Bind(QueryToken token)&#xD;
+           at Microsoft.Data.OData.Query.BinaryOperatorBinder.GetOperandFromToken(BinaryOperatorKind operatorKind, QueryToken queryToken)&#xD;
+           at Microsoft.Data.OData.Query.BinaryOperatorBinder.BindBinaryOperator(BinaryOperatorToken binaryOperatorToken)&#xD;
+           at Microsoft.Data.OData.Query.MetadataBinder.BindBinaryOperator(BinaryOperatorToken binaryOperatorToken)&#xD;
+           at Microsoft.Data.OData.Query.MetadataBinder.Bind(QueryToken token)&#xD;
+           at Microsoft.Data.OData.Query.FilterBinder.BindFilter(QueryToken filter)&#xD;
+           at Microsoft.Data.OData.Query.ODataUriParser.ParseFilterImplementation(String filter, IEdmType elementType, IEdmEntitySet entitySet)&#xD;
+           at System.Data.Services.Parsing.RequestExpressionParser.ParseFilter()</m:stacktrace></m:innererror></m:error>
+    http_version: '1.1'
+    adapter_metadata:
+      effective_url: http://services.odata.org/OData/OData.svc/Products/$count?$filter=Name%20eq%20NonExistent
+  recorded_at: Tue, 28 Apr 2015 20:26:59 GMT
+recorded_with: VCR 2.9.3

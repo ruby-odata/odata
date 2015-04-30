@@ -7,7 +7,9 @@ module OData
     # Options to pass around
     attr_reader :options
 
-    HTTP_TIMEOUT = 5
+    HTTP_TIMEOUT = 20
+
+    METADATA_TIMEOUTS = [20, 60]
 
     # Opens the service based on the requested URL and adds the service to
     # {OData::Registry}
@@ -243,17 +245,38 @@ module OData
 
     def metadata
       @metadata ||= lambda {
-        response = ::Typhoeus::Request.get(URI.escape("#{service_url}/$metadata"),
-                                         options[:typhoeus])
+        read_metadata
+      }.call
+    end
+
+    def read_metadata
+      response = nil
+      # From file, good for debugging
+      if options[:metadata_file]
+        data = File.read(options[:metadata_file])
+        ::Nokogiri::XML(data).remove_namespaces!
+      else # From a URL
+        METADATA_TIMEOUTS.each do |timeout|
+          response = ::Typhoeus::Request.get(URI.escape("#{service_url}/$metadata"),
+                                             options[:typhoeus].merge(timeout: timeout))
+          break unless response.timed_out?
+        end
+        raise "Metadata Timeout" if response.timed_out?
         validate_response(response)
         ::Nokogiri::XML(response.body).remove_namespaces!
-      }.call
+      end
     end
 
     def validate_response(response)
       raise "Bad Request. #{error_message(response)}" if response.code == 400
       raise "Access Denied" if response.code == 401
+      raise "Forbidden" if response.code == 403
       raise "Invalid URL" if [0,404].include?(response.code)
+      raise "Method Not Allowed" if response.code == 405
+      raise "Not Acceptable" if response.code == 406
+      raise "Request Entity Too Large" if response.code == 413
+      raise "Internal Server Error" if response.code == 500
+      raise "Service Unavailable" if response.code == 503
     end
 
     def error_message(response)

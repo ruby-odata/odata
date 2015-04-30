@@ -16,6 +16,8 @@ module OData
     # List of errors on entity
     attr_reader :errors
 
+    PROPERTY_NOT_LOADED = :not_loaded
+
     # Initializes a bare Entity
     # @param options [Hash]
     def initialize(options = {})
@@ -55,7 +57,18 @@ module OData
     end
 
     def get_property(property_name)
-      properties[property_name.to_s]
+      prop_name = property_name.to_s
+      # Property is lazy loaded
+      if properties_xml_value.has_key?(prop_name)
+        property = instantiate_property(prop_name, properties_xml_value[prop_name])
+        set_property(prop_name, property.dup)
+        properties_xml_value.delete(prop_name)
+      end
+      properties[prop_name]
+    end
+
+    def property_names
+      [@properties_xml_value.andand.keys, @properties.andand.keys].compact.flatten
     end
 
     def associations
@@ -69,9 +82,8 @@ module OData
     def self.with_properties(new_properties = {}, options = {})
       entity = OData::Entity.new(options)
       entity.instance_eval do
-        # TODO shouldnt use name and name here
-        service.properties_for_entity(name).each do |name, instance|
-          set_property(name, instance)
+        service.properties_for_entity(name).each do |property_name, instance|
+          set_property(property_name, instance)
         end
 
         new_properties.each do |property_name, property_value|
@@ -111,9 +123,9 @@ module OData
 
           xml.content(type: 'application/xml') do
             xml['metadata'].properties do
-              properties.each do |name, property|
+              properties.keys.each do |name|
                 next if name == primary_key
-                property.to_xml(xml)
+                get_property(name).to_xml(xml)
               end
             end
           end
@@ -152,8 +164,8 @@ module OData
       elsif klass.nil?
         raise RuntimeError, "Unknown property type: #{value_type}"
       else
-        value = value.content unless value.nil?
-        klass.new(property_name, value)
+        value_content = value.content unless value.nil?
+        klass.new(property_name, value_content)
       end
     end
 
@@ -161,12 +173,21 @@ module OData
       @properties ||= {}
     end
 
+    def properties_xml_value
+      @properties_xml_value ||= {}
+    end
+
     def service
       @service ||= OData::ServiceRegistry[service_name]
     end
 
-    def set_property(name, odata_property)
-      properties[name.to_s] = odata_property.dup
+    def set_property(name, property)
+      properties[name.to_s] = property
+    end
+
+    # Instantiating properties takes time, so we can lazy load properties by passing xml_value and lookup when needed
+    def set_property_lazy_load(name, xml_value )
+      properties_xml_value[name.to_s] = xml_value
     end
 
     def self.process_properties(entity, xml_doc)
@@ -175,24 +196,23 @@ module OData
           property_name = property_xml.name
           if property_xml.attributes['null'] &&
               property_xml.attributes['null'].value == 'true'
-            value = nil
+            xml_value = nil
           else
-            value = property_xml
+            xml_value = property_xml
           end
-          # TODO Instantiating properties is slow. Hopefully we can lazy load properties and maybe find a better way to parse and store properties
-          property = instantiate_property(property_name, value)
-          set_property(property_name, property)
+          # Doing lazy loading here because instantiating each object takes a long time
+          set_property_lazy_load(property_name, xml_value)
         end
       end
     end
 
     def self.process_feed_property(entity, xml_doc, property_name)
       entity.instance_eval do
-        property_value = xml_doc.xpath("./#{property_name}").first
+        xml_value = xml_doc.xpath("./#{property_name}").first
         property_name = service.send("get_#{property_name}_property_name", name)
         return if property_name.nil?
-        property = instantiate_property(property_name, property_value)
-        set_property(property_name, property)
+        # Doing lazy loading here because instantiating each object takes a long time
+        set_property_lazy_load(property_name, xml_value)
       end
     end
 
