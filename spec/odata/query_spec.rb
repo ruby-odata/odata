@@ -18,7 +18,7 @@ describe OData::Query, vcr: {cassette_name: 'query_specs'} do
   it { expect(subject).to respond_to(:[]) }
   describe '#[]' do
     it { expect(subject[:Name]).to be_a(OData::Query::Criteria) }
-    it { expect(subject[:Name].property).to be_a(OData::Property) }
+    it { puts "Subject[:Name].property=#{subject[:Name].property} class=#{subject[:Name].property.class}"; puts "Subject=#{subject.inspect}"; expect(subject[:Name].property).to be_a(OData::Property) }
   end
 
   it { expect(subject).to respond_to(:where) }

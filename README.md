@@ -86,6 +86,18 @@ For example using **ntlm** authentication:
 For more authentication options see [libcurl](http://curl.haxx.se/libcurl/c/CURLOPT_HTTPAUTH.html) or
 [typhoeus](https://github.com/typhoeus/typhoeus).
 
+### Metadata File
+
+Typically the metadata file of a service can be quite large. You can speed your load 
+time by forcing the service to load the metadata from a file rather than a URL.
+This is only recommended for testing purposes, as the metadata file can change.
+
+    conn = OData::Service.open('http://services.odata.org/OData/OData.svc', {
+        name: 'ODataDemo',
+        metadata_file: "metadata.xml",
+    })
+
+
 ### Headers
 
 You can set the headers with the **:typhoeus** param like so:
@@ -168,6 +180,27 @@ ready to save back to the service or `OData::EntitySet`, which you do like so:
 You can get a list of all your entities like this:
 
     svc.entity_types
+    
+#### Entity Properties
+Reading, parsing and instantiating all properties of an entity can add up to a 
+significant amount of time, particularly for those entities with a large number
+of properties. To speed this process up all properties are lazy loaded. Which means
+it will store the name of the property, but will not parse and instantiate the 
+property until you want to use it.
+ 
+You can find all the property names of your entity with
+ 
+    product.property_names
+    
+When you want to grab the value of the property like this
+
+    product["Name"]
+    
+    or
+    
+    product.get_property("Name")
+    
+It will parse and instantiate the property if it hasnt done so yet.
 
 ### Queries
 
