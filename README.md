@@ -1,5 +1,8 @@
 # OData
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/ruby-odata/odata?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+**THIS PROJECT NEEDS HELP: We need additional maintainers and contributors; please open an issue if you are interested in helping.**
+
+**BETA QUALITY, at best — You've been warned**
 
 [![Build Status](https://travis-ci.org/ruby-odata/odata.svg?branch=master)](https://travis-ci.org/ruby-odata/odata)
 [![Code Climate](https://codeclimate.com/github/ruby-odata/odata.png)](https://codeclimate.com/github/ruby-odata/odata)
