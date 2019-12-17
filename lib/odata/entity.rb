@@ -192,7 +192,7 @@ module OData
 
     def self.process_properties(entity, xml_doc)
       entity.instance_eval do
-        xml_doc.xpath('./content/properties/*').each do |property_xml|
+        xml_doc.xpath('./content/properties/*', './properties/*').each do |property_xml|
           property_name = property_xml.name
           if property_xml.attributes['null'] &&
               property_xml.attributes['null'].value == 'true'
